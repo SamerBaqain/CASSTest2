@@ -25,3 +25,13 @@ questions:
     text: "Do you rely on electronic channels to provide client notices/agreements?"
     type: boolean
     sets: {"firm.uses_e_channels": "{{answer}}"}
+    
+  - id: q6
+    text: "Are you an Authorised Payment Institution (PI)?"
+    type: boolean
+    sets: {"firm.is_payment_institution": "{{answer}}"}
+
+  - id: q7
+    text: "Are you an Electronic Money Institution (EMI)?"
+    type: boolean
+    sets: {"firm.is_e_money_institution": "{{answer}}"}
