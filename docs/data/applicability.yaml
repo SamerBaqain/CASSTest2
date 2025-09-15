@@ -1,0 +1,22 @@
+rules:
+  - pattern: "1."     # CASS 1 generally applies if UK establishment
+    condition:
+      all: ["firm.uk_establishment == true"]
+
+  - pattern: "1.5."   # Electronic communications
+    condition:
+      all: ["firm.uses_e_channels == true"]
+
+  - pattern: "6."     # Custody assets
+    condition:
+      all: ["firm.holds_custody_assets == true"]
+
+  - pattern: "7."     # Client money
+    condition:
+      all: ["firm.holds_client_money == true"]
+
+  - pattern: "15."    # Safeguarding for payments/e-money
+    condition:
+      any:
+        - "firm.is_payment_institution == true"
+        - "firm.is_e_money_institution == true"
