@@ -1,0 +1,17 @@
+# Map rule ID patterns to risk IDs. Refine over time.
+rules:
+  - match: "1.2."          # applies to 1.2.1, 1.2.2, ...
+    risk_ids: ["R-SCOPE-MISAPPLY"]
+
+  - match: "1.5."          # electronic communications area
+    risk_ids: ["R-ECHANNEL-CONTROLS"]
+
+  # Add more as you grow (examples)
+  # - match: "6."         # custody assets chapter
+  #   risk_ids: ["R-CUSTODY-SEGREGATION", "R-BOOKS-RECORDS"]
+
+  # - match: "7."         # client money chapter
+  #   risk_ids: ["R-COMMINGLING", "R-RECON"]
+
+  # - match: "15."        # safeguarding (payments/e-money)
+  #   risk_ids: ["R-SAF-RECON", "R-BANK-FAIL", "R-COMMINGLING"]
