@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """
-CASS extractor with strong de-duplication:
-- Header patterns: "CASS 1A.3.1G", "1A.3.1 G", "1.2.1 R — Title"
-- Normalises type: R stays R; G / E / BG -> G (Guidance). Others -> G.
-- De-duplicates strictly by (id, type), keeping the longest text.
-Result fields:
-  id: "1.1.1"         (numeric only)
-  type: "R"|"G"       (normalised)
-  display: "CASS 1.1.1R"  (for UI)
+CASS extractor (strict):
+- Accepts only headings that START with "CASS " to avoid TOC / sidebars.
+- Recognises: "CASS 1A.3.1G", "CASS 1A.3.1 G", "CASS 1.2.1 R — Title".
+- Normalises type: R -> R; G/E/BG/anything else -> G.
+- Section banners like "CASS 3.1 — ..." end the prior clause but do not create a rule.
+- Strong de-duplication: keep ONE record per (id, type), preferring the longest text and entries that have an explicit type.
 """
 
 import argparse, pathlib, re, sys
@@ -15,11 +13,11 @@ from typing import Dict, List, Optional
 import pdfplumber, yaml
 import regex as rxx
 
-# ---- noise cleanup ----
+# ---------- noise cleanup ----------
 PAGE_FOOTER_RE = re.compile(r"^\s*(Page\s+\d+\s+of\s+\d+|FCA\s+\d{4}/\d+|www\.handbook\.fca\.org\.uk.*)$", re.I)
 BLANKISH_RE = re.compile(r"^\s*$")
 HYPHEN_LINEBREAK_RE = rxx.compile(r"(\p{Letter})-\n(\p{Letter})", rxx.UNICODE)
-TYPE_LINE_RE = re.compile(r"^\s*([A-Z]{1,3})\s*$")  # solitary type line
+TYPE_LINE_RE = re.compile(r"^\s*([A-Z]{1,3})\s*$")  # R / G / E / BG on its own line
 
 def clean_page_text(raw: str) -> str:
     txt = (raw or "").replace("\r\n","\n").replace("\r","\n")
@@ -37,9 +35,9 @@ def extract_lines(pdf_path: pathlib.Path) -> List[str]:
             lines.extend(clean_page_text(t).split("\n"))
     return lines
 
-# ---- header detection ----
+# ---------- strict header detection (MUST start with "CASS ") ----------
 CLAUSE_RE = re.compile(
-    r"""^\s*(?:CASS\s*)?
+    r"""^\s*CASS\s+
         (?P<chapter>\d+[A-Z]?)\.(?P<section>\d+)\.(?P<rule>\d+)
         (?P<typesuf>[A-Z]{1,3})?
         (?:\s+|(?:\s*[-–—:]\s*))?
@@ -47,7 +45,7 @@ CLAUSE_RE = re.compile(
     re.VERBOSE,
 )
 CLAUSE_SPLITTYPE_RE = re.compile(
-    r"""^\s*(?:CASS\s*)?
+    r"""^\s*CASS\s+
         (?P<chapter>\d+[A-Z]?)\.(?P<section>\d+)\.(?P<rule>\d+)
         \s+(?P<typesuf>[A-Z]{1,3})
         (?:\s+|(?:\s*[-–—:]\s*))?
@@ -55,7 +53,7 @@ CLAUSE_SPLITTYPE_RE = re.compile(
     re.VERBOSE,
 )
 SECTION_RE = re.compile(
-    r"""^\s*(?:CASS\s*)?
+    r"""^\s*CASS\s+
         (?P<chapter>\d+[A-Z]?)\.(?P<section>\d+)
         (?:\s*[-–—:]\s*.+)?\s*$""",
     re.VERBOSE,
@@ -65,7 +63,7 @@ def norm_type(t: Optional[str]) -> Optional[str]:
     if not t: return None
     t = t.upper()
     if t == "R": return "R"
-    # Treat all non-R (G, E, BG, etc.) as Guidance for your use-case
+    # Treat everything else (G, E, BG, etc.) as Guidance
     return "G"
 
 def match_clause(line: str):
@@ -78,6 +76,7 @@ def match_clause(line: str):
     return {"id": rid, "chapter": gd["chapter"], "type": typesuf, "title": title}
 
 def is_section_banner(line: str) -> bool:
+    # If it matches a full clause, it's not a section banner
     if CLAUSE_RE.match(line) or CLAUSE_SPLITTYPE_RE.match(line): return False
     return bool(SECTION_RE.match(line))
 
@@ -91,23 +90,28 @@ def parse_rules(all_lines: List[str]) -> List[Dict]:
         nonlocal current, buf
         if current:
             body = "\n".join(buf).strip()
+            # Drop "title-only" items (TOC rows) that have no type and tiny/no body
+            if not current.get("type") and len(body) < 40:
+                current, buf = None, []
+                return
             current["text"] = body
-            # display = numeric id + type (R/G) if present
-            suff = current["type"] or ""
-            current["display"] = f"CASS {current['id']}{suff}"
+            # Default missing type to G (rare if TOC filter didn’t catch)
+            current["type"] = current.get("type") or "G"
+            current["display"] = f"CASS {current['id']}{current['type']}"
             rules.append(current)
         current, buf = None, []
 
     for raw in all_lines:
         line = raw.rstrip()
 
+        # Clause header?
         m = match_clause(line)
         if m:
             flush()
             current = {
                 "id": m["id"],
                 "chapter": m["chapter"],
-                "type": m["type"],          # may be None now
+                "type": m["type"],          # may be None; we’ll fill from next line if needed
                 "title": m["title"],
                 "summary": None,
                 "risk_ids": [],
@@ -118,12 +122,13 @@ def parse_rules(all_lines: List[str]) -> List[Dict]:
             just_opened = True
             continue
 
+        # Section banner is a hard boundary
         if is_section_banner(line):
             flush()
             just_opened = False
             continue
 
-        # Sometimes type is on its own line immediately after header
+        # Immediately after header, some PDFs put 'R' / 'G' on a line by itself
         if just_opened:
             mt = TYPE_LINE_RE.match(line)
             if mt:
@@ -132,25 +137,27 @@ def parse_rules(all_lines: List[str]) -> List[Dict]:
                 continue
             just_opened = False
 
+        # Regular content
         if BLANKISH_RE.match(line):
             if buf and buf[-1] != "": buf.append("")
             continue
 
-        if current is None: continue
+        if current is None:  # ignore pre-face noise
+            continue
         buf.append(line)
 
     flush()
 
-    # ---- strong de-duplication: unique by (id, type) ----
+    # -------- strong de-duplication: unique by (id, type) --------
     dedup: Dict[str, Dict] = {}
     for r in rules:
-        key = f"{r['id']}|{r.get('type') or 'G'}"  # default missing types to Guidance
-        # Prefer an entry that has a type; prefer longer text if both typed
+        key = f"{r['id']}|{r.get('type') or 'G'}"
         has_type_existing = bool(dedup.get(key, {}).get("type"))
         has_type_new = bool(r.get("type"))
         if key not in dedup:
             dedup[key] = r
         else:
+            # Prefer one that has a type; else prefer the longer body
             if (has_type_new and not has_type_existing) or \
                (len(r.get("text","")) > len(dedup[key].get("text",""))):
                 dedup[key] = r
@@ -166,7 +173,7 @@ def parse_rules(all_lines: List[str]) -> List[Dict]:
 
     out = sorted(dedup.values(), key=sort_key)
 
-    # Ensure every entry has a normalised type; default to G if missing
+    # Final normalisation & display
     for r in out:
         r["type"] = r.get("type") or "G"
         r["display"] = f"CASS {r['id']}{r['type']}"
