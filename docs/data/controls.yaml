@@ -1,0 +1,22 @@
+version: "2025-09-15"
+controls:
+  - id: "C-SCOPE-CHECKLIST"
+    name: "CASS scope & applicability checklist"
+    objective: "Validate which chapters apply to the firm’s activities and client categories."
+    mitigates_risk_ids: ["R-SCOPE-MISAPPLY"]
+    type: "Preventive"
+    owner_role: "Compliance"
+
+  - id: "C-SEG-ACCOUNTS"
+    name: "Separate accounts by regime/capacity"
+    objective: "Segregate client bank/transaction accounts by regime and trustee capacity."
+    mitigates_risk_ids: ["R-COMMINGLING"]
+    type: "Preventive"
+    owner_role: "Treasury"
+
+  - id: "C-ECHANNEL-GOV"
+    name: "Electronic channel governance"
+    objective: "Policies and technical controls for secure transmission, integrity, authenticity, consent."
+    mitigates_risk_ids: ["R-ECHANNEL-CONTROLS"]
+    type: "Preventive"
+    owner_role: "Operations/IT"
