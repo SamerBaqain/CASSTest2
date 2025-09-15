@@ -1,0 +1,27 @@
+version: "2025-09-15"
+intro: "Answer to determine likely CASS applicability."
+questions:
+  - id: q1
+    text: "Do you carry on regulated activities from a UK establishment?"
+    type: boolean
+    sets: {"firm.uk_establishment": "{{answer}}"}
+
+  - id: q2
+    text: "Do you hold or receive client money?"
+    type: boolean
+    sets: {"firm.holds_client_money": "{{answer}}"}
+
+  - id: q3
+    text: "Do you hold custody assets (financial instruments) for clients?"
+    type: boolean
+    sets: {"firm.holds_custody_assets": "{{answer}}"}
+
+  - id: q4
+    text: "Do you conduct debt management activities?"
+    type: boolean
+    sets: {"firm.debt_mgmt": "{{answer}}"}
+
+  - id: q5
+    text: "Do you rely on electronic channels to provide client notices/agreements?"
+    type: boolean
+    sets: {"firm.uses_e_channels": "{{answer}}"}
