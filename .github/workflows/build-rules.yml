@@ -7,12 +7,13 @@ on:
       - 'data/source_pdfs/**'
       - 'scripts/**'
       - 'requirements.txt'
+      - 'data/rule_risk_links.yaml'
 
 jobs:
   extract:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # allow committing the generated file
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -23,15 +24,19 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
-      - name: Ensure output folder exists
+      - name: Ensure data folder
         run: mkdir -p data
 
       - name: Extract rules from PDFs
         run: |
           python scripts/extract_rules_from_pdf.py data/source_pdfs/*.pdf --out data/rules.yaml
 
+      - name: Link risks to rules
+        run: |
+          python scripts/link_risks.py data/rules.yaml data/rule_risk_links.yaml data/rules.yaml
+
       - name: Commit rules.yaml
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: build rules.yaml from PDFs"
+          commit_message: "chore: build rules.yaml + link risks"
           file_pattern: data/rules.yaml
