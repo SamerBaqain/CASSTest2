@@ -1,0 +1,37 @@
+name: Build rules.yaml from PDFs
+
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - 'data/source_pdfs/**'
+      - 'scripts/**'
+      - 'requirements.txt'
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # allow committing the generated file
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Ensure output folder exists
+        run: mkdir -p data
+
+      - name: Extract rules from PDFs
+        run: |
+          python scripts/extract_rules_from_pdf.py data/source_pdfs/*.pdf --out data/rules.yaml
+
+      - name: Commit rules.yaml
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: build rules.yaml from PDFs"
+          file_pattern: data/rules.yaml
