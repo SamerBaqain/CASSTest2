@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>CASS Mapper – Search • Applicability • Controls & Gaps</title>
+<style>
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+  header { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .pill { background:#f2f4f7; border-radius:999px; padding:6px 10px; margin-right:8px; display:inline-block; }
+  .grid { display:grid; gap:16px; grid-template-columns: 1fr 2fr; align-items:start; }
+  .card { border:1px solid #e5e7eb; border-radius:12px; padding:16px; background:white; }
+  .muted { color:#667085; }
+  input[type="text"], select, textarea { width:100%; padding:8px; border:1px solid #e5e7eb; border-radius:8px; }
+  .list { max-height:60vh; overflow:auto; }
+  .rule { padding:10px; border-bottom:1px solid #eee; cursor:pointer; }
+  .rule:hover { background:#fafafa; }
+  .tag { background:#eef2ff; color:#3730a3; border-radius:6px; padding:2px 6px; margin-right:6px; font-size:12px; }
+  .risk { background:#fff7ed; color:#9a3412; border-radius:6px; padding:2px 6px; margin-right:6px; font-size:12px; }
+  .ok { color:#166534; }
+  .gap { color:#b91c1c; font-weight:600; }
+  .small { font-size:12px; }
+  button { padding:8px 12px; border-radius:8px; border:1px solid #ddd; background:#fff; cursor:pointer; }
+  button:hover { background:#f9fafb; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+</head>
+<body>
+<header>
+  <h1>CASS Mapper</h1>
+  <span class="pill">Search</span>
+  <span class="pill">Applicability</span>
+  <span class="pill">Controls & Gaps</span>
+</header>
+
+<div class="grid" style="margin-top:16px;">
+  <!-- Left: Questionnaire + Search Filters -->
+  <div class="card">
+    <h3>Questionnaire (drives applicability)</h3>
+    <div id="q-container"></div>
+    <div style="margin:12px 0;"><button id="apply-answers">Apply Answers</button></div>
+    <p class="small muted">Answers populate <code>firm.*</code> fields used by applicability rules.</p>
+
+    <hr style="margin:16px 0;">
+
+    <h3>Search</h3>
+    <input id="q" type="text" placeholder="Search rule id, title, or text..."/>
+    <div style="display:flex; gap:8px; margin-top:8px;">
+      <select id="riskFilter"><option value="">Risk filter (optional)</option></select>
+      <input id="chapterFilter" type="text" placeholder="Chapter e.g. 1, 6, 7, 15"/>
+      <label class="small"><input id="onlyApplicable" type="checkbox" checked> Only applicable</label>
+    </div>
+  </div>
+
+  <!-- Right: Results + Detail -->
+  <div class="card">
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+      <div>
+        <h3>Rules <span id="ruleCount" class="muted small"></span></h3>
+        <div id="ruleList" class="list"></div>
+      </div>
+      <div>
+        <h3>Details</h3>
+        <div id="detail" class="muted">Select a rule to see risks, suggested controls, and compute gaps.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const state = {
+  rules: [], risks: {}, controls: {}, links: [], applicability: [],
+  firm: {}, filtered: [], selected: null,
+};
+
+function byId(id){ return document.getElementById(id); }
+function el(html){ const d=document.createElement('div'); d.innerHTML=html; return d.firstElementChild; }
+
+async function loadYAML(path){
+  const res = await fetch(path);
+  const txt = await res.text();
+  return jsyaml.load(txt);
+}
+
+function toMap(list, key='id'){ const m={}; list.forEach(x=>m[x[key]]=x); return m; }
+
+function renderQuestions(qyaml){
+  const host = byId('q-container'); host.innerHTML='';
+  (qyaml.questions||[]).forEach(q=>{
+    const id = 'q_'+q.id;
+    host.appendChild(el(`<div style="margin:6px 0;">
+      <label class="small">${q.text}</label><br/>
+      <select id="${id}">
+        <option value="">(select)</option>
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+      </select>
+    </div>`));
+  });
+  byId('apply-answers').onclick = ()=>{
+    const firm={}
+    (qyaml.questions||[]).forEach(q=>{
+      const v = byId('q_'+q.id).value;
+      if(!v) return;
+      // sets: {"firm.field": "{{answer}}"}
+      const setKey = Object.keys(q.sets||{})[0];
+      if(setKey && setKey.startsWith('firm.')){
+        firm[setKey.slice(5)] = (v==='true');
+      }
+    });
+    state.firm = firm;
+    applyFilters();
+  };
+}
+
+function evalExpr(expr, firm){
+  // "firm.x == true/false" OR string equal
+  const [lhs, rhsRaw] = expr.split('==').map(s=>s.trim());
+  if(!lhs.startsWith('firm.')) return false;
+  const rhs = rhsRaw.replace(/^["']|["']$/g,''); // strip quotes
+  const expected = (rhs.toLowerCase()==='true') ? true : (rhs.toLowerCase()==='false') ? false : rhs;
+  const key = lhs.slice(5);
+  return (firm[key]===expected);
+}
+function evalCond(cond, firm){
+  if(!cond) return true;
+  if(cond.all) return cond.all.every(c=> typeof c==='string' ? evalExpr(c,firm) : evalCond(c,firm));
+  if(cond.any) return cond.any.some(c=> typeof c==='string' ? evalExpr(c,firm) : evalCond(c,firm));
+  if(cond.not) return !evalCond(cond.not, firm);
+  return typeof cond==='string' ? evalExpr(cond,firm) : true;
+}
+function condForRule(id){
+  // longest matching pattern wins
+  let best=null;
+  for(const row of state.applicability){
+    if(id.startsWith(row.pattern) && (!best || row.pattern.length > best.pattern.length)) best=row;
+  }
+  return best ? best.condition : null;
+}
+
+function applicable(rule){
+  const cond = condForRule(rule.id);
+  return evalCond(cond, state.firm);
+}
+
+function applyFilters(){
+  const q = byId('q').value.toLowerCase();
+  const rf = byId('riskFilter').value;
+  const chap = byId('chapterFilter').value.trim();
+  const onlyApp = byId('onlyApplicable').checked;
+
+  const matched = state.rules.filter(r=>{
+    if(chap && !r.chapter.startsWith(chap)) return false;
+    if(rf && !(r.risk_ids||[]).includes(rf)) return false;
+    if(onlyApp && !applicable(r)) return false;
+    if(!q) return true;
+    const hay = (r.id+' '+(r.title||'')+' '+(r.text||'')).toLowerCase();
+    return hay.includes(q);
+  });
+
+  state.filtered = matched;
+  renderRuleList();
+}
+
+function renderRuleList(){
+  const list = byId('ruleList'); list.innerHTML='';
+  byId('ruleCount').textContent = `(${state.filtered.length})`;
+  state.filtered.forEach(r=>{
+    const risks = (r.risk_ids||[]).map(id=>`<span class="risk">${id}</span>`).join(' ');
+    const t = (r.title? ` — ${r.title}` : '');
+    const item = el(`<div class="rule"><strong>${r.id}</strong>${t}<div class="small">${risks||''}</div></div>`);
+    item.onclick = ()=> showDetail(r);
+    list.appendChild(item);
+  });
+}
+
+function suggestedControlsFor(r){
+  const riskIds = r.risk_ids || [];
+  const suggestions = [];
+  for(const cid in state.controls){
+    const c = state.controls[cid];
+    if((c.mitigates_risk_ids||[]).some(x=>riskIds.includes(x))) suggestions.push(c);
+  }
+  return suggestions;
+}
+
+function showDetail(rule){
+  state.selected = rule;
+  const host = byId('detail'); host.innerHTML='';
+  const risks = (rule.risk_ids||[]).map(id=> `<span class="risk">${id}</span>`).join(' ');
+  host.appendChild(el(`<div><h4>${rule.id} ${rule.title? '— '+rule.title: ''}</h4>
+    <div class="muted small">Type: ${rule.type||'—'} • Chapter: ${rule.chapter}</div>
+    <p>${(rule.text||'').replaceAll('\n','<br/>')}</p>
+    <h4>Related Risks</h4>
+    <div>${risks||'<span class="muted small">No risks linked yet. Add in rule_risk_links.yaml.</span>'}</div>
+  </div>`));
+
+  const sugg = suggestedControlsFor(rule);
+  const sList = sugg.map(c=> `<li><span class="tag">${c.id}</span> ${c.name} <span class="small muted">(${(c.mitigates_risk_ids||[]).join(', ')})</span></li>`).join('');
+  host.appendChild(el(`<div style="margin-top:12px;"><h4>Suggested Controls (from library)</h4><ul>${sList||'<li class="muted small">None yet.</li>'}</ul></div>`));
+
+  // Actual controls input
+  const risksForTick = rule.risk_ids || [];
+  const actualBox = el(`<div style="margin-top:12px;" class="card">
+    <h4>Your Controls in Place</h4>
+    <div id="actualList"></div>
+    <div style="display:flex; gap:8px; margin-top:8px;">
+      <input id="newCtrlName" type="text" placeholder="Control name (e.g., Dual approval for safeguarding transfers)"/>
+      <button id="addCtrl">Add</button>
+    </div>
+    <p class="small muted">Tick which <em>risks</em> each of your controls mitigates.</p>
+  </div>`);
+  host.appendChild(actualBox);
+
+  const actual = []; // [{name, mitigates: [riskId,...]}]
+  function renderActual(){
+    const div = actualBox.querySelector('#actualList'); div.innerHTML='';
+    if(!actual.length){ div.innerHTML='<div class="small muted">No controls added yet.</div>'; }
+    actual.forEach((c,i)=>{
+      const ticks = risksForTick.map(rid=>{
+        const checked = c.mitigates.includes(rid) ? 'checked' : '';
+        return `<label class="small" style="margin-right:8px;"><input data-i="${i}" data-r="${rid}" type="checkbox" ${checked}/> ${rid}</label>`;
+      }).join(' ');
+      const row = el(`<div style="margin:6px 0; padding:6px; border:1px solid #eee; border-radius:8px;">
+        <strong>${c.name}</strong><div>${ticks||'<span class="small muted">No risks linked for this rule.</span>'}</div></div>`);
+      row.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+        cb.onchange = (e)=> {
+          const idx = parseInt(cb.getAttribute('data-i'));
+          const rid = cb.getAttribute('data-r');
+          if(cb.checked && !actual[idx].mitigates.includes(rid)) actual[idx].mitigates.push(rid);
+          if(!cb.checked) actual[idx].mitigates = actual[idx].mitigates.filter(x=>x!==rid);
+          renderGaps();
+        };
+      });
+      div.appendChild(row);
+    });
+  }
+  actualBox.querySelector('#addCtrl').onclick = ()=>{
+    const name = actualBox.querySelector('#newCtrlName').value.trim();
+    if(!name) return;
+    actual.push({name, mitigates: []});
+    actualBox.querySelector('#newCtrlName').value='';
+    renderActual(); renderGaps();
+  };
+  renderActual();
+
+  const gapDiv = el(`<div style="margin-top:12px;">
+    <h4>Gaps</h4>
+    <div id="gapOut" class="small"></div>
+  </div>`);
+  host.appendChild(gapDiv);
+
+  function renderGaps(){
+    const covered = new Set();
+    actual.forEach(a => (a.mitigates||[]).forEach(r=>covered.add(r)));
+    const gaps = (risksForTick||[]).filter(r=>!covered.has(r));
+    gapDiv.querySelector('#gapOut').innerHTML = gaps.length
+      ? `<span class="gap">${gaps.length} gap(s):</span> ${gaps.join(', ')}`
+      : `<span class="ok">No gaps—every risk has at least one control mapped.</span>`;
+  }
+  renderGaps();
+}
+
+// Init
+(async function (){
+  // Load YAMLs (docs/ is sibling to data/)
+  const [rulesY, risksY, controlsY, linksY, appY, qY] = await Promise.all([
+    loadYAML('../data/rules.yaml'),          // list or {rules:[...]}
+    loadYAML('../data/risks.yaml'),
+    loadYAML('../data/controls.yaml'),
+    loadYAML('../data/rule_risk_links.yaml'),
+    loadYAML('../data/applicability.yaml'),
+    loadYAML('../data/questionnaire.yaml'),
+  ]);
+
+  const rules = Array.isArray(rulesY) ? rulesY : (rulesY.rules||[]);
+  state.rules = rules.map(r=> ({...r, risk_ids: r.risk_ids||[]}));
+  const risksList = risksY.risks||[];
+  state.risks = toMap(risksList);
+  const controlsList = controlsY.controls||[];
+  state.controls = toMap(controlsList);
+  state.links = (linksY.rules||[]);
+  state.applicability = (appY.rules||[]);
+  renderQuestions(qY);
+
+  // Risk filter dropdown
+  const rf = byId('riskFilter'); risksList.forEach(r=>{
+    rf.appendChild(el(`<option value="${r.id}">${r.id} — ${r.name}</option>`));
+  });
+
+  ['q','riskFilter','chapterFilter','onlyApplicable'].forEach(id=>{
+    byId(id).oninput = applyFilters; byId(id).onchange = applyFilters;
+  });
+
+  applyFilters();
+})();
+</script>
+</body>
+</html>
