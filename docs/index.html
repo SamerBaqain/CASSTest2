@@ -265,13 +265,14 @@ function showDetail(rule){
 (async function (){
   // Load YAMLs (docs/ is sibling to data/)
   const [rulesY, risksY, controlsY, linksY, appY, qY] = await Promise.all([
-    loadYAML('../data/rules.yaml'),          // list or {rules:[...]}
-    loadYAML('../data/risks.yaml'),
-    loadYAML('../data/controls.yaml'),
-    loadYAML('../data/rule_risk_links.yaml'),
-    loadYAML('../data/applicability.yaml'),
-    loadYAML('../data/questionnaire.yaml'),
+    loadYAML('data/rules.yaml'),
+    loadYAML('data/risks.yaml'),
+    loadYAML('data/controls.yaml'),
+    loadYAML('data/rule_risk_links.yaml'),
+    loadYAML('data/applicability.yaml'),
+    loadYAML('data/questionnaire.yaml'),
   ]);
+
 
   const rules = Array.isArray(rulesY) ? rulesY : (rulesY.rules||[]);
   state.rules = rules.map(r=> ({...r, risk_ids: r.risk_ids||[]}));
