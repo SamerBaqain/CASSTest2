@@ -1,0 +1,17 @@
+version: "2025-09-15"
+risks:
+  - id: "R-SCOPE-MISAPPLY"
+    name: "Scope misapplication"
+    description: "Applying CASS chapters incorrectly to certain activities, client categories, or geographies."
+    categories: ["Application/Scope"]
+    related_rule_ids: ["1.2.1","1.2.2","1.3.2"]
+  - id: "R-COMMINGLING"
+    name: "Commingling of client and firm assets"
+    description: "Mixing money or assets held under different regimes or with firm funds."
+    categories: ["Segregation"]
+    related_rule_ids: ["1.2.11"]
+  - id: "R-ECHANNEL-CONTROLS"
+    name: "Weak e-communication controls"
+    description: "Electronic communications lacking integrity, authenticity, or client consent evidence."
+    categories: ["Operational","Records"]
+    related_rule_ids: ["1.5.1","1.5.2","1.5.3"]
