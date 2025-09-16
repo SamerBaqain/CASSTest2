@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-CASS extractor — column-aware start using x0-clustering (largest-gap),
-adjacent R/G safe, keeps first real sentence, filters headings & footers,
-paragraph reflow, de-dup, stable sort.
+CASS extractor — column-aware start (largest x0 gap), adjacent R/G safe,
+keeps first real sentence (heading strip stops at first sentence-like line),
+filters footers/furniture, paragraph reflow, de-dup, stable sort.
 
 Typical run:
   python scripts/extract_rules_from_pdf.py \
@@ -41,8 +41,14 @@ DROP_HINTS = [
     "For other person",
 ]
 
+# ---------- tiny utils ----------
 def norm_type(t: Optional[str]) -> str:
     return "R" if (t or "").upper() == "R" else "G"
+
+def lower_ratio(s: str) -> float:
+    letters = [c for c in s if c.isalpha()]
+    if not letters: return 0.0
+    return sum(1 for c in letters if c.islower()) / len(letters)
 
 # ---------- word → line ----------
 def words_sorted(page):
@@ -89,35 +95,49 @@ def line_max_size(ln: dict) -> float:
     sizes = ln.get("sizes") or [0]
     return max(sizes) if sizes else 0.0
 
+def line_med_size(ln: dict) -> float:
+    sizes = ln.get("sizes") or [0]
+    return float(median(sizes)) if sizes else 0.0
+
 # ---------- heading / sentence heuristics ----------
-def looks_like_heading(ln: dict, heading_size_min: float) -> bool:
+def looks_sentence_like(text: str) -> bool:
     """
-    Real headings only:
-      • big AND bold, or
-      • short 'R Title' / 'G Title' without sentence punctuation.
+    Treat as running text if it has punctuation or enough lowercase/length.
+    """
+    t = text.strip()
+    if not t: return False
+    if re.search(r"[.;:)]", t): return True
+    if len(t) >= 50 and lower_ratio(t) >= 0.25: return True
+    return False
+
+def looks_title_stub(text: str) -> bool:
+    # "R Application", "G Purpose", short words, no sentence punctuation
+    return bool(re.match(r"^[RG]\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*:?$", text.strip())) and not re.search(r"[.;)]", text)
+
+def is_heading_line(ln: dict, body_size_guess: float, heading_size_min: float) -> bool:
+    """
+    A conservative 'real heading' test.
     """
     t = (ln["text"] or "").strip()
     if not t: return False
 
-    is_big  = line_max_size(ln) >= heading_size_min
-    is_bold = line_is_bold(ln)
-
-    if re.match(r"^[RG]\s+[A-Z][a-z]+(?:\b|:)$", t) and len(t) <= 80:
+    # Short ALLCAPS banners (e.g., SECTION) with no punctuation
+    letters = re.sub(r"[^A-Za-z]+", "", t)
+    if letters and letters.isupper() and len(letters) <= 40 and not re.search(r"[.;:)]", t):
         return True
 
-    if is_big and is_bold:
-        letters = re.sub(r"[^A-Za-z]+", "", t)
-        if letters and letters.isupper() and 3 <= len(letters) <= 40:
-            return True
-        if len(t) <= 80 and not re.search(r"[.;:]", t):
-            return True
+    # Explicit R/G title stub
+    if looks_title_stub(t):
+        return True
+
+    # Big + bold and noticeably larger than body text, without sentence punctuation
+    big = line_max_size(ln) >= heading_size_min
+    bold = line_is_bold(ln)
+    larger = line_med_size(ln) >= (body_size_guess + 1.2)  # a bit larger than nearby body
+    if big and bold and larger and not re.search(r"[.;:)]", t):
+        return True
 
     return False
-
-def looks_sentence_like(text: str) -> bool:
-    t = text.strip()
-    if not t: return False
-    return bool(re.search(r"[a-z]", t)) and (bool(re.search(r"[.;:)]", t)) or len(t) > 60)
 
 def should_drop_line_text(s: str) -> bool:
     if not s.strip(): return True
@@ -137,7 +157,6 @@ LIST_START_RE = re.compile(r"""^(
 
 def reflow_paragraphs_from_lines(lines: List[dict]) -> str:
     cleaned = [ln["text"] for ln in lines if not should_drop_line_text(ln["text"])]
-    # collapse single blanks
     tmp: List[str] = []
     last_blank = False
     for s in cleaned:
@@ -242,28 +261,52 @@ def detect_anchors(pdf, left_max_ratio: float, y_tol: float, type_dx: float, typ
     anchors.sort(key=lambda a: (a["page"], a["doctop"]))
     return anchors
 
-# ---------- estimate right-column start on the start page ----------
+# ---------- column split (largest x0 gap) ----------
 def estimate_right_col_x0(candidates: List[dict], min_big_gap: float = 40.0) -> Optional[float]:
-    """
-    Given a list of candidate lines (already filtered to after the anchor),
-    find the split between left gutter and right column by the largest x0 gap.
-    Returns the min x0 of the *right* cluster, or None if not clear.
-    """
     xs = sorted(ln["x0"] for ln in candidates if (ln.get("text") or "").strip())
     if len(xs) < 5:
         return None
     gaps = [(xs[i+1] - xs[i], i) for i in range(len(xs)-1)]
-    if not gaps:
-        return None
-    gaps.sort(reverse=True)              # largest gap first
+    gaps.sort(reverse=True)
     gap, idx = gaps[0]
     if gap >= min_big_gap:
         right_group = xs[idx+1:]
         return min(right_group) if right_group else None
-    # fallback: use rightmost 40% quantile as right cluster
+    # fallback: use rightmost 40% quantile
     cut = int(len(xs) * 0.6)
     right_group = xs[cut:]
     return min(right_group) if right_group else None
+
+# ---------- find first true body line ----------
+def find_body_start(lines: List[dict], heading_size_min: float) -> int:
+    """
+    Strip at most a small, contiguous block of real headings at the very top;
+    stop stripping as soon as a sentence-like line is seen. Guarantees a line is kept.
+    """
+    if not lines: return 0
+    # Guess typical body size from the next few lines
+    sample = lines[: min(12, len(lines))]
+    body_size_guess = median([line_med_size(ln) for ln in sample if (ln.get("text") or "").strip()] or [10.0])
+
+    i = 0
+    stripped = 0
+    while i < len(lines) and stripped < 3:
+        ln = lines[i]
+        t = (ln.get("text") or "").strip()
+        if not t or should_drop_line_text(t):
+            i += 1; stripped += 1; continue
+
+        if looks_sentence_like(t):
+            # first real sentence — keep it
+            break
+
+        if is_heading_line(ln, body_size_guess, heading_size_min):
+            i += 1; stripped += 1; continue
+
+        # Not clearly a heading and not clearly a sentence: keep it (defensive)
+        break
+
+    return min(i, len(lines)-1)
 
 # ---------- body harvesting ----------
 def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, right_min_ratio: float,
@@ -284,7 +327,7 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
 
         start_bar = anc["x1"] + body_margin
 
-        # ---- START PAGE: figure out the column start via x0 clustering
+        # ---- START PAGE: collect candidates after the anchor
         start_candidates = []
         for ln in page_lines[start_page]:
             if ln["doctop"] < start_y: continue
@@ -292,30 +335,20 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
             if should_drop_line_text(ln["text"]): continue
             start_candidates.append(ln)
 
+        # ---- determine right column start
         col_x0 = estimate_right_col_x0(start_candidates)
+
         def in_right_col(ln: dict) -> bool:
             if col_x0 is not None:
-                # accept lines in the right cluster with tiny tolerance
                 return ln["x0"] >= col_x0 - 2
-            # fallback to start-bar + slack
+            # fallback to start bar + slack
             return (ln["x0"] >= start_bar - start_slack) or (ln["x1"] >= start_bar + 2)
 
-        raw_lines: List[dict] = []
-        first_picked = False
+        candidates = [ln for ln in start_candidates if in_right_col(ln)]
 
-        for ln in start_candidates:
-            if not in_right_col(ln): continue
-            if not first_picked:
-                if looks_like_heading(ln, heading_size_min):
-                    if looks_sentence_like(ln["text"]):
-                        raw_lines.append(ln); first_picked = True
-                    else:
-                        continue  # skip single heading at the start
-                else:
-                    raw_lines.append(ln); first_picked = True
-            else:
-                if looks_like_heading(ln, heading_size_min): continue
-                raw_lines.append(ln)
+        # find first true body line (never strips the real first sentence)
+        start_idx = find_body_start(candidates, heading_size_min)
+        raw_lines: List[dict] = candidates[start_idx:]
 
         # ---- SPILL PAGES: keep right side only
         if end_page > start_page:
@@ -323,13 +356,13 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
                 right_min = widths[p] * right_min_ratio
                 for ln in page_lines[p]:
                     if ln["x0"] < right_min: continue
-                    if should_drop_line_text(ln["text"]) or looks_like_heading(ln, heading_size_min): continue
+                    if should_drop_line_text(ln["text"]): continue
                     raw_lines.append(ln)
             right_min = widths[end_page] * right_min_ratio
             for ln in page_lines[end_page]:
                 if ln["doctop"] >= end_y: break
                 if ln["x0"] < right_min: continue
-                if should_drop_line_text(ln["text"]) or looks_like_heading(ln, heading_size_min): continue
+                if should_drop_line_text(ln["text"]): continue
                 raw_lines.append(ln)
 
         text = reflow_paragraphs_from_lines(raw_lines).strip()
