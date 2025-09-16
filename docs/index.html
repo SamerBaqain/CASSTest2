@@ -1,112 +1,148 @@
-<!-- Load js-yaml once near the top of <body> -->
-<script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CASS Mapper</title>
+  <script defer src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <style>
+    body{font:14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; color:#111}
+    header{padding:12px 16px; border-bottom:1px solid #eee; font-weight:600}
+    #status{padding:8px 16px; background:#fff7d6; border-bottom:1px solid #eee; display:none}
+    #wrap{display:grid; grid-template-columns: 360px 1fr; gap:0; min-height:calc(100vh - 50px)}
+    #list{border-right:1px solid #eee; overflow:auto}
+    #details{padding:16px; overflow:auto}
+    .rule{padding:10px 12px; border-bottom:1px solid #f2f2f2; cursor:pointer}
+    .rule:hover{background:#fafafa}
+    .rule strong{font-weight:600}
+    .chip{display:inline-block;margin-left:8px;font-size:.72rem;padding:2px 6px;border-radius:999px;background:#eee}
+    .chip-r{background:#fdecea}
+    .chip-g{background:#eef7ee}
+    #details p{white-space:normal; line-height:1.55; margin:0 0 .9rem}
+    .muted{color:#666}
+    .err{background:#ffe9e9; border:1px solid #ffcdcd; color:#8a0000; padding:10px 12px; margin:8px 16px}
+  </style>
+</head>
+<body>
+  <header>CASS Mapper</header>
+  <div id="status"></div>
+  <div id="wrap">
+    <div id="list"></div>
+    <div id="details"></div>
+  </div>
 
-<style>
-  .rule{padding:8px 10px;border-bottom:1px solid #eee;cursor:pointer}
-  .rule strong{font-weight:600}
-  .chip{display:inline-block;margin-left:8px;font-size:.72rem;padding:2px 6px;border-radius:999px;background:#eee}
-  .chip-r{background:#fdecea}
-  .chip-g{background:#eef7ee}
-  #ruleDetails p{white-space:normal;line-height:1.5;margin:0 0 .75rem}
-  .muted{color:#666}
-  .small{font-size:.85rem;color:#555}
-</style>
+  <script>
+  (function(){
+    const CH_ORDER = ['1','1A','3','5','6','7'];
 
-<script>
-  const CH_ORDER = ['1','1A','3','5','6','7'];
+    const $ = sel => document.querySelector(sel);
+    const setStatus = (msg, isError=false) => {
+      const el = $('#status');
+      if (!msg) { el.style.display='none'; el.textContent=''; return; }
+      el.style.display = 'block';
+      el.textContent = msg;
+      el.style.background = isError ? '#ffe9e9' : '#fff7d6';
+      el.style.color = isError ? '#8a0000' : '#111';
+    };
 
-  async function loadYamlArray(path){
-    try{
+    function escapeHtml(s){
+      return (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+
+    function textToHtml(text){
+      if (!text) return '<p class="muted">No text.</p>';
+      // Double newlines = paragraph break; single newlines collapse to spaces
+      const paras = String(text).split(/\n{2,}/).map(p => p.replace(/\n/g,' ').trim()).filter(Boolean);
+      return paras.map(p => `<p>${escapeHtml(p)}</p>`).join('');
+    }
+
+    function normalizeRule(r){
+      r = r || {};
+      // If id accidentally carries R/G suffix (e.g. "1.2.2R"), split it out.
+      const m = /^(\d+[A-Z]?\.\d+\.\d+(?:-[A-Z]|[A-Z])?)(R|G)$/.exec(r.id || '');
+      if (m && !r.type){ r.id = m[1]; r.type = m[2]; }
+      r.type = (r.type === 'R') ? 'R' : 'G';
+      // Never show R/G in title; strip "R " / "G " if present
+      r.title = (r.title || '').replace(/^(R|G)\s+/, '');
+      r.display = r.display || `CASS ${r.id}`;
+      r.text = r.text || '';
+      r.chapter = r.chapter || (r.id ? r.id.split('.')[0] : '');
+      return r;
+    }
+
+    function sortKey(rule){
+      const ch = rule.chapter || (rule.id||'').split('.')[0];
+      const chIdx = CH_ORDER.includes(ch) ? CH_ORDER.indexOf(ch) : 99;
+      const [c,s,r] = (rule.id || '0.0.0').split('.');
+      const sec = parseInt(s,10)||0;
+      const rnum = parseInt((r||'').replace(/[^0-9]/g,''),10)||0;
+      const rsuf = (r||'').replace(/[0-9]/g,'');
+      const typeRank = rule.type === 'R' ? 0 : 1;
+      return [chIdx, c, sec, rnum, rsuf, typeRank];
+    }
+
+    function renderList(rules){
+      const box = $('#list');
+      box.innerHTML = '';
+      rules.forEach((r, i) => {
+        const div = document.createElement('div');
+        div.className = 'rule';
+        div.dataset.idx = i;
+        div.innerHTML = `
+          <strong>${escapeHtml(r.display)}</strong>${r.title ? ' — ' + escapeHtml(r.title) : ''}
+          <span class="chip ${r.type==='R'?'chip-r':'chip-g'}">${r.type}</span>`;
+        div.onclick = () => renderDetails(r);
+        box.appendChild(div);
+      });
+    }
+
+    function renderDetails(rule){
+      $('#details').innerHTML = `
+        <h3 style="margin:0 0 10px">${escapeHtml(rule.display)}${rule.title ? ' — ' + escapeHtml(rule.title) : ''}</h3>
+        ${textToHtml(rule.text)}
+      `;
+    }
+
+    async function loadYamlArray(path){
       const res = await fetch(path, {cache:'no-store'});
-      if(!res.ok) throw new Error(`HTTP ${res.status}`);
-      const text = await res.text();
-      const y = jsyaml.load(text);
+      if (!res.ok) throw new Error(`HTTP ${res.status} for ${path}`);
+      const txt = await res.text();
+      let y;
+      try { y = jsyaml.load(txt); }
+      catch(e){ throw new Error(`YAML parse failed: ${e.message}`); }
       if (Array.isArray(y)) return y;
-      if (y && Array.isArray(y.rules)) return y.rules; // backward compat
-      if (y && Array.isArray(y.items)) return y.items; // some generators
-      return [];
-    }catch(e){
-      console.error('Failed to load', path, e);
+      if (y && Array.isArray(y.rules)) return y.rules;  // backward compat
+      if (y && Array.isArray(y.items)) return y.items;
       return [];
     }
-  }
 
-  function normalizeRule(r){
-    // 1) If id ends with R/G, move into type
-    const m = /^(\d+[A-Z]?\.\d+\.\d+(?:-[A-Z]|[A-Z])?)(R|G)$/.exec(r.id || '');
-    if (m && !r.type){ r.id = m[1]; r.type = m[2]; }
-    // 2) Clean/complete fields
-    r.type = (r.type === 'R' ? 'R' : 'G');
-    r.title = (r.title || '').replace(/^(R|G)\s+/, ''); // remove leading R/G if present
-    r.display = r.display || `CASS ${r.id}`;
-    r.text = r.text || '';
-    r.chapter = r.chapter || (r.id ? r.id.split('.')[0] : '');
-    return r;
-  }
+    async function init(){
+      try{
+        setStatus('Loading rules…');
+        const data = await loadYamlArray('data/rules.yaml');   // path is relative to docs/index.html
+        if (!data.length) throw new Error('No rules found in data/rules.yaml');
 
-  function chapterOrderKey(rule){
-    const ch = rule.chapter || rule.id.split('.')[0];
-    const chIdx = CH_ORDER.includes(ch) ? CH_ORDER.indexOf(ch) : 99;
-    const [c,s,r] = (rule.id || '0.0.0').split('.');
-    const sec = parseInt(s,10)||0;
-    const rnum = parseInt((r||'').replace(/[^0-9]/g,''),10)||0;
-    const rsuf = (r||'').replace(/[0-9]/g,'');
-    const typeRank = rule.type === 'R' ? 0 : 1;
-    return [chIdx, c, sec, rnum, rsuf, typeRank];
-  }
+        const rules = data.map(normalizeRule).sort((a,b) => {
+          const A = sortKey(a), B = sortKey(b);
+          return A < B ? -1 : A > B ? 1 : 0;
+        });
 
-  function escapeHtml(s){
-    return (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  }
-
-  function textToHtml(text){
-    if (!text) return '<p class="muted">No text.</p>';
-    // Treat double newlines as paragraph breaks; single newlines → spaces
-    const paras = text.split(/\n{2,}/).map(p => p.replace(/\n/g, ' ').trim()).filter(Boolean);
-    return paras.map(p => `<p>${escapeHtml(p)}</p>`).join('');
-  }
-
-  function renderRuleList(list){
-    const wrap = document.getElementById('ruleList');
-    wrap.innerHTML = '';
-    list.forEach((r, idx) => {
-      const el = document.createElement('div');
-      el.className = 'rule';
-      el.dataset.idx = idx;
-      el.innerHTML = `
-        <strong>${escapeHtml(r.display)}</strong>${r.title ? ' — ' + escapeHtml(r.title) : ''}
-        <span class="chip ${r.type==='R'?'chip-r':'chip-g'}">${r.type}</span>`;
-      el.onclick = () => showRule(r);
-      wrap.appendChild(el);
-    });
-  }
-
-  function showRule(rule){
-    const d = document.getElementById('ruleDetails');
-    d.innerHTML = `
-      <h4>${escapeHtml(rule.display)}${rule.title ? ' — ' + escapeHtml(rule.title) : ''}</h4>
-      ${textToHtml(rule.text)}
-    `;
-  }
-
-  (async function init(){
-    // 1) Load rules
-    const raw = await loadYamlArray('data/rules.yaml');
-    let rules = raw.map(normalizeRule).sort((a,b) => {
-      const A = chapterOrderKey(a), B = chapterOrderKey(b);
-      return A < B ? -1 : A > B ? 1 : 0;
-    });
-
-    // 2) Defensive: if empty, tell the user instead of failing silently
-    if (!rules.length){
-      document.getElementById('ruleList').innerHTML =
-        '<div class="muted">No rules loaded. Check <code>docs/data/rules.yaml</code> is present and non-empty.</div>';
-      return;
+        setStatus(`Loaded ${rules.length} rules`);
+        window._rules = rules; // handy for debugging in the console
+        renderList(rules);
+        renderDetails(rules[0]);
+        // Hide the yellow status bar after first render
+        setTimeout(() => setStatus(''), 800);
+      }catch(e){
+        console.error(e);
+        setStatus(`Error: ${e.message}`, true);
+        // Also show a visible error block in the page
+        $('#list').innerHTML = `<div class="err">${escapeHtml(e.message)}</div>`;
+      }
     }
 
-    // 3) Keep a global for debugging, render list, and show the first rule
-    window._rules = rules;
-    renderRuleList(rules);
-    showRule(rules[0]);
+    window.addEventListener('DOMContentLoaded', init);
   })();
-</script>
+  </script>
+</body>
+</html>
