@@ -23,9 +23,14 @@ jobs:
 
       - name: Install deps
         run: |
-          echo "pdfplumber>=0.10" > requirements.txt
-          echo "PyYAML>=6.0" >> requirements.txt
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          # Pin a recent wheel; avoids compiling MuPDF from source
+          pip install --only-binary=:all: "pymupdf==1.24.9" pyyaml
+          python - << 'PY'
+import sys
+import fitz
+print("PyMuPDF version:", fitz.__doc__.splitlines()[0], file=sys.stderr)
+PY
 
       - name: Ensure folders
         run: mkdir -p data docs/data
