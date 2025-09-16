@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-CASS extractor — adjacent R/G safe, keeps first real sentence, filters headings & footers,
-column-aware with start-bar slack, paragraph reflow, de-dup, stable sort.
+CASS extractor — column-aware start using x0-clustering (largest-gap),
+adjacent R/G safe, keeps first real sentence, filters headings & footers,
+paragraph reflow, de-dup, stable sort.
 
-Example:
+Typical run:
   python scripts/extract_rules_from_pdf.py \
     --left-max-ratio 0.46 --right-min-ratio 0.42 \
     --y-tol 3 --type-dx 18 --type-dy 4 \
@@ -16,10 +17,10 @@ from typing import Dict, List, Optional, Tuple
 import pdfplumber, yaml
 from statistics import median
 
-# ------------ patterns ------------
+# ---------- patterns ----------
 ID_CORE = r"(?P<chapter>\d+[A-Z]?)\.(?P<section>\d+)\.(?P<rule>\d+(?:-[A-Z]|[A-Z])?)"
 CASS_RE = re.compile(r"^CASS$", re.I)
-ID_TOKEN_RE = re.compile(rf"^{ID_CORE}(?P<trail>[A-Z]{{1,2}})?$")  # allows glued 7.11.14R / 1.2.2BG
+ID_TOKEN_RE = re.compile(rf"^{ID_CORE}(?P<trail>[A-Z]{{1,2}})?$")
 TYPE_ONLY_RE = re.compile(r"^(R|G|E|BG|C)$", re.I)
 SECTION_RE = re.compile(r"^\s*Section\s*:\s*CASS\s+\d+[A-Z]?\.\d+", re.I)
 
@@ -43,7 +44,7 @@ DROP_HINTS = [
 def norm_type(t: Optional[str]) -> str:
     return "R" if (t or "").upper() == "R" else "G"
 
-# ------------ word→line helpers ------------
+# ---------- word → line ----------
 def words_sorted(page):
     return sorted(
         page.extract_words(
@@ -88,12 +89,12 @@ def line_max_size(ln: dict) -> float:
     sizes = ln.get("sizes") or [0]
     return max(sizes) if sizes else 0.0
 
-# ------------ heading & sentence heuristics ------------
+# ---------- heading / sentence heuristics ----------
 def looks_like_heading(ln: dict, heading_size_min: float) -> bool:
     """
     Real headings only:
       • big AND bold, or
-      • short 'R Title' / 'G Title' (no sentence punctuation).
+      • short 'R Title' / 'G Title' without sentence punctuation.
     """
     t = (ln["text"] or "").strip()
     if not t: return False
@@ -114,7 +115,6 @@ def looks_like_heading(ln: dict, heading_size_min: float) -> bool:
     return False
 
 def looks_sentence_like(text: str) -> bool:
-    """Treat as running text if it has lowercase and either punctuation or is reasonably long."""
     t = text.strip()
     if not t: return False
     return bool(re.search(r"[a-z]", t)) and (bool(re.search(r"[.;:)]", t)) or len(t) > 60)
@@ -127,7 +127,7 @@ def should_drop_line_text(s: str) -> bool:
     if re.fullmatch(r"[.\-–—\s]+", s): return True
     return False
 
-# ------------ paragraph reflow ------------
+# ---------- paragraph reflow ----------
 LIST_START_RE = re.compile(r"""^(
     \(\d+\)|           # (1)
     \([a-z]\)|         # (a)
@@ -137,6 +137,7 @@ LIST_START_RE = re.compile(r"""^(
 
 def reflow_paragraphs_from_lines(lines: List[dict]) -> str:
     cleaned = [ln["text"] for ln in lines if not should_drop_line_text(ln["text"])]
+    # collapse single blanks
     tmp: List[str] = []
     last_blank = False
     for s in cleaned:
@@ -174,7 +175,7 @@ def reflow_paragraphs_from_lines(lines: List[dict]) -> str:
     commit()
     return "\n\n".join(buf)
 
-# ------------ anchor detection ------------
+# ---------- anchor detection ----------
 def detect_anchors(pdf, left_max_ratio: float, y_tol: float, type_dx: float, type_dy: float) -> List[dict]:
     anchors = []
     for pi, page in enumerate(pdf.pages):
@@ -216,7 +217,7 @@ def detect_anchors(pdf, left_max_ratio: float, y_tol: float, type_dx: float, typ
                             if trail in ("R","G","E","BG","C"):
                                 typ = trail
 
-                        # tiny fallback to next line
+                        # next line fallback
                         if not typ and (j + 1) < len(toks):
                             nxt = toks[j+1]
                             if nxt["x0"] < left_limit and 0 < (nxt["doctop"] - cand["doctop"]) <= type_dy and TYPE_ONLY_RE.match(nxt["text"]):
@@ -241,7 +242,30 @@ def detect_anchors(pdf, left_max_ratio: float, y_tol: float, type_dx: float, typ
     anchors.sort(key=lambda a: (a["page"], a["doctop"]))
     return anchors
 
-# ------------ harvest bodies (start-bar slack + keep first sentence) ------------
+# ---------- estimate right-column start on the start page ----------
+def estimate_right_col_x0(candidates: List[dict], min_big_gap: float = 40.0) -> Optional[float]:
+    """
+    Given a list of candidate lines (already filtered to after the anchor),
+    find the split between left gutter and right column by the largest x0 gap.
+    Returns the min x0 of the *right* cluster, or None if not clear.
+    """
+    xs = sorted(ln["x0"] for ln in candidates if (ln.get("text") or "").strip())
+    if len(xs) < 5:
+        return None
+    gaps = [(xs[i+1] - xs[i], i) for i in range(len(xs)-1)]
+    if not gaps:
+        return None
+    gaps.sort(reverse=True)              # largest gap first
+    gap, idx = gaps[0]
+    if gap >= min_big_gap:
+        right_group = xs[idx+1:]
+        return min(right_group) if right_group else None
+    # fallback: use rightmost 40% quantile as right cluster
+    cut = int(len(xs) * 0.6)
+    right_group = xs[cut:]
+    return min(right_group) if right_group else None
+
+# ---------- body harvesting ----------
 def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, right_min_ratio: float,
                    heading_size_min: float, min_body_len: int, start_slack: float) -> Dict[Tuple[str,str], dict]:
     out: Dict[Tuple[str,str], dict] = {}
@@ -260,33 +284,40 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
 
         start_bar = anc["x1"] + body_margin
 
-        def right_of_bar(ln: dict) -> bool:
-            # Allow slight overlap with the bar to keep the first sentence
+        # ---- START PAGE: figure out the column start via x0 clustering
+        start_candidates = []
+        for ln in page_lines[start_page]:
+            if ln["doctop"] < start_y: continue
+            if end_page == start_page and ln["doctop"] >= end_y: break
+            if should_drop_line_text(ln["text"]): continue
+            start_candidates.append(ln)
+
+        col_x0 = estimate_right_col_x0(start_candidates)
+        def in_right_col(ln: dict) -> bool:
+            if col_x0 is not None:
+                # accept lines in the right cluster with tiny tolerance
+                return ln["x0"] >= col_x0 - 2
+            # fallback to start-bar + slack
             return (ln["x0"] >= start_bar - start_slack) or (ln["x1"] >= start_bar + 2)
 
         raw_lines: List[dict] = []
         first_picked = False
 
-        # Start page
-        for ln in page_lines[start_page]:
-            if ln["doctop"] < start_y: continue
-            if end_page == start_page and ln["doctop"] >= end_y: break
-            if not right_of_bar(ln): continue
-            if should_drop_line_text(ln["text"]): continue
-
+        for ln in start_candidates:
+            if not in_right_col(ln): continue
             if not first_picked:
                 if looks_like_heading(ln, heading_size_min):
                     if looks_sentence_like(ln["text"]):
                         raw_lines.append(ln); first_picked = True
                     else:
-                        continue  # skip one heading at start
+                        continue  # skip single heading at the start
                 else:
                     raw_lines.append(ln); first_picked = True
             else:
                 if looks_like_heading(ln, heading_size_min): continue
                 raw_lines.append(ln)
 
-        # Spill pages (right half only)
+        # ---- SPILL PAGES: keep right side only
         if end_page > start_page:
             for p in range(start_page+1, end_page):
                 right_min = widths[p] * right_min_ratio
@@ -323,7 +354,7 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
 
     return out
 
-# ------------ sort order ------------
+# ---------- sort ----------
 CHAPTER_ORDER = ["1", "1A", "3", "5", "6", "7"]
 def sort_key(rec: dict):
     chap = rec["chapter"]
@@ -335,7 +366,7 @@ def sort_key(rec: dict):
     t_rank = 0 if rec["type"] == "R" else 1
     return (chap_idx, a, sec, rule_num, rule_suf, t_rank)
 
-# ------------ CLI ------------
+# ---------- CLI ----------
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("pdfs", nargs="+", help="CASS PDF(s)")
@@ -346,7 +377,7 @@ def main():
     ap.add_argument("--type-dx", type=float, default=18.0)
     ap.add_argument("--type-dy", type=float, default=4.0)
     ap.add_argument("--body-margin", type=float, default=14.0)
-    ap.add_argument("--start-slack", type=float, default=10.0, help="Allow this many points left of the start bar")
+    ap.add_argument("--start-slack", type=float, default=10.0)
     ap.add_argument("--heading-size-min", type=float, default=12.0)
     ap.add_argument("--min-body-len", type=int, default=40)
     args = ap.parse_args()
