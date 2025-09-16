@@ -1,72 +1,51 @@
-name: Build rules.yaml from PDFs
+name: Build CASS rules
 
 on:
-  workflow_dispatch: {}
   push:
-    paths:
-      - 'data/source_pdfs/**'
-      - 'scripts/**'
-      - 'requirements.txt'
+    branches: [ main ]
+  workflow_dispatch:
+
+# Needed so the job can commit the generated YAML back to the repo
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install deps
+      - name: Install dependencies (PyMuPDF + PyYAML)
         run: |
           python -m pip install --upgrade pip
-          # Pin a recent wheel; avoids compiling MuPDF from source
+          # Install PyMuPDF (module name "fitz"); use prebuilt wheels
           pip install --only-binary=:all: "pymupdf==1.24.9" pyyaml
           python - << 'PY'
-      import sys
-      import fitz
-      print("PyMuPDF version:", fitz.__doc__.splitlines()[0], file=sys.stderr)
-      PY
+import fitz, sys
+print("PyMuPDF OK:", fitz.__doc__.splitlines()[0], file=sys.stderr)
+PY
 
-
-      - name: Ensure folders
-        run: mkdir -p data docs/data
-
-      - name: List PDFs (debug)
+      - name: Generate docs/data/rules.yaml
         run: |
-          echo "PDFs in data/source_pdfs:" && ls -la data/source_pdfs || true
+          # Adjust the input glob if your PDFs live elsewhere
+          python scripts/extract_rules_from_pdf.py data/source_pdfs/*.pdf --out docs/data/rules.yaml
+          echo "Preview:"
+          ls -la docs/data || true
+          head -n 40 docs/data/rules.yaml || true
 
-      - name: Extract CASS rules (type-safe + heading/date filters + reflow)
+      - name: Commit rules.yaml (if changed)
         run: |
-          python scripts/extract_rules_from_pdf.py \
-            --left-max-ratio 0.46 \
-            --right-min-ratio 0.42 \
-            --y-tol 3 \
-            --type-dx 18 \
-            --type-dy 4 \
-            --body-margin 14 \
-            --heading-size-min 11.5 \
-            --min-body-len 40 \
-            data/source_pdfs/*.pdf \
-            --out data/rules.yaml
-
-      - name: Sanity check
-        run: |
-          test -s data/rules.yaml || (echo "rules.yaml is empty" && exit 1)
-          echo "Rule entries:" $(grep -c '^- id:' data/rules.yaml || true)
-          echo "First 50 lines:" && head -n 50 data/rules.yaml || true
-
-      - name: Publish to Pages folder
-        run: |
-          mkdir -p docs/data
-          cp data/rules.yaml docs/data/rules.yaml
-
-      - name: Commit generated files
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "build: extract CASS rules (robust) and publish to docs/data"
-          file_pattern: data/rules.yaml docs/data/rules.yaml
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/rules.yaml
+          git commit -m "chore: regenerate rules.yaml" || echo "No changes to commit"
+          git push
