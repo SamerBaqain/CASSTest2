@@ -9,7 +9,7 @@ Run:
     --left-max-ratio 0.46 --right-min-ratio 0.42 \
     --y-tol 3 --type-dx 18 --type-dy 4 \
     --body-margin 14 --start-slack 8 --heading-size-min 12 --min-body-len 40 \
-    data/source_pdfs/*.pdf --out data/rules.yaml
+    data/source_pdfs/*.pdf --out docs/data/rules.yaml
 """
 
 import argparse, pathlib, re, sys
@@ -285,4 +285,166 @@ def looks_like_heading_block_start(lines: List[dict], heading_size_min: float) -
 # ------------------ harvesting ------------------
 def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, right_min_ratio: float,
                    heading_size_min: float, min_body_len: int, start_slack: float) -> Dict[Tuple[str,str], dict]:
-    out: Dict[Tu]()
+    out: Dict[Tuple[str,str], dict] = {}
+
+    page_lines = [words_to_lines(words_sorted(p), y_tol) for p in pdf.pages]
+    right_x0 = page_right_x0s(pdf, page_lines, right_min_ratio)  # per-page column starts
+
+    for idx, anc in enumerate(anchors):
+        if anc.get("kind") != "rule": continue
+
+        start_page, start_y = anc["page"], anc["doctop"]
+        if idx + 1 < len(anchors):
+            end_page, end_y = anchors[idx+1]["page"], anchors[idx+1]["doctop"]
+        else:
+            end_page, end_y = start_page, float("inf")
+
+        # start page candidates (allow slightly beyond next anchor; drop fused next-anchor line)
+        start_candidates = []
+        start_cut = start_y - (y_tol / 2.0)
+        stop_cut  = (end_y + y_tol) if end_page == start_page else float("inf")  # include near-anchor lines
+        col0 = right_x0[start_page]
+
+        for ln in page_lines[start_page]:
+            if ln["doctop"] < start_cut: continue
+            if ln["doctop"] >= stop_cut: break
+
+            # require presence on the right column (but allow tiny overlap)
+            if ln["x0"] < col0 - start_slack and ln["x1"] < col0 + 2:
+                continue
+
+            t = ln["text"]
+            if should_drop_line_text(t):
+                continue
+
+            # if this line is at the next-anchor baseline and starts with an anchor prefix,
+            # it's the *next* rule's first line: exclude it from this rule
+            if end_page == start_page and abs(ln["doctop"] - end_y) <= (y_tol * 1.25) and ANCHOR_PREFIX_RE.match(t):
+                continue
+
+            # remove leading anchor prefix if fused with this rule's id (defensive)
+            t2 = strip_leading_anchor_prefix(t)
+            if not t2:
+                continue
+            ln2 = dict(ln)
+            ln2["text"] = t2
+            start_candidates.append(ln2)
+
+        # find first real body line (skip a small heading block only)
+        s_idx = looks_like_heading_block_start(start_candidates, heading_size_min)
+        raw_lines: List[dict] = start_candidates[s_idx:]
+
+        # spill pages with per-page right column
+        if end_page > start_page:
+            for p in range(start_page + 1, end_page):
+                col = right_x0[p]
+                for ln in page_lines[p]:
+                    if ln["x0"] < col - 2 and ln["x1"] < col + 2:
+                        continue
+                    t = ln["text"]
+                    if should_drop_line_text(t):
+                        continue
+                    ln2 = dict(ln)
+                    ln2["text"] = strip_leading_anchor_prefix(t)
+                    if not ln2["text"]:
+                        continue
+                    raw_lines.append(ln2)
+
+            # end page chunk — stop after we pass the next anchor by a small tolerance
+            col_end = right_x0[end_page]
+            for ln in page_lines[end_page]:
+                if ln["doctop"] >= (end_y + y_tol): break
+                if ln["x0"] < col_end - 2 and ln["x1"] < col_end + 2: continue
+
+                t = ln["text"]
+                if should_drop_line_text(t): continue
+
+                # exclude the next rule's fused first line from this rule
+                if abs(ln["doctop"] - end_y) <= (y_tol * 1.25) and ANCHOR_PREFIX_RE.match(t):
+                    continue
+
+                ln2 = dict(ln)
+                ln2["text"] = strip_leading_anchor_prefix(t)
+                if not ln2["text"]:
+                    continue
+                raw_lines.append(ln2)
+
+        text = reflow_paragraphs_from_lines(raw_lines).strip()
+        if len(text) < min_body_len: continue
+
+        key = (anc["id"], anc["type"])
+        prev = out.get(key)
+        if not prev or len(text) > len(prev["text"]):
+            chapter = anc["id"].split(".")[0]
+            out[key] = {
+                "id": anc["id"],
+                "chapter": chapter,
+                "type": anc["type"],
+                "title": None,
+                "summary": None,
+                "risk_ids": [],
+                "default_control_ids": [],
+                "applicability_conditions": None,
+                "text": text,
+                "display": f"CASS {anc['id']}",
+            }
+
+    return out
+
+# ------------------ sort ------------------
+CHAPTER_ORDER = ["1", "1A", "3", "5", "6", "7"]
+def sort_key(rec: dict):
+    chap = rec["chapter"]
+    chap_idx = CHAPTER_ORDER.index(chap) if chap in CHAPTER_ORDER else 99
+    a,b,c = rec["id"].split(".")
+    sec = int(b)
+    rule_num = int("".join(ch for ch in c if ch.isdigit()) or 0)
+    rule_suf = "".join(ch for ch in c if not ch.isdigit())
+    t_rank = 0 if rec["type"] == "R" else 1
+    return (chap_idx, a, sec, rule_num, rule_suf, t_rank)
+
+# ------------------ CLI ------------------
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("pdfs", nargs="+", help="CASS PDF(s)")
+    ap.add_argument("--out", default="data/rules.yaml", help="Output YAML")
+    ap.add_argument("--left-max-ratio", type=float, default=0.46)
+    ap.add_argument("--right-min-ratio", type=float, default=0.42)
+    ap.add_argument("--y-tol", type=float, default=3.0)
+    ap.add_argument("--type-dx", type=float, default=18.0)
+    ap.add_argument("--type-dy", type=float, default=4.0)
+    ap.add_argument("--body-margin", type=float, default=14.0)
+    ap.add_argument("--start-slack", type=float, default=8.0)
+    ap.add_argument("--heading-size-min", type=float, default=12.0)
+    ap.add_argument("--min-body-len", type=int, default=40)
+    args = ap.parse_args()
+
+    all_entries: Dict[Tuple[str,str], dict] = {}
+
+    for pth in args.pdfs:
+        path = pathlib.Path(pth)
+        if not path.exists():
+            print(f"[warn] missing {path}", file=sys.stderr)
+            continue
+        with pdfplumber.open(str(path)) as pdf:
+            anchors = detect_anchors(pdf, args.left_max_ratio, args.y_tol, args.type_dx, args.type_dy)
+            if not anchors:
+                print(f"[warn] no anchors found in {path}", file=sys.stderr)
+            bodies = harvest_bodies(
+                pdf, anchors, args.y_tol, args.body_margin, args.right_min_ratio,
+                args.heading_size_min, args.min_body_len, args.start_slack
+            )
+            for k,v in bodies.items():
+                cur = all_entries.get(k)
+                if not cur or len(v["text"]) > len(cur["text"]):
+                    all_entries[k] = v
+
+    items = sorted(all_entries.values(), key=sort_key)
+    outp = pathlib.Path(args.out)
+    outp.parent.mkdir(parents=True, exist_ok=True)
+    with outp.open("w", encoding="utf-8") as f:
+        yaml.safe_dump(items, f, sort_keys=False, allow_unicode=True)
+    print(f"[ok] wrote {len(items)} rules -> {outp}")
+
+if __name__ == "__main__":
+    main()
