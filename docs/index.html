@@ -1,49 +1,83 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>CASS Mapper</title>
+  <!-- YAML loader -->
   <script defer src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
   <style>
-    body{font:14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; color:#111}
-    header{padding:12px 16px; border-bottom:1px solid #eee; font-weight:600}
-    #status{padding:8px 16px; background:#fff7d6; border-bottom:1px solid #eee; display:none}
-    #wrap{display:grid; grid-template-columns: 360px 1fr; gap:0; min-height:calc(100vh - 50px)}
-    #list{border-right:1px solid #eee; overflow:auto}
-    #details{padding:16px; overflow:auto}
-    .rule{padding:10px 12px; border-bottom:1px solid #f2f2f2; cursor:pointer}
-    .rule:hover{background:#fafafa}
+    :root{
+      --border:#eaeaea; --muted:#666; --bg:#fafafa;
+      --chip-r:#fdecea; --chip-g:#eef7ee;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:#111}
+    header{display:flex; gap:12px; align-items:center; padding:12px 16px; border-bottom:1px solid var(--border)}
+    header h1{font-size:16px; margin:0; font-weight:700}
+    .controls{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-left:auto}
+    .controls input[type="search"]{padding:6px 10px; border:1px solid var(--border); border-radius:6px; width:260px}
+    .controls select{padding:6px 10px; border:1px solid var(--border); border-radius:6px; background:#fff}
+    #status{display:none; padding:8px 16px; border-bottom:1px solid var(--border)}
+    #wrap{display:grid; grid-template-columns: 380px 1fr; min-height:calc(100vh - 50px)}
+    #list{border-right:1px solid var(--border); overflow:auto; background:#fff}
+    #details{padding:18px; overflow:auto}
+    .rule{padding:10px 12px; border-bottom:1px solid var(--border); cursor:pointer}
+    .rule:hover{background:var(--bg)}
     .rule strong{font-weight:600}
     .chip{display:inline-block;margin-left:8px;font-size:.72rem;padding:2px 6px;border-radius:999px;background:#eee}
-    .chip-r{background:#fdecea}
-    .chip-g{background:#eef7ee}
+    .chip-r{background:var(--chip-r)}
+    .chip-g{background:var(--chip-g)}
     #details p{white-space:normal; line-height:1.55; margin:0 0 .9rem}
-    .muted{color:#666}
+    .muted{color:var(--muted)}
     .err{background:#ffe9e9; border:1px solid #ffcdcd; color:#8a0000; padding:10px 12px; margin:8px 16px}
+    .count{font-size:.85rem; color:var(--muted); padding:6px 12px; border-bottom:1px solid var(--border)}
+    .empty{padding:12px; color:var(--muted)}
+    @media (max-width: 900px){
+      #wrap{grid-template-columns:1fr}
+      #list{border-right:0; border-bottom:1px solid var(--border)}
+    }
   </style>
 </head>
 <body>
-  <header>CASS Mapper</header>
+  <header>
+    <h1>CASS Mapper</h1>
+    <div class="controls">
+      <input id="q" type="search" placeholder="Search by number/title/text…"/>
+      <select id="type">
+        <option value="">Type: All</option>
+        <option value="R">Type: Rule (R)</option>
+        <option value="G">Type: Guidance (G)</option>
+      </select>
+    </div>
+  </header>
+
   <div id="status"></div>
+
   <div id="wrap">
-    <div id="list"></div>
+    <div id="list">
+      <div class="count" id="count"></div>
+      <div id="ruleList"></div>
+    </div>
     <div id="details"></div>
   </div>
 
   <script>
   (function(){
-    const CH_ORDER = ['1','1A','3','5','6','7'];
+    // --- configuration & helpers ---
+    const CH_ORDER = ['1','1A','3','5','6','7']; // custom chapter order
 
-    const $ = sel => document.querySelector(sel);
-    const setStatus = (msg, isError=false) => {
+    const $  = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+
+    function setStatus(msg, isError=false){
       const el = $('#status');
-      if (!msg) { el.style.display='none'; el.textContent=''; return; }
-      el.style.display = 'block';
+      if (!msg){ el.style.display='none'; el.textContent=''; return; }
+      el.style.display='block';
       el.textContent = msg;
       el.style.background = isError ? '#ffe9e9' : '#fff7d6';
       el.style.color = isError ? '#8a0000' : '#111';
-    };
+    }
 
     function escapeHtml(s){
       return (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -51,40 +85,87 @@
 
     function textToHtml(text){
       if (!text) return '<p class="muted">No text.</p>';
-      // Double newlines = paragraph break; single newlines collapse to spaces
+      // Double newlines => paragraph; single newlines collapse to spaces
       const paras = String(text).split(/\n{2,}/).map(p => p.replace(/\n/g,' ').trim()).filter(Boolean);
       return paras.map(p => `<p>${escapeHtml(p)}</p>`).join('');
     }
 
+    // Normalize one rule object
     function normalizeRule(r){
       r = r || {};
-      // If id accidentally carries R/G suffix (e.g. "1.2.2R"), split it out.
+      // If id ends with R/G, move that into type
       const m = /^(\d+[A-Z]?\.\d+\.\d+(?:-[A-Z]|[A-Z])?)(R|G)$/.exec(r.id || '');
       if (m && !r.type){ r.id = m[1]; r.type = m[2]; }
-      r.type = (r.type === 'R') ? 'R' : 'G';
-      // Never show R/G in title; strip "R " / "G " if present
-      r.title = (r.title || '').replace(/^(R|G)\s+/, '');
+      r.type = (r.type === 'R') ? 'R' : 'G';           // default to G if unsure
+      r.title = (r.title || '').replace(/^(R|G)\s+/, ''); // strip leading "R " / "G " from title
       r.display = r.display || `CASS ${r.id}`;
       r.text = r.text || '';
       r.chapter = r.chapter || (r.id ? r.id.split('.')[0] : '');
       return r;
     }
 
-    function sortKey(rule){
-      const ch = rule.chapter || (rule.id||'').split('.')[0];
-      const chIdx = CH_ORDER.includes(ch) ? CH_ORDER.indexOf(ch) : 99;
-      const [c,s,r] = (rule.id || '0.0.0').split('.');
-      const sec = parseInt(s,10)||0;
-      const rnum = parseInt((r||'').replace(/[^0-9]/g,''),10)||0;
-      const rsuf = (r||'').replace(/[0-9]/g,'');
-      const typeRank = rule.type === 'R' ? 0 : 1;
-      return [chIdx, c, sec, rnum, rsuf, typeRank];
+    // --- natural order for CASS ids ---
+    function splitCassId(id){
+      // chapter: digits + optional letter; section: digits; rule: digits + optional letter or "-A"
+      const m = /^(\d+)([A-Z]?)[.](\d+)[.](\d+)([A-Z]|-[A-Z])?$/.exec(id || '');
+      if (!m) return {chapNum:0, chapAlt:'', sec:0, ruleNum:0, ruleAlt:''};
+      return {
+        chapNum: parseInt(m[1],10)||0,
+        chapAlt: m[2]||'',
+        sec: parseInt(m[3],10)||0,
+        ruleNum: parseInt(m[4],10)||0,
+        ruleAlt: m[5]||''
+      };
     }
 
-    function renderList(rules){
-      const box = $('#list');
-      box.innerHTML = '';
-      rules.forEach((r, i) => {
+    function ruleAltRank(s){
+      if (!s) return [0,0];                       // plain number first
+      if (s[0] === '-') return [2, s.charCodeAt(1)||0]; // hyphenated after lettered
+      return [1, s.charCodeAt(0)||0];             // "A","B",...
+    }
+
+    function chapterRank(chNum, chAlt){
+      const code = String(chNum) + (chAlt||'');
+      const i = CH_ORDER.indexOf(code);
+      if (i !== -1) return [i, chNum, chAlt||''];
+      return [99, chNum, chAlt||'']; // anything else after custom list
+    }
+
+    function sortKey(rule){
+      const id = rule.id || '0.0.0';
+      const p = splitCassId(id);
+      const ch = chapterRank(p.chapNum, p.chapAlt);
+      const alt = ruleAltRank(p.ruleAlt);
+      const typeRank = rule.type === 'R' ? 0 : 1; // R before G
+      return [ch[0], ch[1], ch[2], p.sec, p.ruleNum, alt[0], alt[1], typeRank];
+    }
+
+    // --- data loading ---
+    async function loadYamlArray(path){
+      const res = await fetch(path, {cache:'no-store'});
+      if (!res.ok) throw new Error(`HTTP ${res.status} for ${path}`);
+      const txt = await res.text();
+      let y;
+      try{ y = jsyaml.load(txt); }
+      catch(e){ throw new Error(`YAML parse failed: ${e.message}`); }
+      if (Array.isArray(y)) return y;
+      if (y && Array.isArray(y.rules)) return y.rules;  // backward compat
+      if (y && Array.isArray(y.items)) return y.items;
+      return [];
+    }
+
+    // --- rendering ---
+    function renderList(list){
+      const wrap = $('#ruleList');
+      wrap.innerHTML = '';
+      if (!list.length){
+        $('#count').textContent = '0 rules';
+        wrap.innerHTML = '<div class="empty">No results.</div>';
+        $('#details').innerHTML = '<div class="muted">Select a rule to view details.</div>';
+        return;
+      }
+      $('#count').textContent = `${list.length} rule${list.length===1?'':'s'}`;
+      list.forEach((r, i) => {
         const div = document.createElement('div');
         div.className = 'rule';
         div.dataset.idx = i;
@@ -92,7 +173,7 @@
           <strong>${escapeHtml(r.display)}</strong>${r.title ? ' — ' + escapeHtml(r.title) : ''}
           <span class="chip ${r.type==='R'?'chip-r':'chip-g'}">${r.type}</span>`;
         div.onclick = () => renderDetails(r);
-        box.appendChild(div);
+        wrap.appendChild(div);
       });
     }
 
@@ -103,41 +184,63 @@
       `;
     }
 
-    async function loadYamlArray(path){
-      const res = await fetch(path, {cache:'no-store'});
-      if (!res.ok) throw new Error(`HTTP ${res.status} for ${path}`);
-      const txt = await res.text();
-      let y;
-      try { y = jsyaml.load(txt); }
-      catch(e){ throw new Error(`YAML parse failed: ${e.message}`); }
-      if (Array.isArray(y)) return y;
-      if (y && Array.isArray(y.rules)) return y.rules;  // backward compat
-      if (y && Array.isArray(y.items)) return y.items;
-      return [];
+    // --- filtering & search ---
+    function applyFilters(all){
+      const q = ($('#q').value || '').trim().toLowerCase();
+      const t = $('#type').value; // '', 'R', 'G'
+      let out = all;
+      if (t) out = out.filter(r => r.type === t);
+      if (q){
+        out = out.filter(r =>
+          (r.id && r.id.toLowerCase().includes(q)) ||
+          (r.title && r.title.toLowerCase().includes(q)) ||
+          (r.text && r.text.toLowerCase().includes(q))
+        );
+      }
+      return out;
     }
+
+    // --- boot ---
+    let ALL_RULES = [];
 
     async function init(){
       try{
         setStatus('Loading rules…');
-        const data = await loadYamlArray('data/rules.yaml');   // path is relative to docs/index.html
-        if (!data.length) throw new Error('No rules found in data/rules.yaml');
+        const raw = await loadYamlArray('data/rules.yaml'); // path relative to docs/index.html
+        if (!raw.length) throw new Error('No rules found in data/rules.yaml');
 
-        const rules = data.map(normalizeRule).sort((a,b) => {
+        ALL_RULES = raw.map(normalizeRule).sort((a,b) => {
           const A = sortKey(a), B = sortKey(b);
           return A < B ? -1 : A > B ? 1 : 0;
         });
 
-        setStatus(`Loaded ${rules.length} rules`);
-        window._rules = rules; // handy for debugging in the console
-        renderList(rules);
-        renderDetails(rules[0]);
-        // Hide the yellow status bar after first render
-        setTimeout(() => setStatus(''), 800);
+        setStatus(`Loaded ${ALL_RULES.length} rules`);
+        // initial render
+        const initial = applyFilters(ALL_RULES);
+        renderList(initial);
+        if (initial.length) renderDetails(initial[0]);
+        setTimeout(() => setStatus(''), 700);
+
+        // events
+        $('#q').addEventListener('input', () => {
+          const list = applyFilters(ALL_RULES);
+          renderList(list);
+          if (list.length) renderDetails(list[0]); else $('#details').innerHTML = '<div class="empty">No match.</div>';
+        });
+        $('#type').addEventListener('change', () => {
+          const list = applyFilters(ALL_RULES);
+          renderList(list);
+          if (list.length) renderDetails(list[0]); else $('#details').innerHTML = '<div class="empty">No match.</div>';
+        });
+
+        // expose for quick debugging
+        window._rules = ALL_RULES;
+
       }catch(e){
         console.error(e);
         setStatus(`Error: ${e.message}`, true);
-        // Also show a visible error block in the page
-        $('#list').innerHTML = `<div class="err">${escapeHtml(e.message)}</div>`;
+        $('#ruleList').innerHTML = `<div class="err">${escapeHtml(e.message)}</div>`;
+        $('#details').innerHTML = '';
       }
     }
 
