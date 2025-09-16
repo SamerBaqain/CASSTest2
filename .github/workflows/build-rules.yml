@@ -34,15 +34,16 @@ jobs:
         run: |
           echo "PDFs in data/source_pdfs:" && ls -la data/source_pdfs || true
 
-      - name: Extract CASS rules (adjacent-type + paragraph reflow)
+      - name: Extract CASS rules (type-safe + heading/date filters + reflow)
         run: |
           python scripts/extract_rules_from_pdf.py \
-            --left-max-ratio 0.45 \
+            --left-max-ratio 0.46 \
             --right-min-ratio 0.42 \
             --y-tol 3 \
             --type-dx 18 \
             --type-dy 4 \
-            --body-margin 10 \
+            --body-margin 14 \
+            --heading-size-min 11.5 \
             --min-body-len 40 \
             data/source_pdfs/*.pdf \
             --out data/rules.yaml
