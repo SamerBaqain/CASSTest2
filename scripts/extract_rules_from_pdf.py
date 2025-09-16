@@ -1,40 +1,36 @@
 #!/usr/bin/env python3
 """
-CASS extractor (column-aware):
-- Uses PDF coordinates (pdfplumber.extract_words) to treat the page as two columns.
-- LEFT column: "CASS <chapter>.<section>.<rule>" + nearby "R/G" marker
-- RIGHT column: rule body text until the next LEFT anchor (or section banner)
-- Output: unique entries per (id, type) with clean text.
+CASS extractor (anchor-driven, column-aware, custom order + clean display)
 
-If some PDFs are scanned (images), this will produce 0 rules; OCR them first.
+- Finds anchors that look like: "CASS 1.2.2", optionally with "R"/"G" on the line
+  or the next tiny line. Lettered chapters (e.g., 1A) are preserved.
+- For each anchor, collects BODY text from lines whose x0 > (anchor.x1 + body_margin)
+  until the next anchor/section banner.
+- De-duplicates strictly by (id, type).
+- 'type' is "R" for R; everything else -> "G".
+- 'display' is **always** "CASS <id>" (NO R/G suffix).
+- Sort order is: 1, 1A, 3, 5, 6, 7, then anything else.
 """
 
 import argparse, pathlib, re, sys
 from typing import Dict, List, Optional, Tuple
 import pdfplumber, yaml
 
-# ---------- Tunables (can be overridden via CLI) ----------
-LEFT_COL_RATIO_DEFAULT  = 0.33   # everything with x0 < page_width * ratio is LEFT column
-RIGHT_COL_RATIO_DEFAULT = 0.36   # everything with x0 >= page_width * ratio is RIGHT column
-LINE_Y_TOL_DEFAULT      = 3.0    # vertical tolerance to group words into a single line
-TYPE_JOIN_GAP           = 10.0   # max vertical gap (points) to treat next line as the 'R/G' for an anchor
-
 # ---------- Regexes ----------
 RULE_ID_PART = r"(?P<chapter>\d+[A-Z]?)\.(?P<section>\d+)\.(?P<rule>\d+(?:[A-Z]|-[A-Z])?)"
-ANCHOR_RE = re.compile(rf"^\s*CASS\s+{RULE_ID_PART}\s*(?P<typesuf>(?:R|G|E|BG|C))?\s*$")
+ANCHOR_RE = re.compile(rf"^\s*CASS\s+{RULE_ID_PART}(?:\s+(?P<typesuf>R|G|E|BG|C))?\s*$")
 TYPE_ONLY_RE = re.compile(r"^\s*(R|G|E|BG|C)\s*$", re.I)
 SECTION_RE = re.compile(r"^\s*Section\s*:\s*CASS\s+\d+[A-Z]?\.\d+", re.I)
 
-def norm_type(t: Optional[str]) -> Optional[str]:
-    if not t: return None
-    t = t.upper()
-    return "R" if t == "R" else "G"
+# ---------- Normalisation ----------
+def norm_type(t: Optional[str]) -> str:
+    if not t:
+        return "G"
+    return "R" if t.upper() == "R" else "G"
 
-# ---------- Helpers ----------
+# ---------- Line grouping ----------
 def words_to_lines(words: List[dict], y_tol: float) -> List[dict]:
-    """Group words into lines by y (top) with given tolerance; return lines sorted by doctop, then x."""
     if not words: return []
-    # sort by doctop then x0
     words = sorted(words, key=lambda w: (w["doctop"], w["x0"]))
     lines: List[dict] = []
     cur: List[dict] = []
@@ -47,17 +43,14 @@ def words_to_lines(words: List[dict], y_tol: float) -> List[dict]:
         else:
             lines.append(_pack_line(cur))
             cur = [w]; cur_top = top
-    if cur:
-        lines.append(_pack_line(cur))
-    # Sort by doctop (asc)
+    if cur: lines.append(_pack_line(cur))
     lines.sort(key=lambda ln: ln["doctop"])
     return lines
 
 def _pack_line(ws: List[dict]) -> dict:
     ws = sorted(ws, key=lambda w: w["x0"])
-    text = " ".join(w["text"] for w in ws).strip()
     return {
-        "text": text,
+        "text": " ".join(w["text"] for w in ws).strip(),
         "x0": min(w["x0"] for w in ws),
         "x1": max(w["x1"] for w in ws),
         "top": min(w["top"] for w in ws),
@@ -66,79 +59,62 @@ def _pack_line(ws: List[dict]) -> dict:
         "words": ws,
     }
 
-def left_right_words(page, left_ratio: float, right_ratio: float) -> Tuple[List[dict], List[dict], float, float]:
-    W = float(page.width)
-    left_max_x  = W * left_ratio
-    right_min_x = W * right_ratio
-    words = page.extract_words(x_tolerance=1.0, y_tolerance=1.0, keep_blank_chars=False, use_text_flow=True)
-    left_words  = [w for w in words if w["x0"] < left_max_x]
-    right_words = [w for w in words if w["x0"] >= right_min_x]
-    return left_words, right_words, left_max_x, right_min_x
-
-# ---------- Core ----------
-def extract_anchors(pdf, left_ratio: float, y_tol: float) -> List[dict]:
-    """Return list of anchors: [{id, type, doctop, page_index}] plus 'section' boundaries (type=None, id=None)."""
+# ---------- Anchor detection on each page ----------
+def find_anchors(page, y_tol: float, type_gap: float) -> List[dict]:
+    lines = words_to_lines(page.extract_words(use_text_flow=True, keep_blank_chars=False), y_tol)
     anchors: List[dict] = []
-    for pi, page in enumerate(pdf.pages):
-        left_words, _right_words, *_ = left_right_words(page, left_ratio, RIGHT_COL_RATIO_DEFAULT)
-        lines = words_to_lines(left_words, y_tol)
-        i = 0
-        while i < len(lines):
-            ln = lines[i]
-            txt = ln["text"]
-            # Section banner as a boundary
-            if SECTION_RE.match(txt):
-                anchors.append({"kind":"section", "doctop": ln["doctop"], "page": pi})
-                i += 1
-                continue
-            m = ANCHOR_RE.match(txt)
-            if m:
-                gd = m.groupdict()
-                rid = f"{gd['chapter']}.{gd['section']}.{gd['rule']}"
-                typ = norm_type(gd.get("typesuf"))
-                # If no inline type, check the next small line for a solitary R/G/etc.
-                if not typ and (i + 1) < len(lines):
-                    nxt = lines[i+1]
-                    if (nxt["doctop"] - ln["doctop"]) <= TYPE_JOIN_GAP and TYPE_ONLY_RE.match(nxt["text"]):
-                        typ = norm_type(TYPE_ONLY_RE.match(nxt["text"]).group(1))
-                        i += 1  # consume the type line
-                anchors.append({"kind":"rule", "id": rid, "type": typ or "G", "doctop": ln["doctop"], "page": pi})
-            i += 1
-    # sort by doctop
-    anchors.sort(key=lambda a: a["doctop"])
+    i = 0
+    while i < len(lines):
+        ln = lines[i]
+        txt = ln["text"]
+        if SECTION_RE.match(txt):
+            anchors.append({"kind":"section", "doctop": ln["doctop"], "x1": ln["x1"], "page": page.page_number-1})
+            i += 1; continue
+        m = ANCHOR_RE.match(txt)
+        if m:
+            gd = m.groupdict()
+            rid = f"{gd['chapter']}.{gd['section']}.{gd['rule']}"
+            t = gd.get("typesuf")
+            # If no inline type, see if the next tiny line is just a type marker
+            if not t and (i+1) < len(lines):
+                nxt = lines[i+1]
+                if (nxt["doctop"] - ln["doctop"]) <= type_gap and TYPE_ONLY_RE.match(nxt["text"]):
+                    t = TYPE_ONLY_RE.match(nxt["text"]).group(1)
+                    i += 1  # consume that line
+            anchors.append({
+                "kind":"rule", "id": rid, "type": norm_type(t),
+                "doctop": ln["doctop"], "x1": ln["x1"], "page": page.page_number-1
+            })
+        i += 1
     return anchors
 
-def harvest_bodies(pdf, anchors: List[dict], right_ratio: float, y_tol: float) -> Dict[Tuple[str,str], dict]:
-    """Collect right-column text between consecutive anchors; return dict keyed by (id,type)."""
-    # Pre-extract right-side lines for all pages
-    page_right_lines: List[List[dict]] = []
-    for page in pdf.pages:
-        _left, right_words, *_ = left_right_words(page, LEFT_COL_RATIO_DEFAULT, right_ratio)
-        page_right_lines.append(words_to_lines(right_words, y_tol))
+# ---------- Body collection across pages ----------
+def harvest(pdf, anchors: List[dict], body_margin: float, y_tol: float) -> Dict[Tuple[str,str], dict]:
+    # Pre-pack ALL lines per page (once)
+    page_lines = [words_to_lines(p.extract_words(use_text_flow=True, keep_blank_chars=False), y_tol) for p in pdf.pages]
+    out: Dict[Tuple[str,str], dict] = {}
 
-    results: Dict[Tuple[str,str], dict] = {}
-    # Iterate over anchors; for each real rule anchor, gather right-column lines until next anchor
     for idx, anc in enumerate(anchors):
-        if anc.get("kind") != "rule":
+        if anc["kind"] != "rule":
             continue
-        y0 = anc["doctop"]
-        # find next boundary
-        y1 = anchors[idx+1]["doctop"] if idx+1 < len(anchors) else float("inf")
-        # collect right lines with doctop in [y0, y1)
-        body_lines: List[str] = []
-        for pi, lines in enumerate(page_right_lines):
+        start_y = anc["doctop"]
+        end_y = anchors[idx+1]["doctop"] if idx+1 < len(anchors) else float("inf")
+        body: List[str] = []
+
+        # accumulate text from start_y (inclusive) to end_y (exclusive), to the RIGHT of anchor.x1+margin
+        for pi, lines in enumerate(page_lines):
             for ln in lines:
-                if y0 <= ln["doctop"] < y1:
-                    body_lines.append(ln["text"])
-        text = "\n".join(_clean_body(body_lines)).strip()
+                if start_y <= ln["doctop"] < end_y and ln["x0"] > (anc["x1"] + body_margin):
+                    body.append(ln["text"])
+
+        text = "\n".join(_clean_body(body)).strip()
         key = (anc["id"], anc["type"])
-        # keep the longer body if duplicate key reappears
-        prev = results.get(key)
+        prev = out.get(key)
         if not prev or len(text) > len(prev["text"]):
-            chapter = anc["id"].split(".")[0]  # keeps letter (e.g., "1A")
-            results[key] = {
+            chap = anc["id"].split(".")[0]  # preserves letters (e.g., "1A")
+            out[key] = {
                 "id": anc["id"],
-                "chapter": chapter,
+                "chapter": chap,
                 "type": anc["type"],
                 "title": None,
                 "summary": None,
@@ -146,70 +122,75 @@ def harvest_bodies(pdf, anchors: List[dict], right_ratio: float, y_tol: float) -
                 "default_control_ids": [],
                 "applicability_conditions": None,
                 "text": text,
-                "display": f"CASS {anc['id']}{anc['type']}"
+                "display": f"CASS {anc['id']}",   # << NO R/G suffix in display
             }
-    return results
+    return out
 
-DROP_LINES_RE = re.compile(r"^\s*(www\.handbook\.fca\.org\.uk|FCA\s+\d{4}/\d+|Page\s+\d+\s+of\s+\d+)\s*$", re.I)
+DROP_RE = re.compile(r"^\s*(www\.handbook\.fca\.org\.uk|FCA\s+\d{4}/\d+|Page\s+\d+\s+of\s+\d+)\s*$", re.I)
 def _clean_body(lines: List[str]) -> List[str]:
-    out = []
+    # Remove furniture + collapse blank lines
+    tmp = []
     for ln in lines:
-        if not ln.strip(): 
-            # collapse excessive blanks later by joining
-            out.append("")
-            continue
-        if DROP_LINES_RE.match(ln): 
-            continue
-        out.append(ln)
-    # collapse multiple blank lines
-    cleaned: List[str] = []
+        if not ln.strip():
+            tmp.append(""); continue
+        if DROP_RE.match(ln): continue
+        tmp.append(ln)
+    out = []
     last_blank = False
-    for ln in out:
-        blank = (ln.strip()=="")
-        if blank and last_blank:
-            continue
-        cleaned.append(ln)
-        last_blank = blank
-    return cleaned
+    for ln in tmp:
+        blank = (ln.strip() == "")
+        if blank and last_blank: continue
+        out.append(ln); last_blank = blank
+    return out
 
+# ---------- Sorting with your requested order ----------
+CHAPTER_ORDER = ["1", "1A", "3", "5", "6", "7"]  # custom priority
+def sort_key(rec: dict):
+    chap = rec["chapter"]                     # keep letters
+    # priority: custom order, else large index to push to end
+    try:
+        chap_idx = CHAPTER_ORDER.index(chap)
+    except ValueError:
+        # fallback: after the custom ones, natural by numeric+letter
+        chap_idx = 99
+    # within chapter, sort section and rule (numeric then suffix)
+    a,b,c = rec["id"].split(".")
+    sec = int(b)
+    rule_num = int("".join(ch for ch in c if ch.isdigit()) or 0)
+    rule_suf = "".join(ch for ch in c if not ch.isdigit())
+    # R rows first within the same clause
+    t_rank = 0 if rec["type"] == "R" else 1
+    return (chap_idx, a, sec, rule_num, rule_suf, t_rank)
+
+# ---------- CLI ----------
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("pdfs", nargs="+", help="Path(s) to CASS PDFs")
     ap.add_argument("--out", default="data/rules.yaml", help="Output YAML path")
-    ap.add_argument("--left-col", type=float, default=LEFT_COL_RATIO_DEFAULT, help="Left column x-ratio (default 0.33)")
-    ap.add_argument("--right-col", type=float, default=RIGHT_COL_RATIO_DEFAULT, help="Right column x-ratio (default 0.36)")
-    ap.add_argument("--line-y-tol", type=float, default=LINE_Y_TOL_DEFAULT, help="Y tolerance for line grouping")
+    ap.add_argument("--y-tol", type=float, default=3.0, help="Y tolerance for building lines")
+    ap.add_argument("--type-gap", type=float, default=10.0, help="Max vertical gap to pick solitary R/G line")
+    ap.add_argument("--body-margin", type=float, default=6.0, help="Points to the right of the anchor.x1 to treat as body")
     args = ap.parse_args()
 
     all_entries: Dict[Tuple[str,str], dict] = {}
-
     for p in args.pdfs:
         path = pathlib.Path(p)
         if not path.exists():
             print(f"[warn] missing {path}", file=sys.stderr); continue
-        print(f"[info] reading {path}", file=sys.stderr)
         with pdfplumber.open(str(path)) as pdf:
-            anchors = extract_anchors(pdf, args.left_col, args.line_y_tol)
-            if not anchors:
-                print(f"[warn] no anchors detected in {path}", file=sys.stderr)
-            bodies = harvest_bodies(pdf, anchors, args.right_col, args.line_y_tol)
-            for k,v in bodies.items():
+            # find anchors across document
+            anchors = []
+            for page in pdf.pages:
+                anchors += find_anchors(page, args.y_tol, args.type_gap)
+            anchors.sort(key=lambda a: a["doctop"])
+            bodies = harvest(pdf, anchors, args.body_margin, args.y_tol)
+            # merge preferring longer bodies
+            for k, v in bodies.items():
                 cur = all_entries.get(k)
                 if not cur or len(v["text"]) > len(cur["text"]):
                     all_entries[k] = v
 
-    items = list(all_entries.values())
-    # stable sort: chapter (numeric then letter), section, rule (numeric then suffix), type (R before G)
-    def sort_key(r):
-        chapter = r["chapter"]
-        chap_num = int("".join(c for c in chapter if c.isdigit()) or 0)
-        chap_suf = "".join(c for c in chapter if c.isalpha())
-        a,b,c = r["id"].split(".")
-        rule_num = int("".join(ch for ch in c if ch.isdigit()) or 0)
-        rule_suf = "".join(ch for ch in c if not ch.isdigit())
-        t_rank = 0 if r["type"]=="R" else 1
-        return (chap_num, chap_suf, int(b), rule_num, rule_suf, t_rank)
-    items.sort(key=sort_key)
+    items = sorted(all_entries.values(), key=sort_key)
 
     out_path = pathlib.Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
