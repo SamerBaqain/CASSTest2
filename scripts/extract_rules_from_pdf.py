@@ -2,13 +2,15 @@
 """
 CASS extractor — per-page column detection (largest x0 gap), type-safe anchors,
 strip leading anchor prefix from fused lines, keep first real sentence,
-ignore headings/footers, robust page boundaries, paragraph reflow, de-dup, stable sort.
+ignore headings/footers, robust page boundaries with end-slack,
+paragraph reflow, de-dup, stable sort.
 
 Run:
   python scripts/extract_rules_from_pdf.py \
     --left-max-ratio 0.46 --right-min-ratio 0.42 \
     --y-tol 3 --type-dx 18 --type-dy 4 \
-    --body-margin 14 --start-slack 8 --heading-size-min 12 --min-body-len 40 \
+    --body-margin 14 --start-slack 8 --end-slack 22 \
+    --heading-size-min 12 --min-body-len 40 \
     data/source_pdfs/*.pdf --out docs/data/rules.yaml
 """
 
@@ -151,19 +153,16 @@ LIST_START_RE = re.compile(r"""^(
 )$""", re.I | re.X)
 
 def reflow_paragraphs_from_lines(lines: List[dict]) -> str:
-    # sanitize and drop furniture
     cleaned = []
     for ln in lines:
         t = ln["text"]
-        if should_drop_line_text(t):  # includes full-line anchors & furniture
+        if should_drop_line_text(t):
             continue
-        # also remove a *leading* anchor prefix if fused with body
-        t2 = strip_leading_anchor_prefix(t)
+        t2 = strip_leading_anchor_prefix(t)  # drop fused "CASS n.n.n R " at start
         if not t2:
             continue
         cleaned.append(t2)
 
-    # collapse duplicate blank lines
     tmp, last_blank = [], False
     for s in cleaned:
         if not s.strip():
@@ -284,7 +283,7 @@ def looks_like_heading_block_start(lines: List[dict], heading_size_min: float) -
 
 # ------------------ harvesting ------------------
 def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, right_min_ratio: float,
-                   heading_size_min: float, min_body_len: int, start_slack: float) -> Dict[Tuple[str,str], dict]:
+                   heading_size_min: float, min_body_len: int, start_slack: float, end_slack: float) -> Dict[Tuple[str,str], dict]:
     out: Dict[Tuple[str,str], dict] = {}
 
     page_lines = [words_to_lines(words_sorted(p), y_tol) for p in pdf.pages]
@@ -299,72 +298,63 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
         else:
             end_page, end_y = start_page, float("inf")
 
-        # start page candidates (allow slightly beyond next anchor; drop fused next-anchor line)
+        # ---------- start page ----------
         start_candidates = []
         start_cut = start_y - (y_tol / 2.0)
-        stop_cut  = (end_y + y_tol) if end_page == start_page else float("inf")  # include near-anchor lines
+        stop_cut  = (end_y + end_slack) if end_page == start_page else float("inf")
         col0 = right_x0[start_page]
 
         for ln in page_lines[start_page]:
             if ln["doctop"] < start_cut: continue
             if ln["doctop"] >= stop_cut: break
-
-            # require presence on the right column (but allow tiny overlap)
-            if ln["x0"] < col0 - start_slack and ln["x1"] < col0 + 2:
+            if ln["x0"] < col0 - start_slack and ln["x1"] < col0 + 2:  # left gutter
                 continue
 
             t = ln["text"]
             if should_drop_line_text(t):
                 continue
 
-            # if this line is at the next-anchor baseline and starts with an anchor prefix,
-            # it's the *next* rule's first line: exclude it from this rule
+            # Next rule's fused first line at the anchor: skip and stop for this page.
             if end_page == start_page and abs(ln["doctop"] - end_y) <= (y_tol * 1.25) and ANCHOR_PREFIX_RE.match(t):
-                continue
+                break
 
-            # remove leading anchor prefix if fused with this rule's id (defensive)
             t2 = strip_leading_anchor_prefix(t)
             if not t2:
                 continue
-            ln2 = dict(ln)
-            ln2["text"] = t2
+            ln2 = dict(ln); ln2["text"] = t2
             start_candidates.append(ln2)
 
-        # find first real body line (skip a small heading block only)
         s_idx = looks_like_heading_block_start(start_candidates, heading_size_min)
         raw_lines: List[dict] = start_candidates[s_idx:]
 
-        # spill pages with per-page right column
+        # ---------- spill pages ----------
         if end_page > start_page:
             for p in range(start_page + 1, end_page):
                 col = right_x0[p]
                 for ln in page_lines[p]:
-                    if ln["x0"] < col - 2 and ln["x1"] < col + 2:
+                    if ln["x0"] < col - 2 and ln["x1"] < col + 2: 
                         continue
                     t = ln["text"]
-                    if should_drop_line_text(t):
+                    if should_drop_line_text(t): 
                         continue
-                    ln2 = dict(ln)
-                    ln2["text"] = strip_leading_anchor_prefix(t)
+                    ln2 = dict(ln); ln2["text"] = strip_leading_anchor_prefix(t)
                     if not ln2["text"]:
                         continue
                     raw_lines.append(ln2)
 
-            # end page chunk — stop after we pass the next anchor by a small tolerance
+            # end page chunk — include up to end_y + end_slack; stop if we hit the next fused first line
             col_end = right_x0[end_page]
             for ln in page_lines[end_page]:
-                if ln["doctop"] >= (end_y + y_tol): break
+                if ln["doctop"] >= (end_y + end_slack): break
                 if ln["x0"] < col_end - 2 and ln["x1"] < col_end + 2: continue
 
                 t = ln["text"]
                 if should_drop_line_text(t): continue
 
-                # exclude the next rule's fused first line from this rule
                 if abs(ln["doctop"] - end_y) <= (y_tol * 1.25) and ANCHOR_PREFIX_RE.match(t):
-                    continue
+                    break  # do not include next rule first line; stop here
 
-                ln2 = dict(ln)
-                ln2["text"] = strip_leading_anchor_prefix(t)
+                ln2 = dict(ln); ln2["text"] = strip_leading_anchor_prefix(t)
                 if not ln2["text"]:
                     continue
                 raw_lines.append(ln2)
@@ -407,7 +397,7 @@ def sort_key(rec: dict):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("pdfs", nargs="+", help="CASS PDF(s)")
-    ap.add_argument("--out", default="data/rules.yaml", help="Output YAML")
+    ap.add_argument("--out", default="docs/data/rules.yaml", help="Output YAML")
     ap.add_argument("--left-max-ratio", type=float, default=0.46)
     ap.add_argument("--right-min-ratio", type=float, default=0.42)
     ap.add_argument("--y-tol", type=float, default=3.0)
@@ -415,6 +405,7 @@ def main():
     ap.add_argument("--type-dy", type=float, default=4.0)
     ap.add_argument("--body-margin", type=float, default=14.0)
     ap.add_argument("--start-slack", type=float, default=8.0)
+    ap.add_argument("--end-slack", type=float, default=22.0)  # <- NEW
     ap.add_argument("--heading-size-min", type=float, default=12.0)
     ap.add_argument("--min-body-len", type=int, default=40)
     args = ap.parse_args()
@@ -432,7 +423,7 @@ def main():
                 print(f"[warn] no anchors found in {path}", file=sys.stderr)
             bodies = harvest_bodies(
                 pdf, anchors, args.y_tol, args.body_margin, args.right_min_ratio,
-                args.heading_size_min, args.min_body_len, args.start_slack
+                args.heading_size_min, args.min_body_len, args.start_slack, args.end_slack
             )
             for k,v in bodies.items():
                 cur = all_entries.get(k)
