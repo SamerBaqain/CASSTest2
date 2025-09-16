@@ -5,7 +5,6 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-# Needed so the job can commit the generated YAML back to the repo
 permissions:
   contents: write
 
@@ -27,20 +26,14 @@ jobs:
       - name: Install dependencies (PyMuPDF + PyYAML)
         run: |
           python -m pip install --upgrade pip
-          # Install PyMuPDF (module name "fitz"); use prebuilt wheels
           pip install --only-binary=:all: "pymupdf==1.24.9" pyyaml
-          python - << 'PY'
-import fitz, sys
-print("PyMuPDF OK:", fitz.__doc__.splitlines()[0], file=sys.stderr)
-PY
+          python -c "import fitz,sys; print('PyMuPDF OK', fitz.__doc__.splitlines()[0], file=sys.stderr)"
 
       - name: Generate docs/data/rules.yaml
         run: |
-          # Adjust the input glob if your PDFs live elsewhere
           python scripts/extract_rules_from_pdf.py data/source_pdfs/*.pdf --out docs/data/rules.yaml
-          echo "Preview:"
           ls -la docs/data || true
-          head -n 40 docs/data/rules.yaml || true
+          head -n 30 docs/data/rules.yaml || true
 
       - name: Commit rules.yaml (if changed)
         run: |
