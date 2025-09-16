@@ -8,10 +8,10 @@
   <style>
     :root{
       --border:#eaeaea; --muted:#666; --bg:#fafafa; --chip-r:#fdecea; --chip-g:#eef7ee;
-      --headerH:52px; --statusH:0px; --leftW:320px;
+      --headerH:52px; --statusH:0px; --leftW:260px; --handleW:6px;
     }
     *{box-sizing:border-box}
-    body{margin:0; font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:#111; background:#fff}
+    body{margin:0; font:14px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:#111}
     header{display:flex; gap:12px; align-items:center; padding:12px 16px; border-bottom:1px solid var(--border); height:var(--headerH)}
     header h1{font-size:16px; margin:0; font-weight:700}
     .controls{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-left:auto}
@@ -19,24 +19,34 @@
     button{cursor:pointer}
 
     #status{display:none; padding:8px 16px; border-bottom:1px solid var(--border)}
-    #wrap{display:grid; grid-template-columns: var(--leftW) 1fr; height: calc(100vh - var(--headerH) - var(--statusH));}
+    /* grid: left rail | handle | details; both panes scroll independently */
+    #wrap{
+      display:grid;
+      grid-template-columns: var(--leftW) var(--handleW) 1fr;
+      height: calc(100vh - var(--headerH) - var(--statusH));
+    }
 
     /* LEFT rail uses grid so the list has its own scrollbar */
-    #left{border-right:1px solid var(--border); display:grid; grid-template-rows: auto auto auto 1fr; min-height:0}
-    #railHeader{display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-bottom:1px solid var(--border); background:#fff}
-    #questionnaire{padding:12px; border-bottom:1px solid var(--border); background:#fff}
+    #left{border-right:1px solid var(--border); display:grid; grid-template-rows:auto auto auto 1fr; min-height:0; background:#fff}
+    #railHeader{display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-bottom:1px solid var(--border)}
+    #questionnaire{padding:12px; border-bottom:1px solid var(--border)}
     #questionnaire h3{margin:0 0 8px; font-size:14px}
     #qgrid{display:grid; grid-template-columns: 1fr 120px; gap:8px; align-items:center}
     #qgrid label{font-size:.92rem}
     #qgrid select{width:120px}
     #applyBtn{margin-top:8px; padding:6px 10px; border:1px solid var(--border); border-radius:6px; background:#f6f6f6}
 
-    #filters{padding:10px 12px; border-bottom:1px solid var(--border); background:#fff; display:flex; flex-wrap:wrap; gap:8px; align-items:center}
-    #count{font-size:.85rem; color:var(--muted); padding:8px 12px; border-bottom:1px solid var(--border); background:#fff}
-    #ruleList{overflow:auto; background:#fff; min-height:0}
+    #filters{padding:10px 12px; border-bottom:1px solid var(--border); color:var(--muted)}
+    #count{font-size:.85rem; color:var(--muted)}
+    #ruleList{overflow:auto; min-height:0}
 
-    #right{overflow:auto; min-height:0}
-    #details{padding:24px 28px; max-width: 1100px; margin: 0 auto}
+    /* resizer handle */
+    #handle{cursor:col-resize; background:linear-gradient(90deg,#f6f6f6,#e9e9e9); border-right:1px solid var(--border)}
+    #handle::after{content:''; display:block; height:100%; width:2px; margin:0 auto; background:#dcdcdc}
+
+    /* RIGHT pane scrolls details only */
+    #right{overflow:auto; min-height:0; background:#fff}
+    #details{padding:26px 30px; max-width:1100px; margin:0 auto}
 
     .rule{padding:10px 12px; border-bottom:1px solid var(--border); cursor:pointer}
     .rule:hover{background:var(--bg)}
@@ -44,14 +54,15 @@
     .chip{display:inline-block;margin-left:8px;font-size:.72rem;padding:2px 6px;border-radius:999px;background:#eee}
     .chip-r{background:var(--chip-r)}
     .chip-g{background:var(--chip-g)}
-    #details p{white-space:normal; line-height:1.6; margin:0 0 1rem; font-size:15px}
+    #details p{white-space:normal; line-height:1.65; margin:0 0 1rem; font-size:15px}
     .muted{color:var(--muted)}
     .err{background:#ffe9e9; border:1px solid #ffcdcd; color:#8a0000; padding:10px 12px; margin:8px 16px}
     .empty{padding:12px; color:var(--muted)}
 
     @media (max-width: 980px){
       :root{ --leftW: 100% }
-      #wrap{grid-template-columns:1fr}
+      #wrap{grid-template-columns: 1fr}
+      #handle{display:none}
       #left{border-right:0}
     }
   </style>
@@ -72,7 +83,7 @@
       <label style="display:flex;align-items:center;gap:6px">
         <input id="onlyApplicable" type="checkbox"/> Only applicable
       </label>
-      <button id="toggleRail" title="Collapse/expand list">⌇ Toggle list</button>
+      <button id="collapseBtn" title="Collapse/expand list">⌇ Toggle list</button>
     </div>
   </header>
 
@@ -82,7 +93,7 @@
     <div id="left">
       <div id="railHeader">
         <div style="font-weight:600">Rules</div>
-        <div id="count" class="muted">Loading…</div>
+        <div id="count">Loading…</div>
       </div>
 
       <div id="questionnaire">
@@ -113,9 +124,11 @@
         <div class="muted" style="margin-top:6px">Answers save locally and drive “Only applicable”.</div>
       </div>
 
-      <div id="filters" class="muted">Use the search and filters in the top bar.</div>
+      <div id="filters" class="muted">Use search and filters in the top bar.</div>
       <div id="ruleList"></div>
     </div>
+
+    <div id="handle" title="Drag to resize the list"></div>
 
     <div id="right">
       <div id="details"></div>
@@ -127,18 +140,7 @@
     const CH_ORDER = ['1','1A','3','5','6','7'];
     const $ = s => document.querySelector(s);
 
-    // rail toggle
-    function setRailCollapsed(collapsed){
-      const w = collapsed ? '0px' : (localStorage.getItem('cass_leftW') || '320px');
-      document.documentElement.style.setProperty('--leftW', w);
-      localStorage.setItem('cass_rail_collapsed', collapsed ? '1' : '0');
-      $('#toggleRail').textContent = collapsed ? '☰ Show list' : '⌇ Toggle list';
-    }
-    function setRailWidth(px){
-      document.documentElement.style.setProperty('--leftW', px + 'px');
-      localStorage.setItem('cass_leftW', px + 'px');
-    }
-
+    // status
     function setStatus(msg, isError=false){
       const el = $('#status');
       if (!msg){ el.style.display='none'; el.textContent=''; document.documentElement.style.setProperty('--statusH', '0px'); return; }
@@ -148,6 +150,27 @@
       el.style.color = isError ? '#8a0000' : '#111';
       document.documentElement.style.setProperty('--statusH', el.offsetHeight + 'px');
     }
+
+    // resizer
+    function setLeftWidth(px){
+      const min=180, max=Math.min(window.innerWidth-220, 600);
+      const w = Math.max(min, Math.min(max, px));
+      document.documentElement.style.setProperty('--leftW', w+'px');
+      localStorage.setItem('cass_leftW', w+'px');
+    }
+    (function wireResizer(){
+      const saved = localStorage.getItem('cass_leftW'); if(saved) document.documentElement.style.setProperty('--leftW', saved);
+      const h = $('#handle');
+      let drag=false, startX=0, startW=0;
+      h.addEventListener('mousedown', e => { drag=true; startX=e.clientX; startW=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--leftW')); document.body.style.userSelect='none'; });
+      window.addEventListener('mousemove', e => { if(!drag) return; setLeftWidth(startW + (e.clientX - startX)); });
+      window.addEventListener('mouseup', ()=>{ drag=false; document.body.style.userSelect=''; });
+      $('#collapseBtn').addEventListener('click', ()=>{
+        const cur = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--leftW'));
+        if (cur>0) { localStorage.setItem('cass_prev_leftW', cur+'px'); setLeftWidth(0); }
+        else { setLeftWidth(parseInt(localStorage.getItem('cass_prev_leftW')||'260')); }
+      });
+    })();
 
     function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
     function textToHtml(text){
@@ -252,11 +275,6 @@
     let ALL_RULES=[];
     async function init(){
       try{
-        // restore rail state
-        const collapsed = localStorage.getItem('cass_rail_collapsed')==='1';
-        setRailCollapsed(collapsed);
-        $('#toggleRail').addEventListener('click', ()=> setRailCollapsed(localStorage.getItem('cass_rail_collapsed')!=='1' ));
-
         // questionnaire restore
         const f=getFirm();
         $('#q-uk').value=f.uk; $('#q-cm').value=f.cm; $('#q-custody').value=f.custody; $('#q-debt').value=f.debt; $('#q-ins').value=f.ins; $('#q-pi').value=f.pi; $('#q-emi').value=f.emi;
@@ -289,8 +307,8 @@
       }catch(e){
         console.error(e);
         setStatus(`Error: ${e.message}`, true);
-        $('#ruleList').innerHTML = `<div class="err">${e.message}</div>`;
-        $('#details').innerHTML = '';
+        document.getElementById('ruleList').innerHTML = `<div class="err">${e.message}</div>`;
+        document.getElementById('details').innerHTML = '';
       }
     }
 
