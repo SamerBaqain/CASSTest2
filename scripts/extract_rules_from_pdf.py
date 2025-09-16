@@ -2,19 +2,16 @@
 """
 CASS extractor (PyMuPDF edition)
 
-Key ideas
-- Use PyMuPDF (fitz) blocks/lines/spans (stable layout).
-- Find left-gutter anchors: "CASS <chapter>.<section>.<rule> [R|G]".
-- For each anchor band (anchor -> next anchor), harvest only right-column lines.
-- Robust boundaries:
-    - Start at anchor baseline (allowing tiny overlap).
-    - End at (next_anchor_y + end_slack), but skip the next rule’s fused first line.
-- Keep first real sentence (skip short heading block only).
-- Strip leading anchor prefix from any fused first line.
-- Ignore headers/footers/furniture; de-hyphen; paragraph reflow.
-- De-duplicate (id,type) and sort in chapter order.
+- Uses PyMuPDF blocks/lines/spans (stable layout)
+- Finds left-gutter anchors: "CASS <chapter>.<section>.<rule> [R|G]"
+- Harvests only right-column lines from each anchor to the next (with end slack)
+- Strips any *leading* "CASS n.n.n R/G " prefix if fused to the first body line
+- Keeps first real sentence (skips only tiny heading block)
+- Ignores headers/footers/furniture
+- Reflows lines (de-hyphen, bullets) into paragraphs
+- De-dups by (id,type) and sorts by chapter order 1, 1A, 3, 5, 6, 7
 
-Run:
+Usage:
   python scripts/extract_rules_from_pdf.py data/source_pdfs/*.pdf --out docs/data/rules.yaml
 """
 
@@ -38,7 +35,6 @@ FOOTER_DATE = re.compile(
     r"\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+20\d{2}\b",
     re.I,
 )
-
 DROP_HINTS = [
     "Actions for damages",
     "Section 138D",
@@ -429,4 +425,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
