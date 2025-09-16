@@ -8,7 +8,7 @@
   <style>
     :root{
       --border:#eaeaea; --muted:#666; --bg:#fafafa; --chip-r:#fdecea; --chip-g:#eef7ee;
-      --headerH:52px; --statusH:0px;
+      --headerH:52px; --statusH:0px; --leftW:320px;
     }
     *{box-sizing:border-box}
     body{margin:0; font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:#111; background:#fff}
@@ -16,27 +16,27 @@
     header h1{font-size:16px; margin:0; font-weight:700}
     .controls{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-left:auto}
     input[type="search"], select{padding:6px 10px; border:1px solid var(--border); border-radius:6px; background:#fff}
+    button{cursor:pointer}
 
     #status{display:none; padding:8px 16px; border-bottom:1px solid var(--border)}
-    /* two independent scroll panes, full height */
-    #wrap{display:grid; grid-template-columns: 420px 1fr; height: calc(100vh - var(--headerH) - var(--statusH));}
+    #wrap{display:grid; grid-template-columns: var(--leftW) 1fr; height: calc(100vh - var(--headerH) - var(--statusH));}
 
-    /* LEFT pane grid: questionnaire + filters + count + SCROLLING list */
+    /* LEFT rail uses grid so the list has its own scrollbar */
     #left{border-right:1px solid var(--border); display:grid; grid-template-rows: auto auto auto 1fr; min-height:0}
+    #railHeader{display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-bottom:1px solid var(--border); background:#fff}
     #questionnaire{padding:12px; border-bottom:1px solid var(--border); background:#fff}
     #questionnaire h3{margin:0 0 8px; font-size:14px}
     #qgrid{display:grid; grid-template-columns: 1fr 120px; gap:8px; align-items:center}
     #qgrid label{font-size:.92rem}
     #qgrid select{width:120px}
-    #applyBtn{margin-top:8px; padding:6px 10px; border:1px solid var(--border); border-radius:6px; background:#f6f6f6; cursor:pointer}
+    #applyBtn{margin-top:8px; padding:6px 10px; border:1px solid var(--border); border-radius:6px; background:#f6f6f6}
 
     #filters{padding:10px 12px; border-bottom:1px solid var(--border); background:#fff; display:flex; flex-wrap:wrap; gap:8px; align-items:center}
     #count{font-size:.85rem; color:var(--muted); padding:8px 12px; border-bottom:1px solid var(--border); background:#fff}
     #ruleList{overflow:auto; background:#fff; min-height:0}
 
-    /* RIGHT pane scrolls details only */
     #right{overflow:auto; min-height:0}
-    #details{padding:18px}
+    #details{padding:24px 28px; max-width: 1100px; margin: 0 auto}
 
     .rule{padding:10px 12px; border-bottom:1px solid var(--border); cursor:pointer}
     .rule:hover{background:var(--bg)}
@@ -44,11 +44,16 @@
     .chip{display:inline-block;margin-left:8px;font-size:.72rem;padding:2px 6px;border-radius:999px;background:#eee}
     .chip-r{background:var(--chip-r)}
     .chip-g{background:var(--chip-g)}
-    #details p{white-space:normal; line-height:1.55; margin:0 0 .9rem}
+    #details p{white-space:normal; line-height:1.6; margin:0 0 1rem; font-size:15px}
     .muted{color:var(--muted)}
     .err{background:#ffe9e9; border:1px solid #ffcdcd; color:#8a0000; padding:10px 12px; margin:8px 16px}
     .empty{padding:12px; color:var(--muted)}
-    @media (max-width: 980px){ #wrap{grid-template-columns:1fr} #left{border-right:0} }
+
+    @media (max-width: 980px){
+      :root{ --leftW: 100% }
+      #wrap{grid-template-columns:1fr}
+      #left{border-right:0}
+    }
   </style>
 </head>
 <body>
@@ -62,11 +67,12 @@
         <option value="G">Type: Guidance (G)</option>
       </select>
       <select id="chapter">
-        <option value="">Chapter: All</option><!-- populated at runtime -->
+        <option value="">Chapter: All</option>
       </select>
       <label style="display:flex;align-items:center;gap:6px">
         <input id="onlyApplicable" type="checkbox"/> Only applicable
       </label>
+      <button id="toggleRail" title="Collapse/expand list">⌇ Toggle list</button>
     </div>
   </header>
 
@@ -74,6 +80,11 @@
 
   <div id="wrap">
     <div id="left">
+      <div id="railHeader">
+        <div style="font-weight:600">Rules</div>
+        <div id="count" class="muted">Loading…</div>
+      </div>
+
       <div id="questionnaire">
         <h3>Questionnaire (drives applicability)</h3>
         <div id="qgrid">
@@ -102,8 +113,7 @@
         <div class="muted" style="margin-top:6px">Answers save locally and drive “Only applicable”.</div>
       </div>
 
-      <div id="filters"></div>
-      <div id="count">Loading…</div>
+      <div id="filters" class="muted">Use the search and filters in the top bar.</div>
       <div id="ruleList"></div>
     </div>
 
@@ -115,8 +125,19 @@
   <script>
   (function(){
     const CH_ORDER = ['1','1A','3','5','6','7'];
+    const $ = s => document.querySelector(s);
 
-    const $  = s => document.querySelector(s);
+    // rail toggle
+    function setRailCollapsed(collapsed){
+      const w = collapsed ? '0px' : (localStorage.getItem('cass_leftW') || '320px');
+      document.documentElement.style.setProperty('--leftW', w);
+      localStorage.setItem('cass_rail_collapsed', collapsed ? '1' : '0');
+      $('#toggleRail').textContent = collapsed ? '☰ Show list' : '⌇ Toggle list';
+    }
+    function setRailWidth(px){
+      document.documentElement.style.setProperty('--leftW', px + 'px');
+      localStorage.setItem('cass_leftW', px + 'px');
+    }
 
     function setStatus(msg, isError=false){
       const el = $('#status');
@@ -125,24 +146,18 @@
       el.textContent = msg;
       el.style.background = isError ? '#ffe9e9' : '#fff7d6';
       el.style.color = isError ? '#8a0000' : '#111';
-      // let layout know how tall the status bar is
       document.documentElement.style.setProperty('--statusH', el.offsetHeight + 'px');
     }
 
-    function escapeHtml(s){
-      return (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-    }
-
+    function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
     function textToHtml(text){
       if (!text) return '<p class="muted">No text.</p>';
       const paras = String(text).split(/\n{2,}/).map(p => p.replace(/\n/g,' ').trim()).filter(Boolean);
       return paras.map(p => `<p>${escapeHtml(p)}</p>`).join('');
     }
 
-    // Normalize one rule object
     function normalizeRule(r){
       r = r || {};
-      // If id ends with R/G, move into type
       const m = /^(\d+[A-Z]?\.\d+\.\d+(?:-[A-Z]|[A-Z])?)(R|G)$/.exec(r.id || '');
       if (m && !r.type){ r.id = m[1]; r.type = m[2]; }
       r.type = (r.type === 'R') ? 'R' : 'G';
@@ -153,217 +168,129 @@
       return r;
     }
 
-    // --- robust natural sort for CASS ids ---
     function splitCassId(id){
       const m = /^(\d+)([A-Z]?)[.](\d+)[.](\d+)([A-Z]|-[A-Z])?$/.exec(id || '');
       if (!m) return {chapNum:0, chapAlt:'', sec:0, ruleNum:0, ruleAlt:''};
-      return {
-        chapNum: parseInt(m[1],10)||0,
-        chapAlt: m[2]||'',
-        sec:     parseInt(m[3],10)||0,
-        ruleNum: parseInt(m[4],10)||0,
-        ruleAlt: m[5]||''
-      };
+      return { chapNum:+m[1]||0, chapAlt:m[2]||'', sec:+m[3]||0, ruleNum:+m[4]||0, ruleAlt:m[5]||'' };
     }
-    function ruleAltRank(s){
-      if (!s) return [0,0];
-      if (s[0] === '-') return [2, s.charCodeAt(1)||0];
-      return [1, s.charCodeAt(0)||0];
-    }
-    function chapterRank(chNum, chAlt){
-      const code = String(chNum) + (chAlt||'');
-      const i = CH_ORDER.indexOf(code);
-      if (i !== -1) return [i, chNum, chAlt||''];
-      return [99, chNum, chAlt||''];
-    }
+    function ruleAltRank(s){ if (!s) return [0,0]; return s[0]==='-' ? [2, s.charCodeAt(1)||0] : [1, s.charCodeAt(0)||0]; }
+    function chapterRank(n, a){ const code=String(n)+(a||''); const i=CH_ORDER.indexOf(code); return i!==-1?[i,n,a||'']:[99,n,a||'']; }
     function sortKey(rule){
-      const p = splitCassId(rule.id || '0.0.0');
-      const ch = chapterRank(p.chapNum, p.chapAlt);
-      const alt = ruleAltRank(p.ruleAlt);
-      const typeRank = rule.type === 'R' ? 0 : 1;
+      const p=splitCassId(rule.id||'0.0.0'), ch=chapterRank(p.chapNum,p.chapAlt), alt=ruleAltRank(p.ruleAlt), typeRank=rule.type==='R'?0:1;
       return [ch[0], ch[1], ch[2], p.sec, p.ruleNum, alt[0], alt[1], typeRank];
     }
-    function cmpKey(A, B){
-      for (let i = 0; i < Math.max(A.length, B.length); i++){
-        const a = A[i] ?? 0, b = B[i] ?? 0;
-        if (a < b) return -1;
-        if (a > b) return 1;
-      }
-      return 0;
-    }
+    function cmpKey(A,B){ for(let i=0;i<Math.max(A.length,B.length);i++){ const a=A[i]??0,b=B[i]??0; if(a<b)return -1; if(a>b)return 1;} return 0; }
 
     async function loadYamlArray(path){
       const res = await fetch(path, {cache:'no-store'});
       if (!res.ok) throw new Error(`HTTP ${res.status} for ${path}`);
-      const txt = await res.text();
-      let y; try{ y = jsyaml.load(txt); } catch(e){ throw new Error(`YAML parse failed: ${e.message}`); }
+      const txt = await res.text(); let y;
+      try{ y = jsyaml.load(txt); } catch(e){ throw new Error(`YAML parse failed: ${e.message}`); }
       if (Array.isArray(y)) return y;
       if (y && Array.isArray(y.rules)) return y.rules;
       if (y && Array.isArray(y.items)) return y.items;
       return [];
     }
 
-    // ---- firm state & applicability (simple defaults; replace with YAML mapping later) ----
-    function getFirm(){
-      const o = JSON.parse(localStorage.getItem('cass_firm') || '{}');
-      return { uk:o.uk||'', cm:o.cm||'', custody:o.custody||'', debt:o.debt||'', ins:o.ins||'', pi:o.pi||'', emi:o.emi||'' };
-    }
+    // Firm state & applicability (simple defaults)
+    function getFirm(){ const o=JSON.parse(localStorage.getItem('cass_firm')||'{}'); return {uk:o.uk||'',cm:o.cm||'',custody:o.custody||'',debt:o.debt||'',ins:o.ins||'',pi:o.pi||'',emi:o.emi||''}; }
     function saveFirm(f){ localStorage.setItem('cass_firm', JSON.stringify(f)); }
-    const yes = v => v === 'yes';
+    const yes=v=>v==='yes';
     function isApplicable(rule, firm){
-      const ch = rule.chapter;
-      if (ch === '7' || ch === '7A') return yes(firm.cm);
-      if (ch === '6')              return yes(firm.custody);
-      if (ch === '11')             return yes(firm.debt);
-      if (ch === '5')              return yes(firm.ins) || yes(firm.cm);
-      return true; // frameworks etc.
+      const ch=rule.chapter;
+      if (ch==='7'||ch==='7A') return yes(firm.cm);
+      if (ch==='6') return yes(firm.custody);
+      if (ch==='11') return yes(firm.debt);
+      if (ch==='5') return yes(firm.ins)||yes(firm.cm);
+      return true;
     }
 
     function renderList(list){
-      const wrap = $('#ruleList');
-      wrap.innerHTML = '';
-      if (!list.length){
-        $('#count').textContent = '0 rules';
-        wrap.innerHTML = '<div class="empty">No results.</div>';
-        $('#details').innerHTML = '<div class="muted">Select a rule to view details.</div>';
-        return;
-      }
+      const wrap = $('#ruleList'); wrap.innerHTML='';
       $('#count').textContent = `${list.length} rule${list.length===1?'':'s'}`;
-      list.forEach((r, i) => {
-        const div = document.createElement('div');
-        div.className = 'rule';
-        div.dataset.idx = i;
-        div.innerHTML = `
-          <strong>${escapeHtml(r.display)}</strong>${r.title ? ' — ' + escapeHtml(r.title) : ''}
-          <span class="chip ${r.type==='R'?'chip-r':'chip-g'}">${r.type}</span>`;
-        div.onclick = () => renderDetails(r);
-        wrap.appendChild(div);
+      if (!list.length){
+        wrap.innerHTML = '<div class="empty">No results.</div>';
+        $('#details').innerHTML = '<div class="muted">Select a rule to view details.</div>'; return;
+      }
+      list.forEach(r=>{
+        const div=document.createElement('div'); div.className='rule';
+        div.innerHTML=`<strong>${escapeHtml(r.display)}</strong>${r.title?' — '+escapeHtml(r.title):''}
+                       <span class="chip ${r.type==='R'?'chip-r':'chip-g'}">${r.type}</span>`;
+        div.onclick=()=>renderDetails(r); wrap.appendChild(div);
       });
     }
     function renderDetails(rule){
-      const panel = $('#details');
-      panel.innerHTML = `
-        <h3 style="margin:0 0 10px">${escapeHtml(rule.display)}${rule.title ? ' — ' + escapeHtml(rule.title) : ''}</h3>
-        ${textToHtml(rule.text)}
-      `;
-      // Only the right pane scrolls to top; the list keeps its scroll position
-      $('#right').scrollTop = 0;
+      const panel=$('#details');
+      panel.innerHTML=`<h2 style="margin:0 0 12px">${escapeHtml(rule.display)}${rule.title?' — '+escapeHtml(rule.title):''}</h2>${textToHtml(rule.text)}`;
+      $('#right').scrollTop=0;
     }
 
     function populateChapterSelect(rules){
-      const chapters = Array.from(new Set(rules.map(r => r.chapter))).sort((a,b) => {
-        const ia = CH_ORDER.indexOf(a); const ib = CH_ORDER.indexOf(b);
-        if (ia !== -1 && ib !== -1) return ia - ib;
-        if (ia !== -1) return -1;
-        if (ib !== -1) return 1;
-        const pa = /^(\d+)([A-Z]?)$/.exec(a) || [,'0',''];
-        const pb = /^(\d+)([A-Z]?)$/.exec(b) || [,'0',''];
-        if (+pa[1] !== +pb[1]) return (+pa[1]) - (+pb[1]);
-        return (pa[2]||'').localeCompare(pb[2]||'');
+      const chapters=[...new Set(rules.map(r=>r.chapter))].sort((a,b)=>{
+        const ia=CH_ORDER.indexOf(a), ib=CH_ORDER.indexOf(b);
+        if (ia!==-1 && ib!==-1) return ia-ib;
+        if (ia!==-1) return -1; if (ib!==-1) return 1;
+        const pa=/^(\d+)([A-Z]?)$/.exec(a)||[,'0',''], pb=/^(\d+)([A-Z]?)$/.exec(b)||[,'0',''];
+        if (+pa[1]!==+pb[1]) return (+pa[1])-(+pb[1]); return (pa[2]||'').localeCompare(pb[2]||'');
       });
-      const sel = $('#chapter');
-      sel.innerHTML = '<option value="">Chapter: All</option>' +
-        chapters.map(c => `<option value="${c}">Chapter: ${c}</option>`).join('');
+      $('#chapter').innerHTML='<option value="">Chapter: All</option>'+chapters.map(c=>`<option value="${c}">Chapter: ${c}</option>`).join('');
     }
 
     function applyFilters(all){
-      const q = ($('#q').value || '').trim().toLowerCase();
-      const t = $('#type').value;         // '', 'R', 'G'
-      const chSel = $('#chapter').value;  // '' or '1','1A',...
-      const onlyApp = $('#onlyApplicable').checked;
-      const firm = getFirm();
-
-      let out = all;
-      if (t) out = out.filter(r => r.type === t);
-      if (chSel) out = out.filter(r => r.chapter === chSel);
+      const q=($('#q').value||'').trim().toLowerCase(), t=$('#type').value, chSel=$('#chapter').value, onlyApp=$('#onlyApplicable').checked, firm=getFirm();
+      let out=all;
+      if (t) out=out.filter(r=>r.type===t);
+      if (chSel) out=out.filter(r=>r.chapter===chSel);
       if (q){
-        out = out.filter(r =>
-          (r.id && r.id.toLowerCase().includes(q)) ||
-          (r.title && r.title.toLowerCase().includes(q)) ||
-          (r.text && r.text.toLowerCase().includes(q))
-        );
+        out=out.filter(r=>(r.id&&r.id.toLowerCase().includes(q))||(r.title&&r.title.toLowerCase().includes(q))||(r.text&&r.text.toLowerCase().includes(q)));
       }
-      if (onlyApp){
-        out = out.filter(r => isApplicable(r, firm));
-      }
+      if (onlyApp) out=out.filter(r=>isApplicable(r,firm));
       return out;
     }
 
-    // ----- boot -----
-    let ALL_RULES = [];
-
+    // boot
+    let ALL_RULES=[];
     async function init(){
       try{
-        // Load saved firm into questionnaire
-        const f = getFirm();
-        $('#q-uk').value      = f.uk;
-        $('#q-cm').value      = f.cm;
-        $('#q-custody').value = f.custody;
-        $('#q-debt').value    = f.debt;
-        $('#q-ins').value     = f.ins;
-        $('#q-pi').value      = f.pi;
-        $('#q-emi').value     = f.emi;
+        // restore rail state
+        const collapsed = localStorage.getItem('cass_rail_collapsed')==='1';
+        setRailCollapsed(collapsed);
+        $('#toggleRail').addEventListener('click', ()=> setRailCollapsed(localStorage.getItem('cass_rail_collapsed')!=='1' ));
 
-        $('#applyBtn').addEventListener('click', () => {
-          const nf = {
-            uk: $('#q-uk').value,
-            cm: $('#q-cm').value,
-            custody: $('#q-custody').value,
-            debt: $('#q-debt').value,
-            ins: $('#q-ins').value,
-            pi: $('#q-pi').value,
-            emi: $('#q-emi').value
-          };
-          saveFirm(nf);
-          const list = applyFilters(ALL_RULES);
-          renderList(list);
-          if (list.length) renderDetails(list[0]); else $('#details').innerHTML = '<div class="empty">No match.</div>';
+        // questionnaire restore
+        const f=getFirm();
+        $('#q-uk').value=f.uk; $('#q-cm').value=f.cm; $('#q-custody').value=f.custody; $('#q-debt').value=f.debt; $('#q-ins').value=f.ins; $('#q-pi').value=f.pi; $('#q-emi').value=f.emi;
+        $('#applyBtn').addEventListener('click', ()=>{
+          saveFirm({uk:$('#q-uk').value, cm:$('#q-cm').value, custody:$('#q-custody').value, debt:$('#q-debt').value, ins:$('#q-ins').value, pi:$('#q-pi').value, emi:$('#q-emi').value});
+          const list=applyFilters(ALL_RULES); renderList(list); if(list.length) renderDetails(list[0]); else $('#details').innerHTML='<div class="empty">No match.</div>';
         });
 
         setStatus('Loading rules…');
-        const raw = await loadYamlArray('data/rules.yaml');
+        const raw=await loadYamlArray('data/rules.yaml');
         if (!raw.length) throw new Error('No rules found in data/rules.yaml');
 
-        ALL_RULES = raw.map(normalizeRule).sort((a,b) => cmpKey(sortKey(a), sortKey(b)));
-
+        ALL_RULES = raw.map(normalizeRule).sort((a,b)=>cmpKey(sortKey(a),sortKey(b)));
         populateChapterSelect(ALL_RULES);
+
         setStatus(`Loaded ${ALL_RULES.length} rules`);
-        // initial render
-        const initial = applyFilters(ALL_RULES);
+        const initial=applyFilters(ALL_RULES);
         renderList(initial);
         if (initial.length) renderDetails(initial[0]);
-        setTimeout(() => setStatus(''), 700); // hide status bar
+        setTimeout(()=>setStatus(''), 700);
 
-        // filter events
-        $('#q').addEventListener('input', () => {
-          const list = applyFilters(ALL_RULES);
-          renderList(list);
-          if (list.length) renderDetails(list[0]); else $('#details').innerHTML = '<div class="empty">No match.</div>';
-        });
-        $('#type').addEventListener('change', () => {
-          const list = applyFilters(ALL_RULES);
-          renderList(list);
-          if (list.length) renderDetails(list[0]); else $('#details').innerHTML = '<div class="empty">No match.</div>';
-        });
-        $('#chapter').addEventListener('change', () => {
-          const list = applyFilters(ALL_RULES);
-          renderList(list);
-          if (list.length) renderDetails(list[0]); else $('#details').innerHTML = '<div class="empty">No match.</div>';
-        });
-        $('#onlyApplicable').addEventListener('change', () => {
-          const list = applyFilters(ALL_RULES);
-          renderList(list);
-          if (list.length) renderDetails(list[0]); else $('#details').innerHTML = '<div class="empty">No match.</div>';
-        });
+        // filters
+        $('#q').addEventListener('input', ()=>{ const list=applyFilters(ALL_RULES); renderList(list); if(list.length) renderDetails(list[0]); else $('#details').innerHTML='<div class="empty">No match.</div>'; });
+        $('#type').addEventListener('change', ()=>{ const list=applyFilters(ALL_RULES); renderList(list); if(list.length) renderDetails(list[0]); else $('#details').innerHTML='<div class="empty">No match.</div>'; });
+        $('#chapter').addEventListener('change', ()=>{ const list=applyFilters(ALL_RULES); renderList(list); if(list.length) renderDetails(list[0]); else $('#details').innerHTML='<div class="empty">No match.</div>'; });
+        $('#onlyApplicable').addEventListener('change', ()=>{ const list=applyFilters(ALL_RULES); renderList(list); if(list.length) renderDetails(list[0]); else $('#details').innerHTML='<div class="empty">No match.</div>'; });
 
-        // expose for console debugging
+        // expose for debugging
         window._rules = ALL_RULES;
-
       }catch(e){
         console.error(e);
         setStatus(`Error: ${e.message}`, true);
-        document.getElementById('ruleList').innerHTML = `<div class="err">${escapeHtml(e.message)}</div>`;
-        document.getElementById('details').innerHTML = '';
+        $('#ruleList').innerHTML = `<div class="err">${e.message}</div>`;
+        $('#details').innerHTML = '';
       }
     }
 
