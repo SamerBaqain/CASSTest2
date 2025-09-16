@@ -7,7 +7,6 @@ on:
       - 'data/source_pdfs/**'
       - 'scripts/**'
       - 'requirements.txt'
-      - 'data/rule_risk_links.yaml'
 
 jobs:
   build:
@@ -16,63 +15,49 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install Python dependencies
-        run: pip install -r requirements.txt
+      - name: Install deps
+        run: |
+          echo "pdfplumber>=0.10" > requirements.txt
+          echo "PyYAML>=6.0" >> requirements.txt
+          pip install -r requirements.txt
 
       - name: Ensure folders
         run: mkdir -p data docs/data
 
       - name: List PDFs (debug)
         run: |
-          echo "Looking for PDFs in data/source_pdfs/"
-          ls -la data/source_pdfs || true
+          echo "PDFs in data/source_pdfs:" && ls -la data/source_pdfs || true
 
-      # >>> This runs your extractor with robust, column-aware settings <<<
-      - name: Extract rules (two-column, bold R/G aware)
+      - name: Extract CASS rules (token-proximity, column-aware)
         run: |
           python scripts/extract_rules_from_pdf.py \
+            --left-max-ratio 0.45 \
             --y-tol 3 \
-            --type-gap 10 \
+            --type-gap 12 \
             --body-margin 8 \
             --min-body-len 40 \
             data/source_pdfs/*.pdf \
             --out data/rules.yaml
 
-      - name: Sanity check rules.yaml (must not be empty)
+      - name: Sanity check
         run: |
-          test -s data/rules.yaml || (echo "rules.yaml is empty; extractor produced no clauses" && exit 1)
+          test -s data/rules.yaml || (echo "rules.yaml is empty" && exit 1)
           echo "Rule entries:" $(grep -c '^- id:' data/rules.yaml || true)
-          echo "Sample header:" && head -n 30 data/rules.yaml || true
+          echo "First 50 lines:" && head -n 50 data/rules.yaml || true
 
-      # Optional: link rule -> risk ids if you have scripts/link_risks.py
-      - name: Link risks to rules (optional)
-        run: |
-          if [ -f scripts/link_risks.py ] && [ -f data/rule_risk_links.yaml ]; then
-            python scripts/link_risks.py data/rules.yaml data/rule_risk_links.yaml data/rules.yaml
-          else
-            echo "Skipping link_risks.py (not present)."
-          fi
-
-      - name: Publish YAMLs to GitHub Pages (docs/data)
+      - name: Publish to Pages folder
         run: |
           mkdir -p docs/data
           cp data/rules.yaml docs/data/rules.yaml
-          [ -f data/risks.yaml ] && cp data/risks.yaml docs/data/risks.yaml || true
-          [ -f data/controls.yaml ] && cp data/controls.yaml docs/data/controls.yaml || true
-          [ -f data/rule_risk_links.yaml ] && cp data/rule_risk_links.yaml docs/data/rule_risk_links.yaml || true
-          [ -f data/applicability.yaml ] && cp data/applicability.yaml docs/data/applicability.yaml || true
-          [ -f data/questionnaire.yaml ] && cp data/questionnaire.yaml docs/data/questionnaire.yaml || true
 
       - name: Commit generated files
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "build: extract CASS rules and publish to docs/data"
-          file_pattern: data/rules.yaml docs/data/*.yaml
+          commit_message: "build: extract CASS rules (robust) and publish to docs/data"
+          file_pattern: data/rules.yaml docs/data/rules.yaml
