@@ -548,8 +548,12 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: For the purpose of calculating the value of the total amounts of client money
+  text: 'For the purpose of calculating the value of the total amounts of client money
     and safe custody
+
+
+    (1) in complying with CASS 1A.2.2R (2)(a) , base its calculation upon internal
+    reconciliations'
   display: CASS 1A.2.3
 - id: 1A.2.3R
   chapter: 1A
@@ -953,7 +957,8 @@
 
 
     (c) However, nothing in paragraphs (1A) to (4) affects the requirement for the
-    function in'
+    function in CASS 1A.3.1AR to be allocated to a single director or senior manager
+    of sufficient skill'
   display: CASS 1A.3.1B
 - id: 1A.3.1C
   chapter: 1A
@@ -1479,7 +1484,8 @@
     (2) Other introductory agency agreements may also, depending on their precise
     terms, satisfy some or all of the requirements of the type of written agreement
     described in CASS 5.2.3 R . It is desirable that an intermediary should, before
-    informing its clients (in'
+    informing its clients (in accordance with CASS 5.2.3 R (3) ) that it will receive
+    money as agent of an insurance'
   display: CASS 5.2.2
 - id: 5.2.3
   chapter: '5'
@@ -1761,8 +1767,7 @@
   default_control_ids: []
   applicability_conditions: null
   text: The amount of a firm's capital resources maintained for the purposes of MIPRU
-    4.2.11 R will Client money to be received under the non-statutory client money
-    trust
+    4.2.11 R will
   display: CASS 5.4.5
 - id: 5.4.6
   chapter: '5'
@@ -1816,6 +1821,17 @@
     dormant asset fund operator under the applicable provisions of Part 1 of the Dormant
     Assets Act 2022 and in'
   display: CASS 5.4.7
+- id: 5.4.7
+  chapter: '5'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: The deed referred to in CASS 5.4.6 R must provide that the money (and, if
+    appropriate,
+  display: CASS 5.4.7
 - id: 5.4.8
   chapter: '5'
   type: G
@@ -1837,7 +1853,8 @@
 
     (2) the benefit of a letter of credit or unconditional guarantee provided by an
     approved bank on behalf of a firm to satisfy any shortfall in the firm''s client
-    money resource (as calculated'
+    money resource (as calculated under CASS 5.5.65 R ) when compared with the firm''s
+    client money requirement (as'
   display: CASS 5.4.8
 - id: 5.5.1
   chapter: '5'
@@ -1982,7 +1999,8 @@
 
 
     (c) include in any calculation of its client money requirement (whether calculated
-    in'
+    in accordance with CASS 5.5.66 R or CASS 5.5.68 R ) any amounts attributable to
+    client'
   display: CASS 5.5.10
 - id: 5.5.10
   chapter: '5'
@@ -2180,8 +2198,7 @@
     (4) If a firm is unable to match a remittance with a transaction it may be unable
     to immediately determine whether the payment comprises a mixed remittance or is
     client money . In such cases the remittance should be treated as client money
-    while the firm takes Appointed representatives, field representatives and other
-    agents'
+    while the firm takes'
   display: CASS 5.5.17
 - id: 5.5.18
   chapter: '5'
@@ -2632,7 +2649,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: A firm owes a duty of care to a client when it decides where to place client
-    money . The review
+    money . The review required by CASS 5.5.43 R is intended to ensure that the risks
+    inherent in placing client money
   display: CASS 5.5.42
 - id: 5.5.43
   chapter: '5'
@@ -2703,6 +2721,17 @@
     account with a bank that is authorised in the United Kingdom . Any continuing
     assessment of that bank may be
   display: CASS 5.5.46
+- id: 5.5.47
+  chapter: '5'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: Subject to CASS 5.5.41 R , a firm that holds or intends to hold client money
+    with a bank which is
+  display: CASS 5.5.47
 - id: 5.5.48
   chapter: '5'
   type: G
@@ -2774,9 +2803,8 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: 'Firms are reminded of the provisions of CASS 5.5.41 R (4) , which sets out
-    the notification and Notification to clients: use of an approved bank outside
-    the United'
+  text: Firms are reminded of the provisions of CASS 5.5.41 R (4) , which sets out
+    the notification and
   display: CASS 5.5.52
 - id: 5.5.53
   chapter: '5'
@@ -2852,9 +2880,8 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: 'Firms are reminded of the provisions of CASS 5.5.41 R (4) , which sets out
-    the notification and Notification to consumers: use of broker or settlement agent
-    outside the'
+  text: Firms are reminded of the provisions of CASS 5.5.41 R (4) , which sets out
+    the notification and
   display: CASS 5.5.57
 - id: 5.5.58
   chapter: '5'
@@ -2907,8 +2934,7 @@
 
     (1) hold the client money in a client bank account in the United Kingdom or a
     jurisdiction to which the money has not objected and pay its own money to the
-    firm''s own account with the Notification to the FCA: failure of a bank, broker
-    or settlement agent'
+    firm''s own account with the'
   display: CASS 5.5.60
 - id: 5.5.61
   chapter: '5'
@@ -3002,7 +3028,8 @@
 
     (a) check whether its client money resource, as determined by CASS 5.5.65 R on
     the previous business day , was at least equal to the client money requirement,
-    as'
+    as determined by CASS 5.5.66 R or CASS 5.5.68 R , as at the close of business
+    on that'
   display: CASS 5.5.63
 - id: 5.5.64
   chapter: '5'
@@ -3013,7 +3040,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: A firm must keep a record of whether it calculates its client money requirement
-    in accordance
+    in accordance with CASS 5.5.66 R or CASS 5.5.68 R and may only use one method
+    during each annual
   display: CASS 5.5.64
 - id: 5.5.65
   chapter: '5'
@@ -3024,7 +3052,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: under CASS 5.5.65 R ) when compared with the firm's client money requirement
-    (as
+    (as calculated under CASS 5.5.66 R or as appropriate CASS 5.5.68 R ), is held
+    on the same
   display: CASS 5.5.65
 - id: 5.5.65
   chapter: '5'
@@ -3084,6 +3113,17 @@
   display: CASS 5.5.65
 - id: 5.5.66
   chapter: '5'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: with CASS 5.5.66 R or CASS 5.5.68 R and may only use one method during each
+    annual
+  display: CASS 5.5.66
+- id: 5.5.66
+  chapter: '5'
   type: G
   title: null
   summary: null
@@ -3133,16 +3173,6 @@
     must be used if the firm is unable to produce an exact figure at the date of the
     calculation).'
   display: CASS 5.5.68
-- id: 5.5.69
-  chapter: '5'
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: Client money received after the failure of a broker or settlement agent
-  display: CASS 5.5.69
 - id: 5.5.69
   chapter: '5'
   type: G
@@ -3211,6 +3241,17 @@
   text: Inability to make Inability to make Inability to make Immediately CASS Inability
     to The fact that the Non-compliance Without delay
   display: CASS 5.5.77R
+- id: 5.5.79
+  chapter: '5'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: The purpose of CASS 5.5.80 R to CASS 5.5.83 R is to set out those situations
+    in which a firm
+  display: CASS 5.5.79
 - id: 5.5.80
   chapter: '5'
   type: R
@@ -3272,7 +3313,8 @@
 
 
     (3) Firms are reminded of their obligation, when transferring money to third parties
-    in'
+    in accordance with CASS 5.5.34 R , to use appropriate skill, care and judgment
+    in their'
   display: CASS 5.5.81
 - id: 5.5.82
   chapter: '5'
@@ -3306,8 +3348,7 @@
   applicability_conditions: null
   text: A firm must ensure that proper records, sufficient to show and explain the
     firm's transactions and commitments in respect of its client money , are made
-    and retained for a period of three Transfers of client money to a dormant asset
-    fund operator under Part 1
+    and retained for a period of three
   display: CASS 5.5.84
 - id: 5.5.85
   chapter: '5'
@@ -3338,8 +3379,7 @@
     (3) In attempting to transfer the balance to a dormant asset fund operator under
     CASS 5.6.12AR(2) , the firm should begin by seeking confirmation from the relevant
     dormant asset fund operator as to whether or not it would be in a position to
-    accept the balance. Failure of a bank, other broker or settlement agent: secondary
-    pooling'
+    accept the balance.'
   display: CASS 5.5.85R
 - id: 5.5.86
   chapter: '5'
@@ -3540,7 +3580,8 @@
 
 
     (2) the firm must distribute that client money in accordance with CASS 5.3.2 R
-    or, as'
+    or, as appropriate, CASS 5.4.7 R , so that each client receives a sum which is
+    rateable to the client'
   display: CASS 5.6.7
 - id: 5.6.7A
   chapter: '5'
@@ -3601,7 +3642,8 @@
 
 
     (2) it is money relating to a client , for whom the client money requirement,
-    calculated in'
+    calculated in accordance with CASS 5.5.66 R or CASS 5.5.68 R , shows that money
+    is due from the client'
   display: CASS 5.6.9
 - id: 5.6.10
   chapter: '5'
@@ -3639,7 +3681,7 @@
   default_control_ids: []
   applicability_conditions: null
   text: Whenever possible the firm should seek to split a mixed remittance before
-    the relevant Closing a client money pool - transfers to dormant asset fund operator
+    the relevant
   display: CASS 5.6.12
 - id: 5.6.12A
   chapter: '5'
@@ -3655,7 +3697,8 @@
 
 
     (2) If, having attempted to, a firm is unable to distribute a balance of client
-    money in'
+    money in accordance with CASS 5.6.7R to the relevant client , it must attempt
+    to transfer the balance'
   display: CASS 5.6.12A
 - id: 5.6.12B
   chapter: '5'
@@ -3870,7 +3913,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: (2) in relation to every designated client bank account held by the firm with
-    the failed bank,
+    the failed bank, the provisions of CASS 5.6.24 R and CASS 5.6.26 R to CASS 5.6.28
+    G will apply; and
   display: CASS 5.6.26
 - id: 5.6.26
   chapter: '5'
@@ -3995,8 +4039,7 @@
 
 
     (a) on the written instruction of the client , transferred to a third party other
-    than the one Notification on the failure of a bank, other broker or settlement
-    agent'
+    than the one'
   display: CASS 5.6.31
 - id: 5.8.1
   chapter: '5'
@@ -4037,7 +4080,8 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: Client's title to a Identity of such Not specified Three years
+  text: Client's title to a Identity of such Not specified Three years CASS 6.1.6BR
+    Written The agreement When From the date
   display: CASS 5.8.3
 - id: 5.8.3
   chapter: '5'
@@ -4291,7 +4335,11 @@
     (b) Where a firm entered into a TTCA in respect of an asset belonging to a retail
     client CASS (or one which would belong to a retail client but for the arrangement)
     before 3 January [ Note: article 16(10) of MiFID and article 5(5) of the MiFID
-    Delegated Directive ]'
+    Delegated Directive ]
+
+
+    (4) Except for CASS 6.1.6BR to CASS 6.1.9G and provided that the TTCA is not with
+    a'
   display: CASS 6.1.6
 - id: 6.1.6B
   chapter: '6'
@@ -4311,7 +4359,8 @@
     date of
 
 
-    (2) to firm of wish to of wish to made communication)'
+    (2) to firm of wish to of wish to made communication) CASS 6.1.8AR Firm''s response
+    Firm''s response When Five years (from'
   display: CASS 6.1.6B
 - id: 6.1.6B
   chapter: '6'
@@ -4679,7 +4728,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: Where a firm does not meet the requirements in CASS 6.1.12 R or CASS 6.1.12B
-    R for use of
+    R for use of the exemption in CASS 6.1.12 R , the firm is subject to the custody
+    rules in respect of any safe
   display: CASS 6.1.12C
 - id: 6.1.12E
   chapter: '6'
@@ -4765,6 +4815,17 @@
     that safe custody asset and of the details of the client concerned and of any
     action the firm has taken. CASS'
   display: CASS 6.1.16
+- id: 6.1.16A
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: The exemptions in CASS 6.1.16B R to CASS 6.1.16D G do not apply to a MiFID
+    investment
+  display: CASS 6.1.16A
 - id: 6.1.16B
   chapter: '6'
   type: G
@@ -4839,6 +4900,17 @@
     to rely on CASS 6.1.16C R . Personal investment firms should consider what is
     in the client's interest and not rely
   display: CASS 6.1.16D
+- id: 6.1.16E
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: The specialist regime in CASS 6.1.16F R to CASS 6.1.16I G does not apply to
+    a MiFID
+  display: CASS 6.1.16E
 - id: 6.1.16F
   chapter: '6'
   type: G
@@ -4988,6 +5060,17 @@
     in connection with those safe custody assets , as a result of the misuse of the
     safe custody assets , fraud, poor administration,
   display: CASS 6.2.2
+- id: 6.2.3
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: Subject to CASS 6.2.3-AR , a firm must effect appropriate registration or
+    recording of legal title
+  display: CASS 6.2.3
 - id: 6.2.3-A
   chapter: '6'
   type: R
@@ -5382,7 +5465,7 @@
 
 
     (3) If a member of the firm''s group has provided an undertaking under CASS 6.2.14R
-    (1)(b) Costs associated with divesting allocated but unclaimed client assets'
+    (1)(b)'
   display: CASS 6.2.15
 - id: 6.2.16
   chapter: '6'
@@ -5392,8 +5475,9 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: Any costs associated with the firm divesting itself of safe custody assets
-    pursuant to CASS
+  text: 'Any costs associated with the firm divesting itself of safe custody assets
+    pursuant to CASS 6.2.10 R to CASS 6.2.15 R should be paid for from the firm''s
+    own funds, including:'
   display: CASS 6.2.16
 - id: 6.3.1
   chapter: '6'
@@ -5414,7 +5498,8 @@
     by CASS 6 or CASS 7 ;
 
 
-    (b) the individual to whom responsibility for CASS operational oversight has been'
+    (b) the individual to whom responsibility for CASS operational oversight has been
+    allocated under CASS 1A.3.1 R or, as the case may be, to whom the CASS operational'
   display: CASS 6.3.1
 - id: 6.3.1
   chapter: '6'
@@ -5477,7 +5562,8 @@
     (1) of a firm''s which a firm selection date the firm selection of a satisfies
     itself as ceases to use third party to the the third party to appropriateness
     hold safe of the firm''s custody assets selection of a belonging to third party
-    to clients )'
+    to clients ) CASS 6.3.2AR A firm''s periodic Date of review, On the date of Five
+    years (from'
   display: CASS 6.3.2A
 - id: 6.3.2A
   chapter: '6'
@@ -5612,7 +5698,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: A firm should consider carefully the terms of any agreement entered into with
-    a third party
+    a third party under CASS 6.3.4A R . The following terms are examples of the issues
+    that should be
   display: CASS 6.3.4B
 - id: 6.3.6A
   chapter: '6'
@@ -6093,6 +6180,17 @@
   display: CASS 6.6.5
 - id: 6.6.6
   chapter: '6'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: (4A) CASS 6.6.8 R (internal custody record checks, physical asset reconciliations
+    and
+  display: CASS 6.6.6
+- id: 6.6.6
+  chapter: '6'
   type: G
   title: null
   summary: null
@@ -6209,8 +6307,11 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (1) An internal custody record check is one of the steps a firm takes to satisfy
-    its obligations
+  text: '(1) An internal custody record check is one of the steps a firm takes to
+    satisfy its obligations
+
+
+    (b) CASS 6.2.2 R (Requirement to have adequate organisational arrangements);'
   display: CASS 6.6.10
 - id: 6.6.11
   chapter: '6'
@@ -6286,8 +6387,7 @@
   text: means that a firm must not base its internal custody record checks on any
     records that the firm may have obtained from any third parties, such as those
     with whom it may have deposited, or through whom it may have registered legal
-    title to, clients' safe custody The internal custody reconciliation method for
-    internal custody record
+    title to, clients' safe custody
   display: CASS 6.6.14
 - id: 6.6.14
   chapter: '6'
@@ -6352,8 +6452,7 @@
   applicability_conditions: null
   text: The internal custody reconciliation method requires a firm to perform a comparison
     between its aggregate safe custody asset record and its client-specific safe custody
-    asset record , as at the The internal system evaluation method for internal custody
-    record
+    asset record , as at the
   display: CASS 6.6.17
 - id: 6.6.18
   chapter: '6'
@@ -6750,7 +6849,8 @@
   applicability_conditions: null
   text: Where a firm deposits safe custody assets belonging to a client with a third
     party or where a third party is responsible for the registration of legal title
-    to that asset, in complying with the
+    to that asset, in complying with the requirements of CASS 6.6.34 R , the firm
+    should seek to ensure that the third party provides the
   display: CASS 6.6.40
 - id: 6.6.41
   chapter: '6'
@@ -6857,7 +6957,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: When determining the frequency at which it will undertake its internal custody
-    record checks
+    record checks under CASS 6.6.11 R , physical asset reconciliations under CASS
+    6.6.22 R , and external
   display: CASS 6.6.44
 - id: 6.6.45
   chapter: '6'
@@ -6883,7 +6984,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: (1) A firm must make and retain records sufficient to show and explain any
-    decision it has
+    decision it has taken under CASS 6.6.44 R when determining the frequency of its
+    internal custody record
   display: CASS 6.6.45
 - id: 6.6.46
   chapter: '6'
@@ -6908,7 +7010,8 @@
   applicability_conditions: null
   text: CASS 6.6.46AR (Frequency of checks and reconciliations after failure) applies
     to a firm following its failure in respect of the frequency at which the firm
-    undertakes its internal custody
+    undertakes its internal custody record checks under CASS 6.6.11R , physical asset
+    reconciliations under CASS 6.6.22R , and
   display: CASS 6.6.46A
 - id: 6.6.46A
   chapter: '6'
@@ -6954,8 +7057,7 @@
 
 
     (2) The reference point for any further internal custody record checks and physical
-    asset reconciliations under CASS 6.6.46A(4) and any further external custody reconciliations
-    Independence of person performing checks and reconciliations'
+    asset reconciliations under CASS 6.6.46A(4) and any further external custody reconciliations'
   display: CASS 6.6.46B
 - id: 6.6.46R
   chapter: '6'
@@ -7565,11 +7667,15 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (a) under CASS 7.10.3 R (2) elect to comply with the client money chapter
+  text: '(a) under CASS 7.10.3 R (2) elect to comply with the client money chapter
     in respect of such client money and in doing so avoid the need to comply with
     the insurance client money chapter which would otherwise apply to the firm in
     respect of client money received in the course of its insurance distribution activity
     ; or
+
+
+    (b) under CASS 7.10.30 R , elect to comply with the insurance client money chapter
+    in'
   display: CASS 7.10.3
 - id: 7.10.3
   chapter: '7'
@@ -7678,9 +7784,13 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (1) A firm that is only subject to the insurance client money chapter may
+  text: '(1) A firm that is only subject to the insurance client money chapter may
     not opt to comply with this chapter under either or both CASS 7.10.3 R (1) and
     CASS 7.10.3 R (2) .
+
+
+    (2) Under CASS 7.10.3 R (2A) , a firm may opt to comply with this chapter regardless
+    of'
   display: CASS 7.10.7
 - id: 7.10.7A
   chapter: '7'
@@ -7779,7 +7889,11 @@
 
     (2) for the purposes of (1), this chapter applies to the firm in the same way
     that it applies to a firm that receives and holds money in the course of or in
-    connection with its designated'
+    connection with its designated
+
+
+    (a) CASS 7.10.10R will not apply to the money referred to under CASS 7.10.7AR(1)
+    ; and'
   display: CASS 7.10.7C
 - id: 7.10.7D
   chapter: '7'
@@ -7830,7 +7944,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: CASS 7.10.7ER The election The election At the time of the Five years after
-    made under including the election and, if ceasing to use
+    made under including the election and, if ceasing to use CASS 7.10.7AR date from
+    which the firm cancels the election
   display: CASS 7.10.7E
 - id: 7.10.7E
   chapter: '7'
@@ -7890,8 +8005,7 @@
     relation to non-P2P agreements , for a customer who at that time could not be
     a lender under a P2P agreement in respect of that money , should not be treated
     as client money (for example because that customer’s contractual investment criteria
-    only permit that money to be Money that is not client money: ''opt outs'' for
-    any business other than'
+    only permit that money to be'
   display: CASS 7.10.7F
 - id: 7.10.9
   chapter: '7'
@@ -8021,7 +8135,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: When a firm transfers client money to another person , the firm must not enter
-    into an
+    into an agreement under CASS 7.10.10 R or CASS 7.10.12 R with that other person
+    in relation to that
   display: CASS 7.10.14
 - id: 7.10.15
   chapter: '7'
@@ -8044,7 +8159,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: The effect of CASS 7.10.16 R is that, unless notified otherwise in accordance
-    with CASS
+    with CASS 7.10.20 R or CASS 7.10.22 R , clients of CRD credit institutions or
+    approved banks that are not
   display: CASS 7.10.16
 - id: 7.10.16
   chapter: '7'
@@ -8352,7 +8468,11 @@
   applicability_conditions: null
   text: '(1) A firm which receives and holds client money in respect of life assurance
     business in the course of its designated investment business that is not MiFID
-    business may:'
+    business may:
+
+
+    (a) under CASS 7.10.3 R (2) elect to comply with the client money chapter in respect
+    of'
   display: CASS 7.10.32
 - id: 7.10.33
   chapter: '7'
@@ -8423,8 +8543,8 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (1) A trustee firm to which CASS 7.10.34 R applies may, in addition to the
-    client money
+  text: '(1) A trustee firm to which CASS 7.10.34 R applies may, in addition to the
+    client money rules set out at CASS 7.10.34 R , also elect to comply with:'
   display: CASS 7.10.35
 - id: 7.10.38
   chapter: '7'
@@ -8834,7 +8954,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: Where a firm does not meet the requirements in CASS 7.11.14 R or CASS 7.11.16
-    R for the
+    R for the use of the exemption in CASS 7.11.14 R , the firm is subject to the
+    client money rules in respect
   display: CASS 7.11.17
 - id: 7.11.19
   chapter: '7'
@@ -8933,7 +9054,8 @@
   applicability_conditions: null
   text: An authorised fund manager will not be in breach of the requirement under
     CASS 7.13.6R to receive client money directly into a client bank account if it
-    received the money in accordance
+    received the money in accordance with CASS 7.11.21 R (1) and is subsequently required
+    under CASS 7.11.21 R (2) to hold that
   display: CASS 7.11.22
 - id: 7.11.23
   chapter: '7'
@@ -9459,7 +9581,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: Where a firm transfers client money belonging to its clients under either
-    or both of CASS
+    or both of CASS 7.11.42 R and CASS 7.11.44 R it must ensure that those clients
+    are notified no later than seven
   display: CASS 7.11.46
 - id: 7.11.47
   chapter: '7'
@@ -9481,7 +9604,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: The firm must notify the FCA of its intention to effect any transfer of client
-    money under either
+    money under either or both of CASS 7.11.42 R and CASS 7.11.44 R at least seven
+    days before it transfers the
   display: CASS 7.11.47
 - id: 7.11.47R
   chapter: '7'
@@ -9675,6 +9799,17 @@
     (3) If a member of the firm''sgroup has provided an undertaking under CASS 7.11.54
     R (2)'
   display: CASS 7.11.55
+- id: 7.11.56
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: The purpose of CASS 7.11.57 R is to allow a firm to pay away to charity client
+    money balances
+  display: CASS 7.11.56
 - id: 7.11.57
   chapter: '7'
   type: R
@@ -9813,8 +9948,7 @@
     under the G applicable provisions of Part 1 of the Dormant Assets Act 2022, a
     firm will need to consider its obligations under any contractual or other arrangements
     of the sort described at section 23 of the Dormant Assets Act 2022 in addition
-    to meeting its obligations under the client money rules Costs associated with
-    paying away allocated but unclaimed client money
+    to meeting its obligations under the client money rules
   display: CASS 7.11.57C
 - id: 7.11.57R
   chapter: '7'
@@ -9858,7 +9992,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: Any costs associated with the firm ceasing to treat unclaimed client money
-    balances as client
+    balances as client money pursuant to CASS 7.11.50 R to CASS 7.11.57BE should be
+    paid for from the firm's own
   display: CASS 7.11.58
 - id: 7.11.58G
   chapter: '7'
@@ -9869,7 +10004,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: to CASS 7.11.58G do not apply to a firm following a primary pooling event
-    ,
+    , except for CASS 7.11.57AR to CASS 7.11.57CG and CASS 7.11.58G (insofar as it
+    is relevant
   display: CASS 7.11.58G
 - id: 7.11.59
   chapter: '7'
@@ -10029,7 +10165,8 @@
   applicability_conditions: null
   text: Unless otherwise permitted by any other rule in this chapter, a firm using
     the normal approach must ensure that all client money it receives is paid directly
-    into a client bank account at an
+    into a client bank account at an institution referred to in CASS 7.13.3 R (1)
+    to CASS 7.13.3 R (3) , rather than being first
   display: CASS 7.13.6
 - id: 7.13.7
   chapter: '7'
@@ -10223,8 +10360,12 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (5B) CASS 7.13.14BR (policy for use of client bank accounts under CASS 7.13.13R(3A)(b)
+  text: '(5B) CASS 7.13.14BR (policy for use of client bank accounts under CASS 7.13.13R(3A)(b)
     );
+
+
+    (6) CASS 7.13.25 R (client money: appropriateness of the firm’s selection of a
+    third party);'
   display: CASS 7.13.14B
 - id: 7.13.14B
   chapter: '7'
@@ -10395,6 +10536,16 @@
     the account will not be pooled with any general client bank account or designated
     client bank
   display: CASS 7.13.19
+- id: 7.13.19A
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: (1) In CASS 7.13.20R to CASS 7.13.25R client money means money deposited under
+  display: CASS 7.13.19A
 - id: 7.13.20
   chapter: '7'
   type: G
@@ -10456,7 +10607,7 @@
 
 
     (b) a firm should calculate its client money balance for these purposes in the
-    same way'
+    same way required under CASS 1A.2.3R , and base its assessment under CASS 7.13.21AR(1)(a)'
   display: CASS 7.13.21B
 - id: 7.13.21C
   chapter: '7'
@@ -10543,7 +10694,11 @@
   default_control_ids: []
   applicability_conditions: null
   text: '(6) CASS 7.13.25 R (client money: appropriateness of the firm’s selection
-    of a third party);'
+    of a third party);
+
+
+    (7) CASS 7.15.2 R , CASS 7.15.3 R and CASS 7.15.5 R (client money held for each
+    client);'
   display: CASS 7.13.25
 - id: 7.13.25
   chapter: '7'
@@ -10555,7 +10710,8 @@
   applicability_conditions: null
   text: (1) A firm must make a record of the grounds upon which it satisfies itself
     as to the appropriateness of its selection and appointment of a bank or a qualifying
-    money market
+    money market fund under CASS 7.13.8 R . The firm must make the record on the date
+    it makes the
   display: CASS 7.13.25
 - id: 7.13.25R
   chapter: '7'
@@ -10713,7 +10869,7 @@
 
 
     (3) record the receipt of the money in the firm''s books and records in accordance
-    with CASS Appointed representatives, tied agents, field representatives and other'
+    with CASS'
   display: CASS 7.13.33
 - id: 7.13.34
   chapter: '7'
@@ -10821,7 +10977,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: If a firm is unable to identify money that it has received as either client
-    money or its own money
+    money or its own money under CASS 7.13.37 R , it should consider whether it would
+    be appropriate to return the money
   display: CASS 7.13.38
 - id: 7.13.39
   chapter: '7'
@@ -10929,8 +11086,9 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: A firm must make and retain an up-to-date record of all payments made under
-    CASS 7.13.41
+  text: 'A firm must make and retain an up-to-date record of all payments made under
+    CASS 7.13.41 R . (See further CASS 7.13.50 R to CASS 7.13.53 R : the prudent segregation
+    record.)'
   display: CASS 7.13.42
 - id: 7.13.43
   chapter: '7'
@@ -11004,7 +11162,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: To the extent that the firm no longer considers it prudent to retain money
-    in its client bank
+    in its client bank account pursuant to CASS 7.13.41 R in order to ensure that
+    client money is protected, the firm
   display: CASS 7.13.48
 - id: 7.13.49
   chapter: '7'
@@ -11069,8 +11228,8 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: '( prudent segregation record ) and CASS 7.13.66 R ( alternative approach
-    Non-margined transactions (eg, securities): individual client balance'
+  text: 'R . (See further CASS 7.13.50 R to CASS 7.13.53 R : the prudent segregation
+    record.)'
   display: CASS 7.13.50
 - id: 7.13.50
   chapter: '7'
@@ -11082,7 +11241,8 @@
   applicability_conditions: null
   text: A firm must create and keep up-to-date records so that the amount of money
     paid into client bank accounts and retained as client money pursuant to CASS 7.13.41
-    R or withdrawn
+    R or withdrawn pursuant to CASS 7.13.49 R , and the reasons for such payment,
+    retention and withdrawal can
   display: CASS 7.13.50
 - id: 7.13.51
   chapter: '7'
@@ -11139,7 +11299,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: (1) Subject to paragraphs (2) and (3), CASS 7.13.59R , CASS 7.13.62R(3) ,
-    CASS
+    CASS 7.13.62R(4) and CASS 7.13.63R to CASS 7.13.67R do not apply to a firm following
+    its
   display: CASS 7.13.53A
 - id: 7.13.54
   chapter: '7'
@@ -11160,7 +11321,8 @@
 
     (2) Under the alternative approach, client money is received into and paid out
     of a firm''s own bank account. A firm that adopts the alternative approach to
-    segregating client money'
+    segregating client money should (in line with CASS 7.15.16 R (2) ) carry out an
+    internal client money reconciliation on'
   display: CASS 7.13.54
 - id: 7.13.55
   chapter: '7'
@@ -11665,7 +11827,8 @@
 
 
     (5) A firm must ensure that the individual responsible for CASS oversight under
-    CASS'
+    CASS 1A.3.1 R , CASS 1A.3.1A R or CASS 1A.3.1C R (as appropriate) reviews the
+    adequacy of'
   display: CASS 7.13.72
 - id: 7.13.72
   chapter: '7'
@@ -11963,8 +12126,12 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (ii) the obligation under that enactment is applicable to the firm as a result
+  text: '(ii) the obligation under that enactment is applicable to the firm as a result
     of the
+
+
+    (3) subject to CASS 7.11.39R , it is paid into a bank account of the client (not
+    being an'
   display: CASS 7.14.2
 - id: 7.14.2
   chapter: '7'
@@ -12037,8 +12204,7 @@
   applicability_conditions: null
   text: Apart from client money held by a firm in an individual client account or
     an omnibus client account at an authorised central counterparty , a firm should
-    not hold excess client money in its Client money arising from, or in connection
-    with, safe custody assets
+    not hold excess client money in its
   display: CASS 7.14.4
 - id: 7.14.5
   chapter: '7'
@@ -12474,7 +12640,8 @@
 
 
     (b) client money that is required under CASS 7A.2.4R(3) (Pooling and distribution
-    or'
+    or transfer) and CASS 7A.2.7-AR (Client money received after a primary pooling
+    event) to'
   display: CASS 7.15.15A
 - id: 7.15.16
   chapter: '7'
@@ -12726,7 +12893,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: (1) A firm must make and retain records sufficient to show and explain any
-    decision it has
+    decision it has taken under CASS 7.15.23 R when determining the frequency of its
+    external client money
   display: CASS 7.15.24
 - id: 7.15.25
   chapter: '7'
@@ -12757,7 +12925,7 @@
 
 
     (3) A firm need not carry out a review under (1) if it is conducting external
-    client money Frequency of external reconciliations after a primary pooling event'
+    client money'
   display: CASS 7.15.26
 - id: 7.15.26A
   chapter: '7'
@@ -12935,9 +13103,13 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (1) CASS 7.15.29AR and CASS 7.15.32AR recognise that a failed firm is required
+  text: '(1) CASS 7.15.29AR and CASS 7.15.32AR recognise that a failed firm is required
     to G investigate discrepancies, but the extent to which it is able to resolve
     discrepancies may be
+
+
+    (2) CASS 7.15.29AR and CASS 7.15.32AR would not prevent a failed firm from making
+    any'
   display: CASS 7.15.29A
 - id: 7.15.29A
   chapter: '7'
@@ -12962,7 +13134,8 @@
   text: Where the discrepancy identified under CASS 7.15.29 R has arisen as a result
     of a breach of the client money segregation requirements , the firm should ensure
     it takes sufficient steps to avoid a reoccurrence of that breach (see Principle
-    10 (Clients' assets), as it relates to client
+    10 (Clients' assets), as it relates to client money , CASS 7.15.3 R and, where
+    relevant, SYSC 4.1.1R (1) and SYSC 6.1.1 R ).
   display: CASS 7.15.30
 - id: 7.15.31
   chapter: '7'
@@ -13050,7 +13223,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: (1) Firms are required to carry out an internal client money reconciliation
-    each business day
+    each business day ( CASS 7.15.12 R and CASS 7.15.15R(1) ) or as required by CASS
+    7.15.15R(4) after a
   display: CASS 7.16.1
 - id: 7.16.2
   chapter: '7'
@@ -13134,7 +13308,8 @@
     order is reminded that it must pay that money (eg, into a client bank account
     ) no later than on the business day after it receives the money (see CASS 7.13.32
     R ). Once deposited into a client bank account , that receipt of client money
-    should form part of the firm's client money resource
+    should form part of the firm's client money resource (see CASS 7.16.8 R ). In
+    calculating its client money requirement , a firm will need to take into
   display: CASS 7.16.7
 - id: 7.16.8
   chapter: '7'
@@ -13180,6 +13355,17 @@
     (b) that firm records all receipts from clients , whether or not yet deposited
     with a bank, in'
   display: CASS 7.16.9
+- id: 7.16.10
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: Subject to CASS 7.16.12 R , the client money requirement must be calculated
+    by one, but not
+  display: CASS 7.16.10
 - id: 7.16.11
   chapter: '7'
   type: R
@@ -13188,8 +13374,11 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (2) CASS 7.16.11 R does not prevent a firm from adopting a net negative add-back
+  text: '(2) CASS 7.16.11 R does not prevent a firm from adopting a net negative add-back
     method
+
+
+    (3) CASS 7.16.12 R does not prevent a CASS loan-based crowdfunding firm from adopting'
   display: CASS 7.16.11
 - id: 7.16.11
   chapter: '7'
@@ -13239,9 +13428,13 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (1) The client money requirement should represent the total amount of client
+  text: '(1) The client money requirement should represent the total amount of client
     money a firm is required to have segregated in client bank accounts under the
     client money rules .
+
+
+    (2) CASS 7.16.11 R does not prevent a firm from adopting a net negative add-back
+    method'
   display: CASS 7.16.13
 - id: 7.16.14
   chapter: '7'
@@ -13251,11 +13444,15 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (1) The individual client balance method ( CASS 7.16.16 R ) may be applied
+  text: '(1) The individual client balance method ( CASS 7.16.16 R ) may be applied
     by any firm except a CASS 7 loan-based crowdfunding firm . This method requires
     a firm to calculate the total amount of client money it should be segregating
     in client bank accounts by reference to how much the firm should be holding in
     total (ie, across all its client bank accounts and
+
+
+    (a) CASS 7.16.22 E is an evidential provision which sets out a method firms should
+    use'
   display: CASS 7.16.14
 - id: 7.16.15
   chapter: '7'
@@ -13279,15 +13476,27 @@
     (2) whether any individual client''s net position in a specific client bank account
     is negative'
   display: CASS 7.16.15
-- id: 7.16.17
+- id: 7.16.16
   chapter: '7'
-  type: R
+  type: G
   title: null
   summary: null
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: 'Client money requirement calculation: individual client balance method'
+  text: Subject to CASS 7.16.25 R and CASS 7.16.37 R , under this method the client
+    money
+  display: CASS 7.16.16
+- id: 7.16.17
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: Subject to CASS 7.16.25 R , under this method the client money requirement
+    must be
   display: CASS 7.16.17
 - id: 7.16.18
   chapter: '7'
@@ -13404,8 +13613,7 @@
   applicability_conditions: null
   text: If a firm calculates each individual client balance on a product-by-product
     or business line-by business line basis under CASS 7.16.22 E (1)(b) , the result
-    should be that the firm does not net Other requirements for calculating the client
-    money requirement
+    should be that the firm does not net
   display: CASS 7.16.24
 - id: 7.16.25
   chapter: '7'
@@ -13508,6 +13716,17 @@
     transaction accounts , a firm should use the values contained in its internal
     records and ledgers (see CASS 7.15.13 R ).'
   display: CASS 7.16.27
+- id: 7.16.28
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: Subject to CASS 7.16.30 R , a client's equity balance is the amount which
+    the firm would be
+  display: CASS 7.16.28
 - id: 7.16.28R
   chapter: '7'
   type: G
@@ -13654,7 +13873,8 @@
 
 
     (2) The firm must hold the approved collateral in a way which ensures that, in
-    accordance'
+    accordance with CASS 7A.2.3A R , the approved collateral will be liquidated on
+    the occurrence of a'
   display: CASS 7.16.33
 - id: 7.16.35
   chapter: '7'
@@ -14128,11 +14348,15 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (1) For each client bank account , a firm must, in accordance with CASS 7.18.6
+  text: '(1) For each client bank account , a firm must, in accordance with CASS 7.18.6
     R , complete and sign a client bank account acknowledgement letter clearly identifying
     the client bank account , and send it to the bank with whom the client bank account
     is, or will be, opened, requesting the bank to acknowledge and agree to the terms
     of the letter by countersigning it
+
+
+    (2) Subject to CASS 7.18.14 R and CASS 7.18.15 R , a firm must not hold or receive
+    any'
   display: CASS 7.18.2
 - id: 7.18.3
   chapter: '7'
@@ -14142,11 +14366,14 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (2) For each client transaction account , a firm must, in accordance with
+  text: '(2) For each client transaction account , a firm must, in accordance with
     CASS 7.18.6 R , complete and sign a client transaction account acknowledgement
     letter clearly identifying the client transaction account . That letter must be
     sent to the person with whom the client transaction account is, or will be, opened,
     requesting such person to acknowledge and
+
+
+    (3) Subject to CASS 7.18.14 R and CASS 7.18.15 R , a firm must not allow the relevant'
   display: CASS 7.18.3
 - id: 7.18.4
   chapter: '7'
@@ -14298,7 +14525,8 @@
   text: Acknowledgment Any other None specified None specified letters documentation
     (see default or evidence the provision CASS CASS Handbook Subject of Contents
     of When record Retention reference record record must be made period firm believes
-    7.6.4 R )
+    7.6.4 R ) CASS 7.10.7ER The election The election At the time of the Five years
+    after
   display: CASS 7.18.11R
 - id: 7.18.12
   chapter: '7'
@@ -14467,10 +14695,11 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: For each sub- All the client From the date on Five years pool established
-    beneficiaries of which the sub- following the by the firm that sub-pool pool is
-    created date on which client money was last held by the firm in relation to the
-    sub-pool to which the record applied
+  text: (i) the firm has received a written instruction from the client stating that
+    the client no longer wishes to have its positions cleared through the net margined
+    omnibus client account or its client money held in that sub-pool , or the firm
+    has notified the client under CASS 7.19.18 R that it is making a material change
+    to a sub-pool ; or
   display: CASS 7.19.6
 - id: 7.19.6
   chapter: '7'
@@ -14678,7 +14907,8 @@
     transaction held by the firm account account is in relation to the maintained
     for maintained for sub-pool to the sub-pool , the sub-pool which the record including
     a applied CASS Handbook Subject of Contents of When record Retention reference
-    record record must be made period'
+    record record must be made period CASS 7A.2.6FR Any balance (i) The amount of
+    Immediately Indefinite'
   display: CASS 7.19.13R
 - id: 7.19.14
   chapter: '7'
@@ -14859,7 +15089,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: Before materially changing a sub-pool , a firm must provide a copy of the
-    notice provided to
+    notice provided to clients under CASS 7.19.18 R R to the FCA not less than two
+    months before the date on which
   display: CASS 7.19.21
 - id: 7.19.22
   chapter: '7'
@@ -15158,7 +15389,8 @@
 
 
     (c) in the context of an authorised central counterparty acknowledgement letter
-    (and'
+    (and 1. 3 Under CASS 7.18.2 R (2) and CASS 7.18.3 R (3) , firms are required to
+    have in place a'
   display: CASS 7.19.25
 - id: 10.1.1
   chapter: '10'
@@ -15213,6 +15445,17 @@
   text: A firm's CASS The documents From the date on None is specified CASS Handbook
     Subject of Contents of When record Retention reference record record must be made
     period
+  display: CASS 10.1.3
+- id: 10.1.3
+  chapter: '10'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: A firm falling within CASS 10.1.1 R must maintain and be able to retrieve,
+    in the manner
   display: CASS 10.1.3
 - id: 10.1.4
   chapter: '10'
@@ -15393,7 +15636,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: Individuals allocated functions relating to CASS operational oversight pursuant
-    to CASS 1A.3.1
+    to CASS 1A.3.1 R , CASS 1A.3.1A R or, as the case may be, CASS 1A.3.1CR (2) ,
+    are reminded that their
   display: CASS 10.1.15
 - id: 10.1.16
   chapter: '10'
@@ -15480,7 +15724,11 @@
   default_control_ids: []
   applicability_conditions: null
   text: 'A firm must include, as applicable, within its CASS resolution pack the records
-    required under:'
+    required under:
+
+
+    (1) CASS 6.3.2A R (safe custody assets: appropriateness of the firm’s selection
+    of a third'
   display: CASS 10.3.1
 - id: 10.3.1R
   chapter: '10'
@@ -15525,7 +15773,8 @@
   text: The requirements imposed on a CASS debt management firm that holds client
     money vary depending on whether a firm is classified as a CASS small debt management
     firm or a CASS large debt management firm in CASS 11.2.3 R ( CASS debt management
-    firm types). CASS
+    firm types). CASS 11.1.4 R to CASS 11.1.6 R indicate which rules in the debt management
+    client money chapter
   display: CASS 11.1.2
 - id: 11.1.3
   chapter: '11'
@@ -15536,8 +15785,31 @@
   default_control_ids: []
   applicability_conditions: null
   text: The debt management client money chapter applies (to the extent indicated
-    by CASS 11.1.4 R
+    by CASS 11.1.4 R to CASS 11.1.6 R ) to a CASS debt management firm , even if at
+    the date of the determination
   display: CASS 11.1.3
+- id: 11.1.4
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: Subject to CASS 11.1.6 R , only the rules and guidance in the debt management
+    client money
+  display: CASS 11.1.4
+- id: 11.1.5
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: Subject to CASS 11.1.6 R , the rules and guidance in the debt management client
+    money
+  display: CASS 11.1.5
 - id: 11.1.6
   chapter: '11'
   type: R
@@ -15555,8 +15827,7 @@
     (1) it held client money in the previous calendar year; or
 
 
-    (2) it projects to hold client money in the current calendar year. Application
-    to CASS small debt management firms'
+    (2) it projects to hold client money in the current calendar year.'
   display: CASS 11.1.6
 - id: 11.1.6
   chapter: '11'
@@ -15602,7 +15873,7 @@
 
 
     (2) For the purpose of determining its '' CASS debt management firm type'' in
-    accordance'
+    accordance with CASS 11.2.3 R , a CASS debt management firm must:'
   display: CASS 11.2.1
 - id: 11.2.2
   chapter: '11'
@@ -15761,8 +16032,7 @@
   default_control_ids: []
   applicability_conditions: null
   text: Any written notification made to the FCA under this chapter should be marked
-    for the attention CASS CASS small debt management firm other than a not-for-profit
-    debt advice
+    for the attention CASS
   display: CASS 11.2.9
 - id: 11.3.1
   chapter: '11'
@@ -15792,10 +16062,7 @@
 
     (2) the person performing that function will not necessarily be subject to the
     employee certification regime described in SYSC 27 (Senior managers and certification
-    regime:
-
-
-    CASS small debt management firm that is a not-for-profit debt advice'
+    regime:'
   display: CASS 11.3.1R
 - id: 11.3.2
   chapter: '11'
@@ -15829,7 +16096,11 @@
 
 
     (2) It will not have any SMF managers as no designated senior management functions
-    apply'
+    apply
+
+
+    (3) The function in CASS 11.3.2R is not a separate FCA certification function
+    and the'
   display: CASS 11.3.2A
 - id: 11.3.2R
   chapter: '11'
@@ -15909,7 +16180,11 @@
     in SYSC 27
 
 
-    (b) that person will be subject to supervision by the SMF manager in (6); and'
+    (b) that person will be subject to supervision by the SMF manager in (6); and
+
+
+    (c) the function in CASS 11.3.4R will be the CASS oversight FCA certification
+    function in'
   display: CASS 11.3.3
 - id: 11.3.3G
   chapter: '11'
@@ -16073,8 +16348,7 @@
   text: A payment of client money under section 21 of the Dormant Assets Act 2022
     to a dormant asset fund operator that has Part 4A permission for dealing with
     unwanted asset money would amount to a payment to a third party with the instruction
-    of the client for the purposes of CASS Transfers of client money to a dormant
-    asset fund operator under Part 1
+    of the client for the purposes of CASS
   display: CASS 11.4.5
 - id: 11.4.5R
   chapter: '11'
@@ -16487,7 +16761,8 @@
 
     (b) as is found in the underlying agreement/s (e.g. banking services agreement)
     with the then the CASS debt management firm should consider whether it is at risk
-    of breaching'
+    of breaching either CASS 11.8.4 R (3) or, if it is a CASS large debt management
+    firm , CASS 11.7.2 R .'
   display: CASS 11.8.2
 - id: 11.8.2
   chapter: '11'
@@ -16788,7 +17063,8 @@
     (2) In carrying out the calculation of the client money requirement, a CASS debt
     management firm may alternatively exclude the amount of client money received
     as cash, cheques or payment orders that has not yet been deposited in a client
-    bank account in line'
+    bank account in line with CASS 11.9.5 R . If it does so, the firm is reminded
+    that it must separately record the'
   display: CASS 11.9.5
 - id: 11.9.5
   chapter: '11'
@@ -16890,8 +17166,7 @@
     as either client money or its own money under CASS 11.9.8 R (1) , it should consider
     whether it would be appropriate to return the money to the person who sent it
     (or, if that is not possible, to the source from where it was received, for example,
-    the bank). A firm should have regard to its Money received by appointed representatives,
-    tied agents, field
+    the bank). A firm should have regard to its
   display: CASS 11.9.9
 - id: 11.9.10
   chapter: '11'
@@ -17175,7 +17450,8 @@
     to carry out reconciliations of its internal records and accounts to check that
     the total amount of client money that it should have segregated in client bank
     accounts is equal to the total amount of client money it actually has segregated
-    in
+    in client bank accounts . CASS 11.11.8 R to CASS 11.11.23 R provide rules that
+    the different
   display: CASS 11.11.6
 - id: 11.11.7
   chapter: '11'
@@ -17199,9 +17475,9 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: 'client bank accounts . CASS 11.11.8 R to CASS 11.11.23 R provide rules that
-    the different types of CASS debt management firm are obliged to follow to meet
-    this obligation. Checks of internal records: CASS small debt management firm'
+  text: A CASS small debt management firm must undertake periodic checks of its internal
+    accounts and records to ensure that the amount of money it holds in its client
+    bank accounts is equal to CASS
   display: CASS 11.11.8
 - id: 11.11.9
   chapter: '11'
@@ -17244,14 +17520,13 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: 'In seeking to comply with its obligation to carry out checks on its internal
+  text: In seeking to comply with its obligation to carry out checks on its internal
     records and accounts, G a CASS small debt management firm may choose to follow
     the steps specifically required of CASS large debt management firms in undertaking
     a CASS large debt management firm internal client money reconciliation and CASS
     large debt management firm external client money reconciliation . A CASS small
     debt management firm which follows that procedure is likely to be regarded by
-    the FCA as having fulfilled its obligation under CASS 11.11.8 R . CASS small debt
-    management firms: remedying discrepancies'
+    the FCA as having fulfilled its obligation under CASS 11.11.8 R .
   display: CASS 11.11.11
 - id: 11.11.12
   chapter: '11'
@@ -17279,8 +17554,7 @@
 
     (3) ensure that any correction of a shortfall or excess of the kind referred to
     in (1) and (2) is carried out, at the latest, before the end of the business day
-    following the day on which CASS large debt management firms internal client money
-    reconciliation'
+    following the day on which'
   display: CASS 11.11.12
 - id: 11.11.13
   chapter: '11'
@@ -17386,7 +17660,8 @@
     (1) In carrying out the calculation of the client money requirement, a CASS debt
     management firm may initially include the amount of client money received as cash,
     cheques or payment orders that has not yet been deposited in a client bank account
-    in line CASS'
+    in line CASS with CASS 11.9.5 R . If it does so, the firm should ensure, before
+    finalising the calculation,'
   display: CASS 11.11.20
 - id: 11.11.21
   chapter: '11'
@@ -17450,7 +17725,7 @@
     (3) ensure that any excess in the amount of the client money resource as compared
     to the amount of the client money requirement is withdrawn from the firm''s client
     bank accounts by the end of the business day following the day on which the difference
-    was discovered. CASS CASS large debt management firm external client money reconciliation'
+    was discovered. CASS'
   display: CASS 11.11.23
 - id: 11.11.24
   chapter: '11'
@@ -17742,11 +18017,10 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: 'The debt management client money distribution rules seek, in the event of
+  text: The debt management client money distribution rules seek, in the event of
     the failure of a CASS debt management firm or of an approved bank at which the
     CASS debt management firm holds client money , to protect client money and to
-    facilitate the timely payment of sums to Failure of a CASS debt management firm:
-    primary pooling event'
+    facilitate the timely payment of sums to
   display: CASS 11.13.2
 - id: 11.13.3
   chapter: '11'
@@ -17802,7 +18076,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: Where a primary pooling event occurs and the client money is not transferred
-    to another firm in
+    to another firm in accordance with CASS 11.13.4 R , a CASS debt management firm
+    must distribute client money
   display: CASS 11.13.5
 - id: 11.13.5A
   chapter: '11'
@@ -17878,7 +18153,8 @@
   text: If there is a shortfall in the client money transferred under CASS 11.13.6
     G then the client money must be allocated to each of the clients for whom the
     client money was held so that each client is allocated a sum which is rateable
-    to that client's client money entitlement in
+    to that client's client money entitlement in accordance with CASS 11.13.4 R (2)
+    . This calculation may be done by either transferor or
   display: CASS 11.13.8
 - id: 11.13.9
   chapter: '11'
@@ -17894,8 +18170,7 @@
 
     (2) they have the option of having client money returned to them or to their order
     by the transferee, otherwise the transferee will hold the client money for the
-    clients and conduct Closing a client money pool - transfers to dormant asset fund
-    operator'
+    clients and conduct'
   display: CASS 11.13.9
 - id: 11.13.9A
   chapter: '11'
@@ -17911,7 +18186,8 @@
 
 
     (2) If, having attempted to, a firm is unable to distribute a balance of client
-    money in'
+    money in accordance with CASS 11.13.5R to the relevant client , it must attempt
+    to transfer the'
   display: CASS 11.13.9A
 - id: 11.13.9B
   chapter: '11'
@@ -18026,7 +18302,8 @@
     found through the following CASS debt management firm client bank account acknowledgment
     letter template - CASS 11 CASS Section : CASS 11 Annex 2 Guidance notes for client
     bank account acknowledgement 1. This annex contains guidance on the use of the
-    template client bank account'
+    template client bank account 2. Under CASS 11.8.2 R (2) , CASS debt management
+    firms are required to have in place a'
   display: CASS 11.13.14
 - id: 12.1.1
   chapter: '12'
@@ -18328,7 +18605,11 @@
 
 
     (2) The senior managers and certification regime is summarised in SYSC 23.3 (Overview
-    of'
+    of
+
+
+    (3) The function in CASS 13.2.3R is not a separate controlled function and performing
+    that'
   display: CASS 13.2.5G
 - id: 13.3.1
   chapter: '13'
@@ -18437,7 +18718,7 @@
     (3) to ensure that the approved bank understands and agrees that it will not have
     any recourse or right against money standing to the credit of the client bank
     account , in respect of any liability of the firm to such person (or person connected
-    to such person ). Requirement for and content of client bank account acknowledgement'
+    to such person ).'
   display: CASS 13.5.1
 - id: 13.5.2
   chapter: '13'
@@ -18447,11 +18728,15 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (1) For each client bank account , a firm must, in accordance with CASS 13.5.4R
+  text: '(1) For each client bank account , a firm must, in accordance with CASS 13.5.4R
     , complete and sign a client bank account acknowledgement letter clearly identifying
     the client bank account , and send it to the approved bank with whom the client
     bank account is, or will be, opened, requesting the bank to acknowledge and agree
     to the terms of the letter by
+
+
+    (2) Subject to CASS 13.5.6R , a firm must not hold or receive any client money
+    in or into a'
   display: CASS 13.5.2
 - id: 13.5.3
   chapter: '13'
@@ -18570,8 +18855,7 @@
     necessary to demonstrate that it has complied with each of the applicable requirements
     in this section (such as any evidence it has obtained to ensure that the individual
     that has countersigned a client bank account acknowledgement letter that has been
-    returned to the firm was authorised to Review and replacement of client bank account
-    acknowledgement letters
+    returned to the firm was authorised to
   display: CASS 13.5.9
 - id: 13.5.9R
   chapter: '13'
@@ -18929,8 +19213,7 @@
   applicability_conditions: null
   text: When a firm draws a cheque or other payable order to discharge its fiduciary
     duty to the client , it must continue to treat the sum concerned as client money
-    until the cheque or order is Transfers of client money to a dormant asset fund
-    operator under Part 1
+    until the cheque or order is
   display: CASS 13.9.3
 - id: 13.9.4
   chapter: '13'
@@ -19476,7 +19759,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: Where a primary pooling event occurs and the client money pool is not transferred
-    to another
+    to another firm in accordance with CASS 13.11.6R , a firm must distribute client
+    money comprising the
   display: CASS 13.11.5
 - id: 13.11.5A
   chapter: '13'
@@ -19487,7 +19771,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: (1) Subject to (2), as an alternative to distributing a client’s client money
-    to them under CASS
+    to them under CASS R CASS 13.11.5R , a firm may transfer all of that client’s
+    client money to a dormant asset fund
   display: CASS 13.11.5A
 - id: 13.11.5B
   chapter: '13'
@@ -19596,7 +19881,7 @@
 
     (2) they have the option of having client money returned to them or to their order
     by the transferee, otherwise the transferee will hold the client money for the
-    customers and Closing a client money pool - transfers to dormant asset fund operator'
+    customers and'
   display: CASS 13.11.10
 - id: 13.11.10A
   chapter: '13'
@@ -19615,7 +19900,8 @@
 
 
     (2) If, having attempted to, a firm is unable to distribute a balance of client
-    money in'
+    money in accordance with CASS 13.11.5R to the relevant client , it must attempt
+    to transfer the'
   display: CASS 13.11.10A
 - id: 13.11.10B
   chapter: '13'
@@ -19656,10 +19942,14 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (1) Subject to (2), if a secondary pooling event occurs as a result of the
+  text: '(1) Subject to (2), if a secondary pooling event occurs as a result of the
     failure of an R approved bank where one or more client bank accounts are held
     then in relation to every client bank account of the firm , the provisions of
     CASS 13.11.13R(1) , CASS 13.11.13R(2)
+
+
+    (2) CASS 13.11.13R does not apply if, on the failure of the approved bank , the
+    firm pays to'
   display: CASS 13.11.12
 - id: 13.11.13
   chapter: '13'
@@ -20105,7 +20395,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: (1) A TP firm must once every year, and by the time it is required to make
-    a notification in
+    a notification in accordance with CASS 14.2.9R , determine whether it is a CASS
+    large TP firm , CASS
   display: CASS 14.2.4
 - id: 14.2.4R
   chapter: '14'
@@ -20178,7 +20469,8 @@
   applicability_conditions: null
   text: 4. A firm should complete Part 1 and either Part 2 or Part 3, depending on
     whether it is reporting on investment services and activities or insurance distribution
-    activities . See also the
+    activities . See also the guidance at CASS 14.3.5G for firms that carry on both
+    sorts of activities under their temporary
   display: CASS 14.2.8R
 - id: 14.2.9
   chapter: '14'
@@ -20401,7 +20693,7 @@
 
 
     (b) it should only complete Part 1 and Part 3 of any TPCAR that is for a reporting
-    period Election to use the CMAR for TP firms that had a Part 4A permission'
+    period'
   display: CASS 14.3.5
 - id: 14.3.5G
   chapter: '14'
@@ -20777,8 +21069,11 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: (1) See GEN 2.2.37G(3) for an explanation of the effect of GEN 2.2.26R(1)
+  text: '(1) See GEN 2.2.37G(3) for an explanation of the effect of GEN 2.2.26R(1)
     and CASS
+
+
+    (2) CASS 14.3.6R may be relevant to a TP firm that had a Part 4A permission immediately'
   display: CASS 14.3.7
 - id: 14.4.1
   chapter: '14'
@@ -20982,7 +21277,11 @@
 
     (3) In determining whether a TP firm has complied with any provision of CASS ,
     anything done or omitted by a TP firm''s appointed representative or tied agent
-    (when acting as such)'
+    (when acting as such)
+
+
+    (4) CASS 14.6.2R further restricts the possibility of appointed representatives
+    and tied'
   display: CASS 14.6.1
 - id: 14.6.2
   chapter: '14'
@@ -21019,6 +21318,17 @@
     representative or tied agent of a TP firm in respect of which CASS 5 would apply
     to the TP firm as a result of GEN 2.2.26R .
   display: CASS 14.6.2R
+- id: 7A.1.1
+  chapter: 7A
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: Subject to CASS 7A.1.1A R , this chapter (the client money distribution and
+    transfer rules )
+  display: CASS 7A.1.1
 - id: 7A.1.1A
   chapter: 7A
   type: R
@@ -21164,7 +21474,8 @@
   applicability_conditions: null
   text: If a primary pooling event occurs in circumstances where the firm had, before
     the primary pooling event , reduced its margined transaction requirement by utilising
-    approved collateral
+    approved collateral under CASS 7.16.33 R , it must immediately liquidate this
+    approved collateral and place the
   display: CASS 7A.2.3A
 - id: 7A.2.3C
   chapter: 7A
@@ -21197,7 +21508,8 @@
     (2) Notwithstanding regulation 10H of the IBSA Regulations , CASS 7.15 has application
     to a firm after a primary pooling event , meaning, for example, that ongoing compliant
     record keeping is required (see CASS 7.15.15R(4) (Internal client money reconciliations)
-    and CASS'
+    and CASS CASS 7.15.26AR (Frequency of external reconciliations after a primary
+    pooling event)).'
   display: CASS 7A.2.3D
 - id: 7A.2.4
   chapter: 7A
@@ -21241,7 +21553,11 @@
 
 
     (i) transferred by the firm under regulation 10H(3) of the IBSA Regulations to
-    a client'
+    a client
+
+
+    (ii) paid under CASS 7A.2.3AR into a client bank account that is included in that
+    pool'
   display: CASS 7A.2.4
 - id: 7A.2.4-A
   chapter: 7A
@@ -21411,7 +21727,11 @@
     (b) If, as at the primary pooling event , the firm had entered in to one or more
     cleared margined transactions through the use of a client transaction account
     at a clearing house that had not closed out as at the primary pooling event ,
-    the client money requirement'
+    the client money requirement
+
+
+    (i) CASS 7.16.28R does not apply in respect of those cleared margined transactions
+    ;'
   display: CASS 7A.2.5
 - id: 7A.2.5A
   chapter: 7A
@@ -21905,7 +22225,8 @@
   text: If a secondary pooling event occurs as a result of the failure of an exchange,
     clearing house , intermediate broker , settlement agent or OTC counterparty, then,
     in relation to every general client bank account and client transaction account
-    of the firm , CASS 7A.3.8R and CASS
+    of the firm , CASS 7A.3.8R and CASS 7A.3.13R will apply, and CASS 7A.3.8AR will
+    additionally apply in the case of the failure of an
   display: CASS 7A.3.7A
 - id: 7A.3.8
   chapter: 7A
@@ -21915,7 +22236,9 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: 'counterparty, exchange or clearing house: treatment of general client'
+  text: 'counterparty, exchange or clearing house: treatment of general client Money
+    Subject to CASS 7A.3.8AR , if a secondary pooling event occurs as a result of
+    the failure'
   display: CASS 7A.3.8
 - id: 7A.3.8A
   chapter: 7A
@@ -22066,7 +22389,7 @@
 
 
     (2) This would include, for example, where applicable law requires the firm to
-    attribute a Failure of a bank: treatment of designated client bank accounts and'
+    attribute a'
   display: CASS 7A.3.9A
 - id: 7A.3.10
   chapter: 7A
@@ -22549,7 +22872,7 @@
   default_control_ids: []
   applicability_conditions: null
   text: A mandate in relation to the type of instructions referred to in CASS 8.2.1
-    R (4)(d) could include Conditions on use of mandate and client’s further involvement
+    R (4)(d) could include
   display: CASS 8.2.6
 - id: 8.2.7
   chapter: '8'
@@ -22694,7 +23017,8 @@
 
 
     (2) if, for an existing entry on its list, a firm obtains the same information
-    meeting the'
+    meeting the conditions in CASS 8.2.1 R again (eg in a written confirmation following
+    a paperless direct'
   display: CASS 8.3.2F
 - id: 8.3.2G
   chapter: '8'
@@ -22741,7 +23065,8 @@
 
     (1) The requirements in CASS 8.3.2 R (1) and CASS 8.3.2 R (3) apply only in respect
     of conditions placed around the firm''s use of a mandate itself or around the
-    instructions'
+    instructions described in CASS 8.2.1 R (4) . Examples of these include conditions
+    under which a'
   display: CASS 8.3.3
 - id: 9.1.1
   chapter: '9'
@@ -23181,7 +23506,8 @@
   default_control_ids: []
   applicability_conditions: null
   text: Any charge agreed between the firm and the client for providing the statements
-    in CASS
+    in CASS 9.5.4R , CASS 9.5.4BR or CASS 9.5.5R (as applicable) must be at a commercial
+    cost.
   display: CASS 9.5.6
 - id: 9.5.7
   chapter: '9'
