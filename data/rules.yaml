@@ -1,496 +1,6 @@
-- id: 1A.2.9
-  chapter: 1A
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: '(4) under CASS
-
-    1A.2.9 R (1), (2)
-
-    or (3)
-
-    [deleted]
-
-    [deleted]
-
-    [deleted]
-
-    [deleted]
-
-    [deleted]
-
-    CASS
-
-    [deleted]
-
-    [deleted]
-
-    [deleted]
-
-    [deleted]
-
-    [deleted]
-
-    intends to make
-
-    good any
-
-    shortfall that may
-
-    have arisen in
-
-    the amounts
-
-    involved
-
-    for that
-
-    CASS
-
-    CASS'
-  display: CASS 1A.2.9
-- id: 1A.3.1A
-  chapter: 1A
-  type: G
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: ''
-  display: CASS 1A.3.1A
-- id: 1A.3.1C
-  chapter: 1A
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: '[deleted]
-
-    [deleted]
-
-    [deleted]
-
-    [deleted]
-
-    [deleted]
-
-    [deleted]
-
-    CASS
-
-    [deleted]
-
-    [deleted]
-
-    [deleted]'
-  display: CASS 1A.3.1C
-- id: 5.5.84
-  chapter: '5'
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: 'CASS
-
-    terminated'
-  display: CASS 5.5.84
-- id: 6.1.12
-  chapter: '6'
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: ''
-  display: CASS 6.1.12
-- id: 6.6.19
-  chapter: '6'
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: ''
-  display: CASS 6.6.19
-- id: 6.6.22
-  chapter: '6'
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: ''
-  display: CASS 6.6.22
-- id: 6.6.34
-  chapter: '6'
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: 'For a notification
-
-    of a new
-
-    effective date
-
-    under CASS
-
-    7.10.7AR(4), the
-
-    notification must
-
-    CASS
-
-    be made before
-
-    the new effective
-
-    date.
-
-    cease to be
-
-    effective
-
-    CASS 7.13.21AR(1) is approach
-
-    7.13.21AR(1) taken
-
-    7.13.21AR(1) 7.13.21AR(1) is
-
-    taken
-
-    CASS'
-  display: CASS 6.6.34
-- id: 6.6.58
-  chapter: '6'
-  type: G
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: 'CASS
-
-    CASS
-
-    CASS'
-  display: CASS 6.6.58
-- id: 7.11.14R
-  chapter: '7'
-  type: G
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: ''
-  display: CASS 7.11.14R
-- id: 7.15.5
-  chapter: '7'
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: 'CASS
-
-    subsequent
-
-    decision (with (1)
-
-    applying to the
-
-    subsequent
-
-    decision).
-
-    client money
-
-    was last held by
-
-    the firm in
-
-    relation to the
-
-    sub-pool to
-
-    which the record
-
-    applied
-
-    CASS
-
-    client money
-
-    was last held by
-
-    the firm in
-
-    relation to the
-
-    sub-pool to
-
-    which the record
-
-    applied
-
-    pool client money
-
-    was last held by
-
-    the firm in
-
-    relation to the
-
-    sub-pool to
-
-    which the sub-
-
-    pool disclosure
-
-    document
-
-    applied
-
-    CASS
-
-    CASS'
-  display: CASS 7.15.5
-- id: 7.15.15
-  chapter: '7'
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: ''
-  display: CASS 7.15.15
-- id: 7.15.28
-  chapter: '7'
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: 'and make material before the date
-
-    consequences to change to a sub- on which the firm
-
-    beneficiaries pool intends the
-
-    change to take
-
-    effect
-
-    CASS
-
-    money intends to
-
-    receive or hold
-
-    client money for
-
-    that sub-pool
-
-    or CASS 7.19.18
-
-    R (as applicable)
-
-    CASS
-
-    rule in CASS
-
-    10.1.3 R
-
-    11.2.4 R (4)
-
-    CASS'
-  display: CASS 7.15.28
-- id: 7.15.32
-  chapter: '7'
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: CASS
-  display: CASS 7.15.32
-- id: 11.8.2
-  chapter: '11'
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: 'money, and CASS 11.9.8 R
-
-    deciding it is (1)
-
-    reasonably
-
-    prudent to so
-
-    record
-
-    money held for
-
-    one client from
-
-    client money
-
-    held for any
-
-    other client, and
-
-    from the firm''s
-
-    own money
-
-    between the
-
-    records and
-
-    accounts of the
-
-    entitlement of
-
-    each client for
-
-    CASS
-
-    whom the CASS
-
-    debt
-
-    management
-
-    firm holds client
-
-    money with the
-
-    records and
-
-    accounts of the
-
-    client money the
-
-    firm holds in
-
-    client bank
-
-    accounts
-
-    refer. firm becomes
-
-    subject to CASS
-
-    11.12.3 R
-
-    CASS
-
-    allocated
-
-    money, and CASS
-
-    deciding it is 13.6.6R(1)
-
-    reasonably
-
-    prudent to so
-
-    record
-
-    held for one
-
-    customer from
-
-    client money
-
-    held for any
-
-    other customer
-
-    and from the
-
-    firm’s own
-
-    CASS
-
-    money
-
-    between the
-
-    records and
-
-    accounts of the
-
-    entitlement of
-
-    each customer
-
-    for whom the
-
-    firm holds client
-
-    money with the
-
-    records and
-
-    accounts of the
-
-    client money the
-
-    firm holds in
-
-    client bank
-
-    accounts
-
-    CASS
-
-    effect'
-  display: CASS 11.8.2
 - id: 11.11.25
   chapter: '11'
   type: G
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: ''
-  display: CASS 11.11.25
-- id: 11.11.28
-  chapter: '11'
-  type: G
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: ''
-  display: CASS 11.11.28
-- id: 11.12.6
-  chapter: '11'
-  type: R
   title: null
   summary: null
   risk_ids: []
@@ -501,7 +11,7 @@
     by the firm an LME bond
 
     arrangement'
-  display: CASS 11.12.6
+  display: CASS 11.11.25
 - id: 13.10.1R
   chapter: '13'
   type: G
@@ -512,9 +22,69 @@
   applicability_conditions: null
   text: 'CASS
 
-    CASS
+    .
+
+    .
+
+    .
+
+    .
+
+    .
 
     CASS
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
+
+    payments
+
+    .
+
+    . CASS
+
+    .
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
+
+    payments
+
+    .
+
+    CASS
+
+    .
+
+    .
+
+    .
+
+    .
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
 
     CASS
 
@@ -546,7 +116,7 @@
 
     removed the right of action under Section
 
-    138D(3) of the Act. If so, a reference to the
+    138D(3) of the Act . If so, a reference to the
 
     rule in which it is removed is also given.
 
@@ -566,19 +136,25 @@
 
     person?
 
+    .
+
+    .
+
+    .
+
+    .
+
+    . CASS
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
+
     CASS'
   display: CASS 13.10.1R
-- id: 8.3.2C
-  chapter: '8'
-  type: R
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: 'CASS
-
-    R
-
-    CASS'
-  display: CASS 8.3.2C
