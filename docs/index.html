@@ -4,71 +4,114 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>CASS Mapper</title>
-  <!-- YAML loader -->
   <script defer src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
   <style>
     :root{
-      --border:#eaeaea; --muted:#666; --bg:#fafafa;
-      --chip-r:#fdecea; --chip-g:#eef7ee;
+      --border:#eaeaea; --muted:#666; --bg:#fafafa; --chip-r:#fdecea; --chip-g:#eef7ee;
     }
     *{box-sizing:border-box}
-    body{margin:0; font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:#111}
+    body{margin:0; font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:#111; background:#fff}
     header{display:flex; gap:12px; align-items:center; padding:12px 16px; border-bottom:1px solid var(--border)}
     header h1{font-size:16px; margin:0; font-weight:700}
     .controls{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-left:auto}
-    .controls input[type="search"]{padding:6px 10px; border:1px solid var(--border); border-radius:6px; width:260px}
-    .controls select{padding:6px 10px; border:1px solid var(--border); border-radius:6px; background:#fff}
+    input[type="search"], select{padding:6px 10px; border:1px solid var(--border); border-radius:6px; background:#fff}
     #status{display:none; padding:8px 16px; border-bottom:1px solid var(--border)}
-    #wrap{display:grid; grid-template-columns: 380px 1fr; min-height:calc(100vh - 50px)}
-    #list{border-right:1px solid var(--border); overflow:auto; background:#fff}
-    #details{padding:18px; overflow:auto}
+    #wrap{display:grid; grid-template-columns: 420px 1fr; min-height:calc(100vh - 50px)}
+    #left{border-right:1px solid var(--border); overflow:auto}
+    #right{overflow:auto}
+    #questionnaire{padding:12px; border-bottom:1px solid var(--border); background:#fff}
+    #questionnaire h3{margin:0 0 8px; font-size:14px}
+    #qgrid{display:grid; grid-template-columns: 1fr 120px; gap:8px; align-items:center}
+    #qgrid label{font-size:.92rem}
+    #qgrid select{width:120px}
+    #applyBtn{margin-top:8px; padding:6px 10px; border:1px solid var(--border); border-radius:6px; background:#f6f6f6; cursor:pointer}
+    #filters{padding:10px 12px; border-bottom:1px solid var(--border); background:#fff; display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+    #count{font-size:.85rem; color:var(--muted); padding:8px 12px; border-bottom:1px solid var(--border); background:#fff}
+    #ruleList{background:#fff}
     .rule{padding:10px 12px; border-bottom:1px solid var(--border); cursor:pointer}
     .rule:hover{background:var(--bg)}
     .rule strong{font-weight:600}
     .chip{display:inline-block;margin-left:8px;font-size:.72rem;padding:2px 6px;border-radius:999px;background:#eee}
     .chip-r{background:var(--chip-r)}
     .chip-g{background:var(--chip-g)}
+    #details{padding:18px}
     #details p{white-space:normal; line-height:1.55; margin:0 0 .9rem}
     .muted{color:var(--muted)}
     .err{background:#ffe9e9; border:1px solid #ffcdcd; color:#8a0000; padding:10px 12px; margin:8px 16px}
-    .count{font-size:.85rem; color:var(--muted); padding:6px 12px; border-bottom:1px solid var(--border)}
     .empty{padding:12px; color:var(--muted)}
-    @media (max-width: 900px){
-      #wrap{grid-template-columns:1fr}
-      #list{border-right:0; border-bottom:1px solid var(--border)}
-    }
+    @media (max-width: 980px){ #wrap{grid-template-columns:1fr} #left{border-right:0} }
   </style>
 </head>
 <body>
   <header>
     <h1>CASS Mapper</h1>
     <div class="controls">
-      <input id="q" type="search" placeholder="Search by number/title/text…"/>
+      <input id="q" type="search" placeholder="Search number/title/text…"/>
       <select id="type">
         <option value="">Type: All</option>
         <option value="R">Type: Rule (R)</option>
         <option value="G">Type: Guidance (G)</option>
       </select>
+      <select id="chapter">
+        <option value="">Chapter: All</option><!-- populated at runtime -->
+      </select>
+      <label style="display:flex;align-items:center;gap:6px">
+        <input id="onlyApplicable" type="checkbox"/> Only applicable
+      </label>
     </div>
   </header>
 
   <div id="status"></div>
 
   <div id="wrap">
-    <div id="list">
-      <div class="count" id="count"></div>
+    <div id="left">
+      <div id="questionnaire">
+        <h3>Questionnaire (drives applicability)</h3>
+        <div id="qgrid">
+          <label for="q-uk">Do you carry on regulated activities from a UK establishment?</label>
+          <select id="q-uk"><option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option></select>
+
+          <label for="q-cm">Do you hold or receive client money?</label>
+          <select id="q-cm"><option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option></select>
+
+          <label for="q-custody">Do you hold custody assets (financial instruments) for clients?</label>
+          <select id="q-custody"><option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option></select>
+
+          <label for="q-debt">Do you conduct debt management activities?</label>
+          <select id="q-debt"><option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option></select>
+
+          <label for="q-ins">Do you undertake insurance distribution (including intermediation)?</label>
+          <select id="q-ins"><option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option></select>
+
+          <label for="q-pi">Are you an Authorised Payment Institution (PI)?</label>
+          <select id="q-pi"><option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option></select>
+
+          <label for="q-emi">Are you an Electronic Money Institution (EMI)?</label>
+          <select id="q-emi"><option value="">Select…</option><option value="yes">Yes</option><option value="no">No</option></select>
+        </div>
+        <button id="applyBtn">Apply answers</button>
+        <div class="muted" style="margin-top:6px">Answers save locally and drive “Only applicable”.</div>
+      </div>
+
+      <div id="filters">
+        <!-- mirrors header for small screens if needed; kept minimal -->
+      </div>
+      <div id="count">Loading…</div>
       <div id="ruleList"></div>
     </div>
-    <div id="details"></div>
+
+    <div id="right">
+      <div id="details"></div>
+    </div>
   </div>
 
   <script>
   (function(){
-    // --- configuration & helpers ---
-    const CH_ORDER = ['1','1A','3','5','6','7']; // custom chapter order
+    // ----- config -----
+    const CH_ORDER = ['1','1A','3','5','6','7']; // custom chapter order (others follow after)
 
+    // ----- utilities -----
     const $  = s => document.querySelector(s);
-    const $$ = s => Array.from(document.querySelectorAll(s));
 
     function setStatus(msg, isError=false){
       const el = $('#status');
@@ -85,26 +128,25 @@
 
     function textToHtml(text){
       if (!text) return '<p class="muted">No text.</p>';
-      // Double newlines => paragraph; single newlines collapse to spaces
       const paras = String(text).split(/\n{2,}/).map(p => p.replace(/\n/g,' ').trim()).filter(Boolean);
       return paras.map(p => `<p>${escapeHtml(p)}</p>`).join('');
     }
 
-    // Normalize one rule object
+    // ----- normalize rules -----
     function normalizeRule(r){
       r = r || {};
-      // If id ends with R/G, move that into type
+      // If id ends with R/G (bad generators), move into type
       const m = /^(\d+[A-Z]?\.\d+\.\d+(?:-[A-Z]|[A-Z])?)(R|G)$/.exec(r.id || '');
       if (m && !r.type){ r.id = m[1]; r.type = m[2]; }
-      r.type = (r.type === 'R') ? 'R' : 'G';           // default to G if unsure
-      r.title = (r.title || '').replace(/^(R|G)\s+/, ''); // strip leading "R " / "G " from title
+      r.type = (r.type === 'R') ? 'R' : 'G';                 // default to Guidance if unknown
+      r.title = (r.title || '').replace(/^(R|G)\s+/, '');    // strip leading “R ” / “G ”
       r.display = r.display || `CASS ${r.id}`;
       r.text = r.text || '';
       r.chapter = r.chapter || (r.id ? r.id.split('.')[0] : '');
       return r;
     }
 
-    // --- natural order for CASS ids ---
+    // ----- robust, numeric sort for CASS ids -----
     function splitCassId(id){
       // chapter: digits + optional letter; section: digits; rule: digits + optional letter or "-A"
       const m = /^(\d+)([A-Z]?)[.](\d+)[.](\d+)([A-Z]|-[A-Z])?$/.exec(id || '');
@@ -117,44 +159,79 @@
         ruleAlt: m[5]||''
       };
     }
-
     function ruleAltRank(s){
-      if (!s) return [0,0];                       // plain number first
+      if (!s) return [0,0];                   // plain number first
       if (s[0] === '-') return [2, s.charCodeAt(1)||0]; // hyphenated after lettered
-      return [1, s.charCodeAt(0)||0];             // "A","B",...
+      return [1, s.charCodeAt(0)||0];         // "A","B",...
     }
-
     function chapterRank(chNum, chAlt){
       const code = String(chNum) + (chAlt||'');
       const i = CH_ORDER.indexOf(code);
       if (i !== -1) return [i, chNum, chAlt||''];
-      return [99, chNum, chAlt||'']; // anything else after custom list
+      return [99, chNum, chAlt||'']; // anything else after
     }
-
     function sortKey(rule){
-      const id = rule.id || '0.0.0';
-      const p = splitCassId(id);
+      const p = splitCassId(rule.id || '0.0.0');
       const ch = chapterRank(p.chapNum, p.chapAlt);
       const alt = ruleAltRank(p.ruleAlt);
       const typeRank = rule.type === 'R' ? 0 : 1; // R before G
+      // return array key
       return [ch[0], ch[1], ch[2], p.sec, p.ruleNum, alt[0], alt[1], typeRank];
     }
+    // element-by-element comparator (avoid stringifying arrays!)
+    function cmpKey(A, B){
+      for (let i = 0; i < Math.max(A.length, B.length); i++){
+        const a = A[i] ?? 0, b = B[i] ?? 0;
+        if (a < b) return -1;
+        if (a > b) return 1;
+      }
+      return 0;
+    }
 
-    // --- data loading ---
+    // ----- data load -----
     async function loadYamlArray(path){
       const res = await fetch(path, {cache:'no-store'});
       if (!res.ok) throw new Error(`HTTP ${res.status} for ${path}`);
       const txt = await res.text();
-      let y;
-      try{ y = jsyaml.load(txt); }
+      let y; try{ y = jsyaml.load(txt); }
       catch(e){ throw new Error(`YAML parse failed: ${e.message}`); }
       if (Array.isArray(y)) return y;
-      if (y && Array.isArray(y.rules)) return y.rules;  // backward compat
+      if (y && Array.isArray(y.rules)) return y.rules;
       if (y && Array.isArray(y.items)) return y.items;
       return [];
     }
 
-    // --- rendering ---
+    // ----- applicability (simple heuristics; can be replaced by rules from YAML later) -----
+    function getFirm(){
+      const o = JSON.parse(localStorage.getItem('cass_firm') || '{}');
+      return {
+        uk: o.uk ?? '',
+        cm: o.cm ?? '',
+        custody: o.custody ?? '',
+        debt: o.debt ?? '',
+        ins: o.ins ?? '',
+        pi: o.pi ?? '',
+        emi: o.emi ?? ''
+      };
+    }
+    function saveFirm(f){
+      localStorage.setItem('cass_firm', JSON.stringify(f));
+    }
+    function checkboxBool(v){ return v === 'yes'; }
+
+    function isApplicable(rule, firm){
+      // very simple default heuristics by chapter; refine/replace with YAML mapping later
+      const ch = rule.chapter;
+      if (ch === '7' || ch === '7A') return checkboxBool(firm.cm);            // Client money
+      if (ch === '6')     return checkboxBool(firm.custody);                   // Custody assets
+      if (ch === '11')    return checkboxBool(firm.debt);                      // Debt management
+      if (ch === '5')     return checkboxBool(firm.ins) || checkboxBool(firm.cm);  // Insurance distribution client money
+      // PIs/EMIs can have some dedicated parts (not fully modelled here) – keep chapters visible
+      // 1, 1A, 3 etc. generally framework/application – default to visible
+      return true;
+    }
+
+    // ----- rendering -----
     function renderList(list){
       const wrap = $('#ruleList');
       wrap.innerHTML = '';
@@ -176,7 +253,6 @@
         wrap.appendChild(div);
       });
     }
-
     function renderDetails(rule){
       $('#details').innerHTML = `
         <h3 style="margin:0 0 10px">${escapeHtml(rule.display)}${rule.title ? ' — ' + escapeHtml(rule.title) : ''}</h3>
@@ -184,12 +260,16 @@
       `;
     }
 
-    // --- filtering & search ---
     function applyFilters(all){
       const q = ($('#q').value || '').trim().toLowerCase();
-      const t = $('#type').value; // '', 'R', 'G'
+      const t = $('#type').value;     // '', 'R', 'G'
+      const chSel = $('#chapter').value; // '' or '1','1A',...
+      const onlyApp = $('#onlyApplicable').checked;
+      const firm = getFirm();
+
       let out = all;
       if (t) out = out.filter(r => r.type === t);
+      if (chSel) out = out.filter(r => r.chapter === chSel);
       if (q){
         out = out.filter(r =>
           (r.id && r.id.toLowerCase().includes(q)) ||
@@ -197,31 +277,81 @@
           (r.text && r.text.toLowerCase().includes(q))
         );
       }
+      if (onlyApp){
+        out = out.filter(r => isApplicable(r, firm));
+      }
       return out;
     }
 
-    // --- boot ---
+    // ----- chapter select population -----
+    function populateChapterSelect(rules){
+      const chapters = Array.from(new Set(rules.map(r => r.chapter))).sort((a,b) => {
+        const ia = CH_ORDER.indexOf(a); const ib = CH_ORDER.indexOf(b);
+        if (ia !== -1 && ib !== -1) return ia - ib;
+        if (ia !== -1) return -1;
+        if (ib !== -1) return 1;
+        // fallback numeric+letter
+        const pa = /^(\d+)([A-Z]?)$/.exec(a) || [,'0',''];
+        const pb = /^(\d+)([A-Z]?)$/.exec(b) || [,'0',''];
+        if (+pa[1] !== +pb[1]) return (+pa[1]) - (+pb[1]);
+        return (pa[2]||'').localeCompare(pb[2]||'');
+      });
+      const sel = $('#chapter');
+      sel.innerHTML = '<option value="">Chapter: All</option>' +
+        chapters.map(c => `<option value="${c}">Chapter: ${c}</option>`).join('');
+    }
+
+    // ----- main -----
     let ALL_RULES = [];
 
     async function init(){
       try{
+        // Load saved firm answers into the questionnaire
+        const f = getFirm();
+        $('#q-uk').value = f.uk || '';
+        $('#q-cm').value = f.cm || '';
+        $('#q-custody').value = f.custody || '';
+        $('#q-debt').value = f.debt || '';
+        $('#q-ins').value = f.ins || '';
+        $('#q-pi').value = f.pi || '';
+        $('#q-emi').value = f.emi || '';
+
+        $('#applyBtn').addEventListener('click', () => {
+          const nf = {
+            uk: $('#q-uk').value,
+            cm: $('#q-cm').value,
+            custody: $('#q-custody').value,
+            debt: $('#q-debt').value,
+            ins: $('#q-ins').value,
+            pi: $('#q-pi').value,
+            emi: $('#q-emi').value
+          };
+          saveFirm(nf);
+          // re-filter immediately if "Only applicable" is on
+          const list = applyFilters(ALL_RULES);
+          renderList(list);
+          if (list.length) renderDetails(list[0]); else $('#details').innerHTML = '<div class="empty">No match.</div>';
+        });
+
         setStatus('Loading rules…');
-        const raw = await loadYamlArray('data/rules.yaml'); // path relative to docs/index.html
+        const raw = await loadYamlArray('data/rules.yaml');
         if (!raw.length) throw new Error('No rules found in data/rules.yaml');
 
         ALL_RULES = raw.map(normalizeRule).sort((a,b) => {
           const A = sortKey(a), B = sortKey(b);
-          return A < B ? -1 : A > B ? 1 : 0;
+          return cmpKey(A,B);
         });
 
+        populateChapterSelect(ALL_RULES);
         setStatus(`Loaded ${ALL_RULES.length} rules`);
+
         // initial render
         const initial = applyFilters(ALL_RULES);
         renderList(initial);
         if (initial.length) renderDetails(initial[0]);
         setTimeout(() => setStatus(''), 700);
 
-        // events
+        // filter events
         $('#q').addEventListener('input', () => {
           const list = applyFilters(ALL_RULES);
           renderList(list);
@@ -232,15 +362,25 @@
           renderList(list);
           if (list.length) renderDetails(list[0]); else $('#details').innerHTML = '<div class="empty">No match.</div>';
         });
+        $('#chapter').addEventListener('change', () => {
+          const list = applyFilters(ALL_RULES);
+          renderList(list);
+          if (list.length) renderDetails(list[0]); else $('#details').innerHTML = '<div class="empty">No match.</div>';
+        });
+        $('#onlyApplicable').addEventListener('change', () => {
+          const list = applyFilters(ALL_RULES);
+          renderList(list);
+          if (list.length) renderDetails(list[0]); else $('#details').innerHTML = '<div class="empty">No match.</div>';
+        });
 
-        // expose for quick debugging
+        // expose for debugging
         window._rules = ALL_RULES;
 
       }catch(e){
         console.error(e);
         setStatus(`Error: ${e.message}`, true);
-        $('#ruleList').innerHTML = `<div class="err">${escapeHtml(e.message)}</div>`;
-        $('#details').innerHTML = '';
+        document.getElementById('ruleList').innerHTML = `<div class="err">${escapeHtml(e.message)}</div>`;
+        document.getElementById('details').innerHTML = '';
       }
     }
 
