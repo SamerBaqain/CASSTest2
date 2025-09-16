@@ -3157,7 +3157,7 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: client money requirements according to CASS 5.5.84 R or CASS 5.5.84 R
+  text: client money requirements according to or CASS 5.5.84 R
   display: CASS 5.5.84
 - id: 5.5.84
   chapter: '5'
@@ -8413,7 +8413,7 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: CASS 7.11.14R exemption in CASS 7.11.14R in respect of that client's monies
+  text: CASS 7.11.14R exemption in in respect of that client's monies
   display: CASS 7.11.14R
 - id: 7.11.16
   chapter: '7'
@@ -21068,7 +21068,7 @@
   text: entered into, the firm's MiFID details of business , five procedures and years
     after the internal controls same date for giving and receiving of instructions
     under mandates , and important client documents held by the firm , and, in relation
-    to non-written mandates, the further details required by CASS 8.3.2C R
+    to non-written mandates, the further details required by
   display: CASS 8.3.2C
 - id: 8.3.2D
   chapter: '8'
