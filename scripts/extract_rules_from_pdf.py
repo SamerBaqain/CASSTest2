@@ -300,7 +300,6 @@ def sort_key(rec: dict):
     t_rank = 0 if rec["type"] == "R" else 1
     return (chap_idx, a, sec, rule_num, rule_suf, t_rank)
 
-# ---------- CLI ----------
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("pdfs", nargs="+", help="CASS PDF(s)")
@@ -316,5 +315,48 @@ def main():
     ap.add_argument("--min-body-len", type=int, default=40)
     args = ap.parse_args()
 
-    all_entries: Dict[Tuple[str,str], dict] = {}
-    for
+    all_entries: Dict[Tuple[str, str], dict] = {}
+
+    for pth in args.pdfs:
+        path = pathlib.Path(pth)
+        if not path.exists():
+            print(f"[warn] missing {path}", file=sys.stderr)
+            continue
+        with pdfplumber.open(str(path)) as pdf:
+            anchors = detect_anchors(
+                pdf,
+                args.left_max_ratio,
+                args.y_tol,
+                args.type_dx,
+                args.type_dy,
+            )
+            if not anchors:
+                print(f"[warn] no anchors found in {path}", file=sys.stderr)
+
+            bodies = harvest_bodies(
+                pdf,
+                anchors,
+                args.y_tol,
+                args.body_margin,
+                args.right_min_ratio,
+                args.heading_size_min,
+                args.min_body_len,
+                args.start_slack,
+            )
+
+            for k, v in bodies.items():
+                cur = all_entries.get(k)
+                if not cur or len(v["text"]) > len(cur["text"]):
+                    all_entries[k] = v
+
+    items = sorted(all_entries.values(), key=sort_key)
+
+    outp = pathlib.Path(args.out)
+    outp.parent.mkdir(parents=True, exist_ok=True)
+    with outp.open("w", encoding="utf-8") as f:
+        yaml.safe_dump(items, f, sort_keys=False, allow_unicode=True)
+
+    print(f"[ok] wrote {len(items)} rules -> {outp}")
+
+if __name__ == "__main__":
+    main()
