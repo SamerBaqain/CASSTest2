@@ -34,13 +34,15 @@ jobs:
         run: |
           echo "PDFs in data/source_pdfs:" && ls -la data/source_pdfs || true
 
-      - name: Extract CASS rules (token-proximity, column-aware)
+      - name: Extract CASS rules (adjacent-type + paragraph reflow)
         run: |
           python scripts/extract_rules_from_pdf.py \
             --left-max-ratio 0.45 \
+            --right-min-ratio 0.42 \
             --y-tol 3 \
-            --type-gap 12 \
-            --body-margin 8 \
+            --type-dx 18 \
+            --type-dy 4 \
+            --body-margin 10 \
             --min-body-len 40 \
             data/source_pdfs/*.pdf \
             --out data/rules.yaml
