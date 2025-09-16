@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
 CASS extractor — adjacent R/G safe, keeps first real sentence, filters headings & footers,
-column-aware, paragraph reflow, de-dup, stable sort.
+column-aware with start-bar slack, paragraph reflow, de-dup, stable sort.
 
-Run example:
+Example:
   python scripts/extract_rules_from_pdf.py \
     --left-max-ratio 0.46 --right-min-ratio 0.42 \
     --y-tol 3 --type-dx 18 --type-dy 4 \
-    --body-margin 14 --heading-size-min 12 --min-body-len 40 \
+    --body-margin 14 --start-slack 10 --heading-size-min 12 --min-body-len 40 \
     data/source_pdfs/*.pdf --out data/rules.yaml
 """
 
@@ -93,7 +93,7 @@ def looks_like_heading(ln: dict, heading_size_min: float) -> bool:
     """
     Real headings only:
       • big AND bold, or
-      • short 'R Title' / 'G Title' with no sentence punctuation.
+      • short 'R Title' / 'G Title' (no sentence punctuation).
     """
     t = (ln["text"] or "").strip()
     if not t: return False
@@ -174,7 +174,7 @@ def reflow_paragraphs_from_lines(lines: List[dict]) -> str:
     commit()
     return "\n\n".join(buf)
 
-# ------------ anchor detection (record far-right of ID/Type) ------------
+# ------------ anchor detection ------------
 def detect_anchors(pdf, left_max_ratio: float, y_tol: float, type_dx: float, type_dy: float) -> List[dict]:
     anchors = []
     for pi, page in enumerate(pdf.pages):
@@ -241,9 +241,9 @@ def detect_anchors(pdf, left_max_ratio: float, y_tol: float, type_dx: float, typ
     anchors.sort(key=lambda a: (a["page"], a["doctop"]))
     return anchors
 
-# ------------ body harvesting (keep first sentence; drop only real headings) ------------
+# ------------ harvest bodies (start-bar slack + keep first sentence) ------------
 def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, right_min_ratio: float,
-                   heading_size_min: float, min_body_len: int) -> Dict[Tuple[str,str], dict]:
+                   heading_size_min: float, min_body_len: int, start_slack: float) -> Dict[Tuple[str,str], dict]:
     out: Dict[Tuple[str,str], dict] = {}
 
     page_lines = [words_to_lines(words_sorted(p), y_tol) for p in pdf.pages]
@@ -260,6 +260,10 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
 
         start_bar = anc["x1"] + body_margin
 
+        def right_of_bar(ln: dict) -> bool:
+            # Allow slight overlap with the bar to keep the first sentence
+            return (ln["x0"] >= start_bar - start_slack) or (ln["x1"] >= start_bar + 2)
+
         raw_lines: List[dict] = []
         first_picked = False
 
@@ -267,13 +271,11 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
         for ln in page_lines[start_page]:
             if ln["doctop"] < start_y: continue
             if end_page == start_page and ln["doctop"] >= end_y: break
-            if ln["x0"] <= start_bar: continue
+            if not right_of_bar(ln): continue
             if should_drop_line_text(ln["text"]): continue
 
             if not first_picked:
-                # For the *first* candidate: skip only if it is a clear heading.
                 if looks_like_heading(ln, heading_size_min):
-                    # If it still looks like a sentence, keep it anyway.
                     if looks_sentence_like(ln["text"]):
                         raw_lines.append(ln); first_picked = True
                     else:
@@ -281,9 +283,7 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
                 else:
                     raw_lines.append(ln); first_picked = True
             else:
-                # After first line, it's safe to drop clear headings if any appear
-                if looks_like_heading(ln, heading_size_min):
-                    continue
+                if looks_like_heading(ln, heading_size_min): continue
                 raw_lines.append(ln)
 
         # Spill pages (right half only)
@@ -346,6 +346,7 @@ def main():
     ap.add_argument("--type-dx", type=float, default=18.0)
     ap.add_argument("--type-dy", type=float, default=4.0)
     ap.add_argument("--body-margin", type=float, default=14.0)
+    ap.add_argument("--start-slack", type=float, default=10.0, help="Allow this many points left of the start bar")
     ap.add_argument("--heading-size-min", type=float, default=12.0)
     ap.add_argument("--min-body-len", type=int, default=40)
     args = ap.parse_args()
@@ -362,7 +363,7 @@ def main():
             if not anchors:
                 print(f"[warn] no anchors found in {path}", file=sys.stderr)
             bodies = harvest_bodies(pdf, anchors, args.y_tol, args.body_margin, args.right_min_ratio,
-                                    args.heading_size_min, args.min_body_len)
+                                    args.heading_size_min, args.min_body_len, args.start_slack)
             for k,v in bodies.items():
                 cur = all_entries.get(k)
                 if not cur or len(v["text"]) > len(cur["text"]):
