@@ -53,3 +53,9 @@ jobs:
         with:
           commit_message: "build: extract CASS rules and publish to docs/data"
           file_pattern: data/rules.yaml docs/data/*.yaml
+      - name: Extract rules (robust)
+  run: |
+    python scripts/extract_rules_from_pdf.py \
+      --y-tol 3 --type-gap 10 --body-margin 8 --min-body-len 40 \
+      data/source_pdfs/*.pdf --out data/rules.yaml
+
