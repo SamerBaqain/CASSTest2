@@ -1,15 +1,8 @@
 #!/usr/bin/env python3
 """
 CASS extractor — column-aware start (largest x0 gap), adjacent R/G safe,
-keeps first real sentence (heading strip stops at first sentence-like line),
+keeps first real sentence, DROPS anchor stub lines (e.g. `CASS 1.2.2 R`),
 filters footers/furniture, paragraph reflow, de-dup, stable sort.
-
-Typical run:
-  python scripts/extract_rules_from_pdf.py \
-    --left-max-ratio 0.46 --right-min-ratio 0.42 \
-    --y-tol 3 --type-dx 18 --type-dy 4 \
-    --body-margin 14 --start-slack 10 --heading-size-min 12 --min-body-len 40 \
-    data/source_pdfs/*.pdf --out data/rules.yaml
 """
 
 import argparse, pathlib, re, sys
@@ -24,6 +17,12 @@ ID_TOKEN_RE = re.compile(rf"^{ID_CORE}(?P<trail>[A-Z]{{1,2}})?$")
 TYPE_ONLY_RE = re.compile(r"^(R|G|E|BG|C)$", re.I)
 SECTION_RE = re.compile(r"^\s*Section\s*:\s*CASS\s+\d+[A-Z]?\.\d+", re.I)
 
+# NEW: one-line anchor match (and nothing else) — used to prevent spillover
+ANCHOR_LINE_RE = re.compile(
+    r"^\s*CASS\s+\d+[A-Z]?\.\d+\.\d+(?:-[A-Z]|[A-Z])?(?:\s+(?:R|G|E|BG|C))?\s*$",
+    re.I,
+)
+
 DROP_LINE_RE = re.compile(
     r"^\s*(www\.handbook\.fca\.org\.uk|FCA\s+\d{4}/\d+|Page\s+\d+\s+of\s+\d+)\s*$",
     re.I,
@@ -32,16 +31,8 @@ FOOTER_DATE_RE = re.compile(
     r"\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+20\d{2}\b",
     re.I,
 )
-DROP_HINTS = [
-    "Actions for damages",
-    "Section 138D",
-    "Rights of Action",
-    "For private person",
-    "Removed?",
-    "For other person",
-]
+DROP_HINTS = ["Actions for damages","Section 138D","Rights of Action","For private person","Removed?","For other person"]
 
-# ---------- tiny utils ----------
 def norm_type(t: Optional[str]) -> str:
     return "R" if (t or "").upper() == "R" else "G"
 
@@ -53,18 +44,13 @@ def lower_ratio(s: str) -> float:
 # ---------- word → line ----------
 def words_sorted(page):
     return sorted(
-        page.extract_words(
-            use_text_flow=True, keep_blank_chars=False,
-            extra_attrs=["fontname","size"]
-        ),
+        page.extract_words(use_text_flow=True, keep_blank_chars=False, extra_attrs=["fontname","size"]),
         key=lambda w: (w["doctop"], w["x0"])
     )
 
 def words_to_lines(words: List[dict], y_tol: float) -> List[dict]:
     if not words: return []
-    lines: List[dict] = []
-    cur: List[dict] = []
-    cur_top = None
+    lines, cur, cur_top = [], [], None
     for w in sorted(words, key=lambda t: (t["doctop"], t["x0"])):
         top = w["top"]
         if cur_top is None or abs(top - cur_top) <= y_tol:
@@ -101,9 +87,6 @@ def line_med_size(ln: dict) -> float:
 
 # ---------- heading / sentence heuristics ----------
 def looks_sentence_like(text: str) -> bool:
-    """
-    Treat as running text if it has punctuation or enough lowercase/length.
-    """
     t = text.strip()
     if not t: return False
     if re.search(r"[.;:)]", t): return True
@@ -111,54 +94,38 @@ def looks_sentence_like(text: str) -> bool:
     return False
 
 def looks_title_stub(text: str) -> bool:
-    # "R Application", "G Purpose", short words, no sentence punctuation
     return bool(re.match(r"^[RG]\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*:?$", text.strip())) and not re.search(r"[.;)]", text)
 
 def is_heading_line(ln: dict, body_size_guess: float, heading_size_min: float) -> bool:
-    """
-    A conservative 'real heading' test.
-    """
     t = (ln["text"] or "").strip()
     if not t: return False
-
-    # Short ALLCAPS banners (e.g., SECTION) with no punctuation
     letters = re.sub(r"[^A-Za-z]+", "", t)
     if letters and letters.isupper() and len(letters) <= 40 and not re.search(r"[.;:)]", t):
         return True
-
-    # Explicit R/G title stub
-    if looks_title_stub(t):
-        return True
-
-    # Big + bold and noticeably larger than body text, without sentence punctuation
+    if looks_title_stub(t): return True
     big = line_max_size(ln) >= heading_size_min
     bold = line_is_bold(ln)
-    larger = line_med_size(ln) >= (body_size_guess + 1.2)  # a bit larger than nearby body
-    if big and bold and larger and not re.search(r"[.;:)]", t):
-        return True
-
+    larger = line_med_size(ln) >= (body_size_guess + 1.2)
+    if big and bold and larger and not re.search(r"[.;:)]", t): return True
     return False
 
 def should_drop_line_text(s: str) -> bool:
     if not s.strip(): return True
     if DROP_LINE_RE.match(s): return True
     if FOOTER_DATE_RE.search(s): return True
+    if ANCHOR_LINE_RE.match(s): return True            # NEW: drop anchor-only line
     if any(h.lower() in s.lower() for h in DROP_HINTS): return True
     if re.fullmatch(r"[.\-–—\s]+", s): return True
     return False
 
 # ---------- paragraph reflow ----------
 LIST_START_RE = re.compile(r"""^(
-    \(\d+\)|           # (1)
-    \([a-z]\)|         # (a)
-    \d+\.\s|           # 1.
-    \([ivxlcdm]+\)     # (i)
+    \(\d+\)| \([a-z]\)| \d+\.\s| \([ivxlcdm]+\)
 )$""", re.I | re.X)
 
 def reflow_paragraphs_from_lines(lines: List[dict]) -> str:
     cleaned = [ln["text"] for ln in lines if not should_drop_line_text(ln["text"])]
-    tmp: List[str] = []
-    last_blank = False
+    tmp, last_blank = [], False
     for s in cleaned:
         if not s.strip():
             if not last_blank: tmp.append("")
@@ -166,12 +133,9 @@ def reflow_paragraphs_from_lines(lines: List[dict]) -> str:
         else:
             tmp.append(s.strip()); last_blank = False
 
-    def dehyphen(s: str) -> str:
-        return re.sub(r"(\w)-\s*$", r"\1", s)
+    def dehyphen(s: str) -> str: return re.sub(r"(\w)-\s*$", r"\1", s)
 
-    buf: List[str] = []
-    acc = ""
-
+    buf, acc = [], ""
     def commit():
         nonlocal acc
         if acc.strip(): buf.append(acc.strip())
@@ -181,16 +145,10 @@ def reflow_paragraphs_from_lines(lines: List[dict]) -> str:
         s = raw
         if not s: commit(); continue
         s = dehyphen(s)
-
         first_token = s.split()[0] if s.split() else ""
-        if LIST_START_RE.match(first_token):
-            commit(); acc = s; continue
-
-        if acc.endswith(":"):
-            commit(); acc = s; continue
-
+        if LIST_START_RE.match(first_token): commit(); acc = s; continue
+        if acc.endswith(":"): commit(); acc = s; continue
         acc = s if not acc else f"{acc} {s}"
-
     commit()
     return "\n\n".join(buf)
 
@@ -204,121 +162,76 @@ def detect_anchors(pdf, left_max_ratio: float, y_tol: float, type_dx: float, typ
         i = 0
         while i < len(toks):
             t = toks[i]
-            if t["x0"] >= left_limit:
-                i += 1; continue
-
+            if t["x0"] >= left_limit: i += 1; continue
             if CASS_RE.match(t["text"]):
                 j = i + 1
                 while j < len(toks) and abs(toks[j]["doctop"] - t["doctop"]) <= y_tol:
                     cand = toks[j]
-                    if cand["x0"] >= left_limit:
-                        break
+                    if cand["x0"] >= left_limit: break
                     m = ID_TOKEN_RE.match(cand["text"])
                     if m:
                         gd = m.groupdict()
                         rid = f"{gd['chapter']}.{gd['section']}.{gd['rule']}"
-                        typ = None
-                        start_x = cand["x1"]
-
-                        # same-line adjacent type
+                        typ, start_x = None, cand["x1"]
                         k = j + 1
                         if k < len(toks):
                             nxt = toks[k]
                             same_band = abs(nxt["doctop"] - cand["doctop"]) <= type_dy
                             close_right = (0 <= (nxt["x0"] - cand["x1"]) <= type_dx)
                             if nxt["x0"] < left_limit and same_band and close_right and TYPE_ONLY_RE.match(nxt["text"]):
-                                typ = nxt["text"].upper()
-                                start_x = max(start_x, nxt["x1"])
-
-                        # glued trail like 1.2.2R
+                                typ = nxt["text"].upper(); start_x = max(start_x, nxt["x1"])
                         if not typ:
                             trail = (gd.get("trail") or "").upper()
-                            if trail in ("R","G","E","BG","C"):
-                                typ = trail
-
-                        # next line fallback
+                            if trail in ("R","G","E","BG","C"): typ = trail
                         if not typ and (j + 1) < len(toks):
                             nxt = toks[j+1]
                             if nxt["x0"] < left_limit and 0 < (nxt["doctop"] - cand["doctop"]) <= type_dy and TYPE_ONLY_RE.match(nxt["text"]):
-                                typ = nxt["text"].upper()
-                                start_x = max(start_x, nxt["x1"])
-
-                        anchors.append({
-                            "kind":"rule",
-                            "id": rid,
-                            "type": norm_type(typ),
-                            "page": pi,
-                            "doctop": min(t["doctop"], cand["doctop"]),
-                            "x1": start_x,
-                        })
+                                typ = nxt["text"].upper(); start_x = max(start_x, nxt["x1"])
+                        anchors.append({"kind":"rule","id":rid,"type":norm_type(typ),"page":pi,"doctop":min(t["doctop"], cand["doctop"]), "x1":start_x})
                         break
                     j += 1
-
             elif SECTION_RE.match(t["text"]) and t["x0"] < left_limit:
                 anchors.append({"kind":"section","page":pi,"doctop":t["doctop"],"x1":t["x1"]})
             i += 1
-
     anchors.sort(key=lambda a: (a["page"], a["doctop"]))
     return anchors
 
-# ---------- column split (largest x0 gap) ----------
+# ---------- column split ----------
 def estimate_right_col_x0(candidates: List[dict], min_big_gap: float = 40.0) -> Optional[float]:
     xs = sorted(ln["x0"] for ln in candidates if (ln.get("text") or "").strip())
-    if len(xs) < 5:
-        return None
-    gaps = [(xs[i+1] - xs[i], i) for i in range(len(xs)-1)]
-    gaps.sort(reverse=True)
+    if len(xs) < 5: return None
+    gaps = sorted([(xs[i+1]-xs[i], i) for i in range(len(xs)-1)], reverse=True)
     gap, idx = gaps[0]
     if gap >= min_big_gap:
         right_group = xs[idx+1:]
         return min(right_group) if right_group else None
-    # fallback: use rightmost 40% quantile
-    cut = int(len(xs) * 0.6)
+    cut = int(len(xs)*0.6)
     right_group = xs[cut:]
     return min(right_group) if right_group else None
 
 # ---------- find first true body line ----------
 def find_body_start(lines: List[dict], heading_size_min: float) -> int:
-    """
-    Strip at most a small, contiguous block of real headings at the very top;
-    stop stripping as soon as a sentence-like line is seen. Guarantees a line is kept.
-    """
     if not lines: return 0
-    # Guess typical body size from the next few lines
-    sample = lines[: min(12, len(lines))]
+    sample = lines[:min(12, len(lines))]
     body_size_guess = median([line_med_size(ln) for ln in sample if (ln.get("text") or "").strip()] or [10.0])
-
-    i = 0
-    stripped = 0
+    i, stripped = 0, 0
     while i < len(lines) and stripped < 3:
-        ln = lines[i]
-        t = (ln.get("text") or "").strip()
-        if not t or should_drop_line_text(t):
-            i += 1; stripped += 1; continue
-
-        if looks_sentence_like(t):
-            # first real sentence — keep it
-            break
-
-        if is_heading_line(ln, body_size_guess, heading_size_min):
-            i += 1; stripped += 1; continue
-
-        # Not clearly a heading and not clearly a sentence: keep it (defensive)
+        ln = lines[i]; t = (ln.get("text") or "").strip()
+        if not t or should_drop_line_text(t): i += 1; stripped += 1; continue
+        if looks_sentence_like(t): break
+        if is_heading_line(ln, body_size_guess, heading_size_min): i += 1; stripped += 1; continue
         break
-
     return min(i, len(lines)-1)
 
 # ---------- body harvesting ----------
 def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, right_min_ratio: float,
                    heading_size_min: float, min_body_len: int, start_slack: float) -> Dict[Tuple[str,str], dict]:
     out: Dict[Tuple[str,str], dict] = {}
-
     page_lines = [words_to_lines(words_sorted(p), y_tol) for p in pdf.pages]
     widths = [float(p.width) for p in pdf.pages]
 
     for idx, anc in enumerate(anchors):
         if anc.get("kind") != "rule": continue
-
         start_page, start_y = anc["page"], anc["doctop"]
         if idx + 1 < len(anchors):
             end_page, end_y = anchors[idx+1]["page"], anchors[idx+1]["doctop"]
@@ -327,42 +240,40 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
 
         start_bar = anc["x1"] + body_margin
 
-        # ---- START PAGE: collect candidates after the anchor
+        # gather candidates after anchor (drop furniture + anchor stub lines)
         start_candidates = []
         for ln in page_lines[start_page]:
             if ln["doctop"] < start_y: continue
             if end_page == start_page and ln["doctop"] >= end_y: break
-            if should_drop_line_text(ln["text"]): continue
+            if should_drop_line_text(ln["text"]) or ANCHOR_LINE_RE.match(ln["text"]):  # << NEW
+                continue
             start_candidates.append(ln)
 
-        # ---- determine right column start
         col_x0 = estimate_right_col_x0(start_candidates)
-
         def in_right_col(ln: dict) -> bool:
             if col_x0 is not None:
                 return ln["x0"] >= col_x0 - 2
-            # fallback to start bar + slack
             return (ln["x0"] >= start_bar - start_slack) or (ln["x1"] >= start_bar + 2)
 
         candidates = [ln for ln in start_candidates if in_right_col(ln)]
-
-        # find first true body line (never strips the real first sentence)
         start_idx = find_body_start(candidates, heading_size_min)
         raw_lines: List[dict] = candidates[start_idx:]
 
-        # ---- SPILL PAGES: keep right side only
+        # spill pages (also drop anchor stub lines defensively)
         if end_page > start_page:
             for p in range(start_page+1, end_page):
                 right_min = widths[p] * right_min_ratio
                 for ln in page_lines[p]:
                     if ln["x0"] < right_min: continue
-                    if should_drop_line_text(ln["text"]): continue
+                    if should_drop_line_text(ln["text"]) or ANCHOR_LINE_RE.match(ln["text"]):  # << NEW
+                        continue
                     raw_lines.append(ln)
             right_min = widths[end_page] * right_min_ratio
             for ln in page_lines[end_page]:
                 if ln["doctop"] >= end_y: break
                 if ln["x0"] < right_min: continue
-                if should_drop_line_text(ln["text"]): continue
+                if should_drop_line_text(ln["text"]) or ANCHOR_LINE_RE.match(ln["text"]):  # << NEW
+                    continue
                 raw_lines.append(ln)
 
         text = reflow_paragraphs_from_lines(raw_lines).strip()
@@ -373,27 +284,17 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
         if not prev or len(text) > len(prev["text"]):
             chapter = anc["id"].split(".")[0]
             out[key] = {
-                "id": anc["id"],
-                "chapter": chapter,
-                "type": anc["type"],
-                "title": None,
-                "summary": None,
-                "risk_ids": [],
-                "default_control_ids": [],
-                "applicability_conditions": None,
-                "text": text,
-                "display": f"CASS {anc['id']}",
+                "id": anc["id"], "chapter": chapter, "type": anc["type"],
+                "title": None, "summary": None, "risk_ids": [], "default_control_ids": [],
+                "applicability_conditions": None, "text": text, "display": f"CASS {anc['id']}",
             }
-
     return out
 
 # ---------- sort ----------
-CHAPTER_ORDER = ["1", "1A", "3", "5", "6", "7"]
+CHAPTER_ORDER = ["1","1A","3","5","6","7"]
 def sort_key(rec: dict):
-    chap = rec["chapter"]
-    chap_idx = CHAPTER_ORDER.index(chap) if chap in CHAPTER_ORDER else 99
-    a,b,c = rec["id"].split(".")
-    sec = int(b)
+    chap = rec["chapter"]; chap_idx = CHAPTER_ORDER.index(chap) if chap in CHAPTER_ORDER else 99
+    a,b,c = rec["id"].split("."); sec = int(b)
     rule_num = int("".join(ch for ch in c if ch.isdigit()) or 0)
     rule_suf = "".join(ch for ch in c if not ch.isdigit())
     t_rank = 0 if rec["type"] == "R" else 1
@@ -416,28 +317,4 @@ def main():
     args = ap.parse_args()
 
     all_entries: Dict[Tuple[str,str], dict] = {}
-
-    for pth in args.pdfs:
-        path = pathlib.Path(pth)
-        if not path.exists():
-            print(f"[warn] missing {path}", file=sys.stderr); 
-            continue
-        with pdfplumber.open(str(path)) as pdf:
-            anchors = detect_anchors(pdf, args.left_max_ratio, args.y_tol, args.type_dx, args.type_dy)
-            if not anchors:
-                print(f"[warn] no anchors found in {path}", file=sys.stderr)
-            bodies = harvest_bodies(pdf, anchors, args.y_tol, args.body_margin, args.right_min_ratio,
-                                    args.heading_size_min, args.min_body_len, args.start_slack)
-            for k,v in bodies.items():
-                cur = all_entries.get(k)
-                if not cur or len(v["text"]) > len(cur["text"]):
-                    all_entries[k] = v
-
-    items = sorted(all_entries.values(), key=sort_key)
-    outp = pathlib.Path(args.out); outp.parent.mkdir(parents=True, exist_ok=True)
-    with outp.open("w", encoding="utf-8") as f:
-        yaml.safe_dump(items, f, sort_keys=False, allow_unicode=True)
-    print(f"[ok] wrote", len(items), "rules ->", outp)
-
-if __name__ == "__main__":
-    main()
+    for
