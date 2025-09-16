@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-CASS extractor — per-page column detection (largest x0 gap), type-safe (R/G) anchors,
-keeps the first real sentence, skips anchor stubs, robust page-boundaries,
-paragraph reflow with de-hyphen, de-dup and stable sort.
+CASS extractor — per-page column detection (largest x0 gap), type-safe anchors,
+strip leading anchor prefix from fused lines, keep first real sentence,
+ignore headings/footers, robust page boundaries, paragraph reflow, de-dup, stable sort.
 
-Run e.g.:
+Run:
   python scripts/extract_rules_from_pdf.py \
     --left-max-ratio 0.46 --right-min-ratio 0.42 \
     --y-tol 3 --type-dx 18 --type-dy 4 \
@@ -24,9 +24,15 @@ ID_TOKEN_RE = re.compile(rf"^{ID_CORE}(?P<trail>[A-Z]{{1,2}})?$")
 TYPE_ONLY_RE = re.compile(r"^(R|G|E|BG|C)$", re.I)
 SECTION_RE = re.compile(r"^\s*Section\s*:\s*CASS\s+\d+[A-Z]?\.\d+", re.I)
 
-# A single-line anchor like "CASS 1.2.2 R"
+# A single-line anchor like "CASS 1.2.2 R" (drop entirely when it's a full line)
 ANCHOR_LINE_RE = re.compile(
     r"^\s*CASS\s+\d+[A-Z]?\.\d+\.\d+(?:-[A-Z]|[A-Z])?(?:\s+(?:R|G|E|BG|C))?\s*$",
+    re.I,
+)
+
+# NEW: If a body line is "fused" with left-gutter tokens, remove the prefix only.
+ANCHOR_PREFIX_RE = re.compile(
+    r"^\s*CASS\s+\d+[A-Z]?\.\d+\.\d+(?:-[A-Z]|[A-Z])?(?:\s+(?:R|G|E|BG|C))?\s+",
     re.I,
 )
 
@@ -128,12 +134,16 @@ def is_heading_line(ln: dict, body_size_guess: float, heading_size_min: float) -
 
 def should_drop_line_text(s: str) -> bool:
     if not s.strip(): return True
-    if ANCHOR_LINE_RE.match(s): return True
+    if ANCHOR_LINE_RE.match(s): return True          # full-line anchor -> drop
     if DROP_LINE_RE.match(s): return True
     if FOOTER_DATE_RE.search(s): return True
     if any(h.lower() in s.lower() for h in DROP_HINTS): return True
     if re.fullmatch(r"[.\-–—\s]+", s): return True
     return False
+
+def strip_leading_anchor_prefix(s: str) -> str:
+    """Remove a *leading* 'CASS x.x.x R/G' prefix if present; keep mid-text references."""
+    return ANCHOR_PREFIX_RE.sub("", s).strip()
 
 # ------------------ paragraph reflow ------------------
 LIST_START_RE = re.compile(r"""^(
@@ -141,7 +151,19 @@ LIST_START_RE = re.compile(r"""^(
 )$""", re.I | re.X)
 
 def reflow_paragraphs_from_lines(lines: List[dict]) -> str:
-    cleaned = [ln["text"] for ln in lines if not should_drop_line_text(ln["text"])]
+    # sanitize and drop furniture
+    cleaned = []
+    for ln in lines:
+        t = ln["text"]
+        if should_drop_line_text(t):  # includes full-line anchors & furniture
+            continue
+        # also remove a *leading* anchor prefix if fused with body
+        t2 = strip_leading_anchor_prefix(t)
+        if not t2:
+            continue
+        cleaned.append(t2)
+
+    # collapse duplicate blank lines
     tmp, last_blank = [], False
     for s in cleaned:
         if not s.strip():
@@ -204,8 +226,7 @@ def detect_anchors(pdf, left_max_ratio: float, y_tol: float, type_dx: float, typ
                         # glued trail
                         if not typ:
                             trail = (gd.get("trail") or "").upper()
-                            if trail in ("R","G","E","BG","C"):
-                                typ = trail
+                            if trail in ("R","G","E","BG","C"): typ = trail
                         # next-line type
                         if not typ and (j + 1) < len(toks):
                             nxt = toks[j+1]
@@ -242,14 +263,13 @@ def page_right_x0s(pdf, page_lines: List[List[dict]], right_min_ratio: float) ->
     for p, page in enumerate(pdf.pages):
         W = float(page.width)
         fallback = W * right_min_ratio
-        # exclude furniture and anchor stubs
         candidates = [ln for ln in page_lines[p] if not should_drop_line_text(ln["text"])]
         x0 = estimate_right_col_x0(candidates)
         xs.append(x0 if x0 is not None else fallback)
     return xs
 
 # ------------------ body start ------------------
-def find_body_start(lines: List[dict], heading_size_min: float) -> int:
+def looks_like_heading_block_start(lines: List[dict], heading_size_min: float) -> int:
     if not lines: return 0
     sample = lines[:min(12, len(lines))]
     body_size_guess = median([line_med_size(ln) for ln in sample if (ln.get("text") or "").strip()] or [10.0])
@@ -279,7 +299,7 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
         else:
             end_page, end_y = start_page, float("inf")
 
-        # collect candidates on start page, using per-page column and y tolerance
+        # start page candidates (tight y window; remove furniture; right-column only)
         start_candidates = []
         start_cut = start_y - (y_tol / 2.0)
         stop_cut  = end_y   - (y_tol / 2.0) if end_page == start_page else float("inf")
@@ -288,31 +308,52 @@ def harvest_bodies(pdf, anchors: List[dict], y_tol: float, body_margin: float, r
         for ln in page_lines[start_page]:
             if ln["doctop"] < start_cut: continue
             if ln["doctop"] >= stop_cut: break
-            if ln["x0"] < col0 - start_slack and ln["x1"] < col0 + 2:  # left gutter
+            # require presence on the right column (but allow tiny overlap)
+            if ln["x0"] < col0 - start_slack and ln["x1"] < col0 + 2:
                 continue
-            if should_drop_line_text(ln["text"]): continue
-            start_candidates.append(ln)
+            t = ln["text"]
+            if should_drop_line_text(t):   # includes full-line anchors
+                continue
+            # remove leading anchor prefix if fused
+            t2 = strip_leading_anchor_prefix(t)
+            if not t2: 
+                continue
+            ln2 = dict(ln)
+            ln2["text"] = t2
+            start_candidates.append(ln2)
 
-        # keep the true first sentence (strip at most a small heading block)
-        s_idx = find_body_start(start_candidates, heading_size_min)
+        # find first real body line (skip at most a small heading block)
+        s_idx = looks_like_heading_block_start(start_candidates, heading_size_min)
         raw_lines: List[dict] = start_candidates[s_idx:]
 
-        # spill pages: use per-page column cut and tight end break
+        # spill pages with per-page right column
         if end_page > start_page:
             for p in range(start_page + 1, end_page):
                 col = right_x0[p]
                 for ln in page_lines[p]:
-                    if ln["x0"] < col - 2 and ln["x1"] < col + 2: continue
-                    if should_drop_line_text(ln["text"]): continue
-                    raw_lines.append(ln)
+                    if ln["x0"] < col - 2 and ln["x1"] < col + 2: 
+                        continue
+                    t = ln["text"]
+                    if should_drop_line_text(t): 
+                        continue
+                    ln2 = dict(ln)
+                    ln2["text"] = strip_leading_anchor_prefix(t)  # defensive; usually no effect mid-page
+                    if not ln2["text"]:
+                        continue
+                    raw_lines.append(ln2)
 
             # end page chunk — stop before anchor with y tolerance
             col_end = right_x0[end_page]
             for ln in page_lines[end_page]:
                 if ln["doctop"] >= end_y - (y_tol / 2.0): break
                 if ln["x0"] < col_end - 2 and ln["x1"] < col_end + 2: continue
-                if should_drop_line_text(ln["text"]): continue
-                raw_lines.append(ln)
+                t = ln["text"]
+                if should_drop_line_text(t): continue
+                ln2 = dict(ln)
+                ln2["text"] = strip_leading_anchor_prefix(t)
+                if not ln2["text"]:
+                    continue
+                raw_lines.append(ln2)
 
         text = reflow_paragraphs_from_lines(raw_lines).strip()
         if len(text) < min_body_len: continue
@@ -393,3 +434,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
