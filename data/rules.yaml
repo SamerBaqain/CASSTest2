@@ -1,3 +1,109 @@
+- id: 1A.3.1A
+  chapter: 1A
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: '[deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    systems and
+
+    controls from its
+
+    auditor
+
+    client money
+
+    requirements
+
+    according to
+
+    or CASS 5.5.84
+
+    R
+
+    client money
+
+    and dates
+
+    received and
+
+    delivered to
+
+    client'
+  display: CASS 1A.3.1A
+- id: 7.11.14R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'and the firm''s
+
+    attempts to
+
+    contact the client
+
+    concerned
+
+    accounts ,
+
+    including the
+
+    information in
+
+    7.11.55R(1)(a)
+
+    and CASS
+
+    7.11.55R(1)(b)
+
+    considers would CASS
+
+    be appropriate to 7.13.13R(3A)(b) .
+
+    hold in such
+
+    accounts;
+
+    (ii) the firm’s
+
+    rationale for
+
+    reaching its
+
+    conclusion(s)
+
+    under (i); and
+
+    (iii) the means by
+
+    which the firm
+
+    will comply with
+
+    7.13.14AR(2)(a) ,'
+  display: CASS 7.11.14R
 - id: 11.11.25
   chapter: '11'
   type: G
@@ -12,149 +118,3 @@
 
     arrangement'
   display: CASS 11.11.25
-- id: 13.10.1R
-  chapter: '13'
-  type: G
-  title: null
-  summary: null
-  risk_ids: []
-  default_control_ids: []
-  applicability_conditions: null
-  text: 'CASS
-
-    .
-
-    .
-
-    .
-
-    .
-
-    .
-
-    CASS
-
-    .
-
-    .
-
-    .
-
-    .
-
-    CHAPTER
-
-    payments
-
-    .
-
-    . CASS
-
-    .
-
-    .
-
-    .
-
-    .
-
-    .
-
-    CHAPTER
-
-    payments
-
-    .
-
-    CASS
-
-    .
-
-    .
-
-    .
-
-    .
-
-    .
-
-    .
-
-    .
-
-    .
-
-    CHAPTER
-
-    CASS
-
-    contravention of which by an authorised
-
-    person may be actionable under Section
-
-    138D of the Act (Actions for damages) by a
-
-    person who suffers loss as a result of the
-
-    contravention
-
-    private person?'', the rule may be actionable
-
-    by a ''private person'' under Section 138D (or,
-
-    in certain circumstances, his fiduciary or
-
-    representative; see article 6(2) and (3)(c) of
-
-    the Financial Services and Markets Act 2000
-
-    (Rights of Action) Regulations 2001 (SI
-
-    2001/2256)). A ''Yes'' in the column headed
-
-    ''Removed'' indicates that the FCA has
-
-    removed the right of action under Section
-
-    138D(3) of the Act . If so, a reference to the
-
-    rule in which it is removed is also given.
-
-    indicates whether the rule may be actionable
-
-    by a person other than a private person (or
-
-    his fiduciary or representative) under article
-
-    6(2) and (3) of those Regulations. If so, an
-
-    indication of the type of person by whom the
-
-    rule may be actionable is given.
-
-    For private Removed? For other person?
-
-    person?
-
-    .
-
-    .
-
-    .
-
-    .
-
-    . CASS
-
-    .
-
-    .
-
-    .
-
-    .
-
-    CHAPTER
-
-    CASS'
-  display: CASS 13.10.1R
