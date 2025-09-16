@@ -68,12 +68,58 @@
 
     Classification".
 
-    operational
-
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 1A.2.5G
+- id: 1A.2.8
+  chapter: 1A
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: '[deleted]'
+  display: CASS 1A.2.8G
+- id: 1A.2.8A
+  chapter: 1A
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: '[deleted]'
+  display: CASS 1A.2.8AG
+- id: 1A.2.9
+  chapter: 1A
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'The highest total The highest total The need to By the fifteenth
+
+    amount of client amount of client comply with business day of
+
+    money and the money and safe CASS 1A.2.9 R January unless
+
+    highest total custody assets (1)- (3) contrary
+
+    value of safe held by a firm, as provision is
+
+    custody assets more fully made in CASS
+
+    held by a firm, as described in 1A.2.9 R
+
+    more fully CASS 1A.2.9 R.
+
+    described in
+
+    CASS 1A.2.9 R'
+  display: CASS 1A.2.9G
 - id: 1A.3.1A
   chapter: 1A
   type: R
@@ -106,9 +152,7 @@
 
     Financial Services Act 2016: Certification and regulatory references)
 
-    operational
-
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -186,9 +230,7 @@
 
     grounds that:
 
-    operational
-
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -214,10 +256,152 @@
 
     made.
 
-    operational
+    September 2025
 
-    www.handbook.fca.org.uk September 2025'
+    .
+
+    .
+
+    .
+
+    .
+
+    . CASS
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
+
+    3 Collateral
+
+    September 2025
+
+    CASS'
   display: CASS 1A.3.1AR
+- id: 1A.3.2
+  chapter: 1A
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: '[deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    September 2025
+
+    CASS
+
+    Matter to be Contents of Trigger event Time allowed
+
+    notified notification
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]'
+  display: CASS 1A.3.2G
+- id: 1A.3.3
+  chapter: 1A
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Allocation of the The person to Upon allocation 5 years (from the
+
+    CASS oversight whom the CASS date the record
+
+    responsibilities in oversight was made)
+
+    CASS 1A.3.1 R, responsibilities
+
+    of the CASS have been
+
+    operational allocated,
+
+    oversight subject to the
+
+    function, or of provisions of
+
+    the CASS 1A.3.3 R,
+
+    responsibilities in to whom the
+
+    CASS 1A.3.1C R CASS
+
+    (2), as relevant operational
+
+    oversight
+
+    function has
+
+    been allocated in
+
+    accordance with
+
+    CASS 1A.3.1A
+
+    R, or to whom
+
+    the
+
+    responsibilities in
+
+    CASS 1A.3.1C R
+
+    (2) have been
+
+    allocated
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    [deleted]
+
+    [deleted]
+
+    [deleted]'
+  display: CASS 1A.3.3G
 - id: 3.2.2
   chapter: '3'
   type: R
@@ -238,8 +422,56 @@
 
     a statement of the assets held on this basis will suffice.
 
-    www.handbook.fca.org.uk September 2025'
+    September 2025
+
+    .
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CASS
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
+
+    Client money: insurance
+
+    activity
+
+    September 2025
+
+    CASS'
   display: CASS 3.2.2R
+- id: 5.1.1
+  chapter: '5'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Record of Record of Not specified Not specified
+
+    election of compliance with
+
+    compliance with specified CASS
+
+    specified CASS rules
+
+    rules'
+  display: CASS 5.1.1R
 - id: 5.1.5A
   chapter: '5'
   type: G
@@ -306,10 +538,42 @@
 
     5.4.7 R.
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 5.1.5AG
+- id: 5.2.3
+  chapter: '5'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Holding client The terms of the Not specified Six years
+
+    money as agent agreement'
+  display: CASS 5.2.3R
+- id: 5.4.4
+  chapter: '5'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Adequacy of Written Not specified Not specified
+
+    systems and confirmation of
+
+    controls adequate
+
+    systems and
+
+    controls from its
+
+    auditor'
+  display: CASS 5.4.4R
 - id: 5.4.7
   chapter: '5'
   type: G
@@ -374,7 +638,7 @@
 
     arises as a result of the reconciliation carried out in (2), the firm
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -456,7 +720,7 @@
 
     if:
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -526,7 +790,7 @@
 
     applicable when the reconciliation is completed.
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -601,7 +865,7 @@
 
     a cheque or other payable order to discharge its fiduciary duty under CASS
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -673,7 +937,7 @@
 
     the information set out in (b) to the client on at least one further occasion
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -735,7 +999,7 @@
 
     the client money (insurance) distribution rules.
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 5.5.19G
@@ -793,7 +1057,7 @@
 
     includes in its title the word ''designated'';
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -873,7 +1137,7 @@
 
     is held in a designated bank account.
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -947,7 +1211,7 @@
 
     a firm in writing that he does not wish his money to be held with a bank in
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -1037,7 +1301,7 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: 'activity www.handbook.fca.org.uk September 2025
+  text: 'September 2025
 
     CASS
 
@@ -1103,7 +1367,7 @@
 
     third party with which client money is held, a firm must notify the FCA:
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -1171,6 +1435,32 @@
 
     at the date of calculation, it is required to segregate in accordance with'
   display: CASS 5.5.49G
+- id: 5.5.61R
+  chapter: '5'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Failure of bank, Full details As soon as the Immediately
+
+    broker or including firm becomes
+
+    settlement agent whether it aware
+
+    intends to make
+
+    good any
+
+    shortfall that may
+
+    have arisen in
+
+    the amounts
+
+    involved'
+  display: CASS 5.5.61RG
 - id: 5.5.69
   chapter: '5'
   type: G
@@ -1197,7 +1487,7 @@
 
     to (1), placed in a separate client bank account that has been opened
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -1249,6 +1539,26 @@
 
     the periodic client money calculation, in accordance with CASS 5.5.63 R to'
   display: CASS 5.5.69G
+- id: 5.5.76R
+  chapter: '5'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Inability to Inability to Inability to Immediately
+
+    perform the perform the perform the
+
+    calculation calculation calculation
+
+    required by
+
+    CASS
+
+    5.5.63R(1)'
+  display: CASS 5.5.76RG
 - id: 5.5.77
   chapter: '5'
   type: G
@@ -1269,7 +1579,7 @@
 
     period.
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -1347,7 +1657,7 @@
 
     pooling event.
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -1415,7 +1725,7 @@
 
     5.6.31 R do not apply if, on the failure of the third party, the firm
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -1483,7 +1793,7 @@
 
     G will apply.
 
-    activity www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -1537,6 +1847,90 @@
 
     the periodic client money calculation, in accordance with CASS 5.5.63 R to'
   display: CASS 5.5.77G
+- id: 5.5.77R
+  chapter: '5'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Inability to make Inability to make Inability to make Immediately
+
+    good any good any good any
+
+    shortfall shortfall in client shortfall
+
+    identified by money
+
+    CASS
+
+    5.5.63R(1)
+
+    Inability to The fact that the Non-compliance Without delay
+
+    comply with the firm has not or inability, in
+
+    requirements in complied or is any material
+
+    CASS 6.6.2 R to unable, in any respect, to
+
+    CASS 6.6.4 R material respect, comply with the
+
+    (Records, to comply with requirements
+
+    accounts and the requirements
+
+    reconciliations) and the reasons
+
+    for that'
+  display: CASS 5.5.77RG
+- id: 5.5.84
+  chapter: '5'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client money Whether the firm Not specified Not specified
+
+    calculation calculates its
+
+    client money
+
+    requirements
+
+    according to
+
+    CASS 5.5.84 R
+
+    or CASS 5.5.84
+
+    R'
+  display: CASS 5.5.84G
+- id: 5.8.3
+  chapter: '5'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client''s title to a Identity of such Not specified Three years
+
+    contract of documents
+
+    insurance and/or property
+
+    and dates
+
+    received and
+
+    delivered to
+
+    client'
+  display: CASS 5.8.3R
 - id: 6.1.1
   chapter: '6'
   type: R
@@ -1571,6 +1965,134 @@
   applicability_conditions: null
   text: (2) Application
   display: CASS 6.1.1BR
+- id: 6.1.6B
+  chapter: '6'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Written The agreement When From the date
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    agreement agreement made the agreement is
+
+    regarding any entered into and
+
+    arrangement until five years
+
+    relating to a after the
+
+    TTCA agreement is
+
+    terminated
+
+    Client’s Client’s When Five years (from
+
+    communication communication communication date of
+
+    to firm of wish to of wish to made communication)
+
+    terminate TTCA terminate TTCA'
+  display: CASS 6.1.6BR
+- id: 6.1.8A
+  chapter: '6'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Firm''s response Firm''s response When Five years (from
+
+    to client''s wish to to client''s wish to notification given date of
+
+    terminate TTCA terminate TTCA communication)
+
+    Firm''s Description of Maintain up to Not specified
+
+    segregation of safe custody date (see default
+
+    money as client asset in provision CASS
+
+    money under question, identity 6.6.7R)
+
+    this rule of relevant client,
+
+    amount of
+
+    money
+
+    segregated'
+  display: CASS 6.1.8AR
+- id: 6.1.12E
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client''s Client''s written At the time of During the time
+
+    agreement to agreement client''s the firm makes
+
+    firm''s use of agreement use or intends to
+
+    exemption in make use of the
+
+    CASS 6.1.12 R exemption in
+
+    CASS 6.1.12 R
+
+    in respect of that
+
+    client''s safe
+
+    custody assets'
+  display: CASS 6.1.12EG
+- id: 6.1.16C
+  chapter: '6'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'A personal Client details 5 years (from the
+
+    investment firm and any actions making of the
+
+    that temporarily taken by the firm record)
+
+    holds a client''s
+
+    designated
+
+    investments
+
+    which is not in
+
+    the course of
+
+    MiFID business
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period'
+  display: CASS 6.1.16CR
 - id: 6.1.16E
   chapter: '6'
   type: G
@@ -1599,7 +2121,19 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: Records
+  text: 'Client custody Full details On receipt 5 years
+
+    assets which the
+
+    firm has
+
+    arranged for
+
+    another to hold
+
+    or receive
+
+    [deleted]'
   display: CASS 6.1.16KG
 - id: 6.1.22
   chapter: '6'
@@ -1641,7 +2175,7 @@
 
     A may be safeguarding and administering investments in respect of that
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -1699,6 +2233,30 @@
   applicability_conditions: null
   text: Holding
   display: CASS 6.2.7G
+- id: 6.2.15
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Safe custody Details of asset When asset Indefinite
+
+    assets divested divested, divested
+
+    by the firm under relevant
+
+    CASS 6.2.10 R documentation
+
+    and the firm''s
+
+    attempts to
+
+    contact the client
+
+    concerned'
+  display: CASS 6.2.15G
 - id: 6.3.1
   chapter: '6'
   type: R
@@ -1777,7 +2335,7 @@
 
     relies on a third party identified in (6)(b), a document which describes how
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -1809,10 +2367,80 @@
 
     of all accounts opened by that firm with that institution.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 6.3.1G
+- id: 6.3.2A
+  chapter: '6'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'A firm''s periodic Date of review, On the date of Five years (from
+
+    review into the actions taken by the review the date the firm
+
+    selection and the firm in ceases to use
+
+    appointment of a reviewing the the third party to
+
+    third party under selection and hold safe
+
+    CASS 6.3.1 R appointment of a custody assets
+
+    third party under belonging to
+
+    CASS 6.3.1 R, clients)
+
+    and grounds
+
+    upon which the
+
+    firm continues to
+
+    be satisfied of
+
+    appropriateness
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    of its selection of
+
+    that third party to
+
+    hold safe
+
+    custody assets
+
+    belonging to
+
+    clients
+
+    Granting of Recording of the On the firm’s Not specified
+
+    security granting of granting, or (see default
+
+    interests, liens or security where the firm provision CASS
+
+    rights of set-off interests, liens or has been 6.6.7R)
+
+    rights of set-off informed of the
+
+    in the firm’s granting
+
+    books and
+
+    records'
+  display: CASS 6.3.2AR
 - id: 6.3.4A
   chapter: '6'
   type: G
@@ -1845,7 +2473,7 @@
 
     firm when it held financial instruments belonging to a client in the course of
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 6.3.4AG
@@ -1877,6 +2505,92 @@
 
     Rule'
   display: CASS 6.4.1R
+- id: 6.4.3
+  chapter: '6'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Details of clients Details of the Maintain up to Not specified
+
+    and safe custody client on whose date records (see default
+
+    assets used for instructions the provision CASS
+
+    the firm''s own use of the safe 6.6.7R)
+
+    account or the custody assets
+
+    account of has been
+
+    another client of effected and the
+
+    the firm number of safe
+
+    custody assets
+
+    used belonging
+
+    to each client'
+  display: CASS 6.4.3R
+- id: 6.5.2A
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: '[deleted]'
+  display: CASS 6.5.2AG
+- id: 6.5.3
+  chapter: '6'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: '[deleted]'
+  display: CASS 6.5.3R
+- id: 6.6.2
+  chapter: '6'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Safe custody All that is Maintain up to Not specified
+
+    assets held for necessary to date records (see default
+
+    each client and enable the firm provision CASS
+
+    the firm''s own to distinguish 6.6.7R)
+
+    applicable safe custody
+
+    assets assets held for
+
+    one client from
+
+    safe custody
+
+    assets held for
+
+    any other client,
+
+    and from the
+
+    firm''s own
+
+    applicable
+
+    assets'
+  display: CASS 6.6.2R
 - id: 6.6.2
   chapter: '6'
   type: G
@@ -1889,6 +2603,142 @@
 
     R, CASS 6.6.57R (2) and'
   display: CASS 6.6.2G
+- id: 6.6.3
+  chapter: '6'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Safe custody Accurate records Maintain up to Not specified
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    assets held for which ensure date records (see default
+
+    clients theircorresponde provision CASS
+
+    nce to the safe 6.6.7R)
+
+    custody assets
+
+    held for clients'
+  display: CASS 6.6.3R
+- id: 6.6.4
+  chapter: '6'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client specific Client specific Maintain up to Not specified
+
+    safe custody safe custody date (see default
+
+    asset record asset record provision CASS
+
+    6.6.7R)'
+  display: CASS 6.6.4R
+- id: 6.6.6R
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client A copy of every Not specified Not specified
+
+    agreements that executed client (see default
+
+    include a firm’s agreement that provision CASS
+
+    right to use safe includes a firm’s 6.6.7R)
+
+    custody assets right to use safe
+
+    for its own custody assets
+
+    account for its own
+
+    account'
+  display: CASS 6.6.6RG
+- id: 6.6.7R
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Default record Refer to the rule Refer to the rule Five years from
+
+    keeping concerned concerned the later of:
+
+    provisions for (1) the date it
+
+    CASS 6 was created; and
+
+    (2) if it has been
+
+    modified since
+
+    the date in (1),
+
+    the date it was
+
+    most recently
+
+    modified'
+  display: CASS 6.6.7RG
+- id: 6.6.8
+  chapter: '6'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Internal custody Date and actions Immediate Not specified
+
+    record checks, the firm took (see default
+
+    physical asset when carrying provision CASS
+
+    reconciliations out the relevant 6.6.7 R)
+
+    and external process; a list of
+
+    custody the
+
+    reconciliations discrepancies
+
+    carried out by the firm identified
+
+    the firm. and the actions
+
+    the firm took to
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    resolve those
+
+    discrepancies'
+  display: CASS 6.6.8R
 - id: 6.6.8
   chapter: '6'
   type: G
@@ -1929,6 +2779,36 @@
 
     6.1.1BR(3), CASS Application'
   display: CASS 6.6.8G
+- id: 6.6.16
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Aggregate safe All the safe Maintain up to Not specified
+
+    custody asset custody assets date if the firm (see default
+
+    record the firm holds for wishes to use provision CASS
+
+    its clients, the internal 6.6.7 R)
+
+    including those custody
+
+    deposited with reconciliation
+
+    third parties method
+
+    under CASS 6.3
+
+    and any physical
+
+    safe custody
+
+    assets'
+  display: CASS 6.6.16G
 - id: 6.6.24R
   chapter: '6'
   type: G
@@ -1965,7 +2845,7 @@
 
     the letter ''A'' or all the stock lines held in connection with a particular
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2037,7 +2917,7 @@
 
     account all instructions issued by that person which require an issuer to
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2101,7 +2981,7 @@
 
     (Safekeeping duties with regard to assets held in custody) of the AIFMD
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2151,6 +3031,32 @@
 
     and reconciliations under this section'
   display: CASS 6.6.24RG
+- id: 6.6.30
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Rolling stock Firm''s reasons Before using this Five years (from
+
+    method for for concluding method the date the firm
+
+    physical asset that this method ceases to use
+
+    reconciliations is adequately this method)
+
+    designed to
+
+    mitigate risk of
+
+    records being
+
+    manipulated or
+
+    falsified'
+  display: CASS 6.6.30G
 - id: 6.6.37
   chapter: '6'
   type: G
@@ -2209,7 +3115,7 @@
 
     relates.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2277,7 +3183,7 @@
 
     steps both to investigate the reason for the discrepancy and to
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2349,7 +3255,7 @@
 
     money that the firm has appropriated to cover the shortfall; and
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2425,7 +3331,7 @@
 
     as trustee or depositary of an AIF and has not complied with, or is
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2467,7 +3373,7 @@
 
     adequate to enable it to comply with the custody rules.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 6.6.37G
@@ -2503,7 +3409,7 @@
 
     of the firm''s business and where and with whom safe custody assets are
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2527,6 +3433,192 @@
 
     that it continues to comply with CASS 6.6.11 R, CASS 6.6.22 R and'
   display: CASS 6.6.44RG
+- id: 6.6.45
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Frequency of the Sufficient to Immediate (1) Subject to
+
+    firm''s internal show and (2), indefinitely.
+
+    custody record explain decision (2) For any
+
+    checks, physical taken under decision which is
+
+    asset CASS 6.6.44 R superseded by a
+
+    reconciliations when subsequent
+
+    and external determining decision, five
+
+    custody frequency years from the
+
+    reconciliations subsequent
+
+    decision (with (1)
+
+    applying to the
+
+    subsequent
+
+    decision).'
+  display: CASS 6.6.45G
+- id: 6.6.46R
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Review of Date of each Immediate Not specified
+
+    frequency if the review and the (see default
+
+    firm''s internal actions the firm provision CASS
+
+    custody record took in reviewing 6.6.7 R)
+
+    checks, physical the frequency at
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    asset which it conducts
+
+    reconciliations the relevant
+
+    and external process
+
+    custody
+
+    reconciliations'
+  display: CASS 6.6.46RG
+- id: 6.6.54R
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Actions taken by Actions taken, Maintain up to Not specified
+
+    the firm to description of date (see default
+
+    resolve shortfall shortfall, identity provision CASS
+
+    under this rule of affected 6.6.7 R)
+
+    client(s),
+
+    applicable
+
+    assets
+
+    appropriated to
+
+    cover the
+
+    shortfall. Update
+
+    when
+
+    discrepancy
+
+    resolved.'
+  display: CASS 6.6.54RG
+- id: 6.6.57R
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Inability or The fact that the Inability or Without delay
+
+    material failure firm is unable or material failure
+
+    to conduct an has materially to comply with
+
+    external custody failed to comply the requirement
+
+    record check in and the reasons
+
+    compliance with for that
+
+    CASS 6.6.34 R
+
+    to CASS 6.6.37
+
+    R
+
+    The firm’s The firm’s Making the For a notification
+
+    election under election under election or under CASS
+
+    CASS CASS changing the 7.10.7AR(2), at
+
+    7.10.7AR(1), the 7.10.7AR(1) effective date least one month
+
+    effective date before the date
+
+    and any change on which the
+
+    to the effective firm’s election is
+
+    date to be effective
+
+    For a notification
+
+    of a new
+
+    effective date
+
+    under CASS
+
+    7.10.7AR(4), the
+
+    notification must
+
+    September 2025
+
+    CASS
+
+    Matter to be Contents of Trigger event Time allowed
+
+    notified notification
+
+    be made before
+
+    the new effective
+
+    date.
+
+    The cancellation The cancellation Cancelling the At least one
+
+    of the firm’s of the firm’s election month before the
+
+    election under election under date on which
+
+    CASS CASS the firm’s
+
+    7.10.7AR(1) 7.10.7AR(1) election is to
+
+    cease to be
+
+    effective'
+  display: CASS 6.6.57RG
 - id: 6.6.58
   chapter: '6'
   type: G
@@ -2540,7 +3632,7 @@
 
     to the custody rules in (1), also comply with the custody rules in the table
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2576,7 +3668,7 @@
 
     safe custody assets).
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2628,8 +3720,156 @@
 
     of the IBSA Regulations.
 
-    www.handbook.fca.org.uk September 2025'
+    September 2025
+
+    .
+
+    .
+
+    .
+
+    .
+
+    . CASS
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
+
+    7 Client money rules
+
+    September 2025
+
+    CASS'
   display: CASS 6.7.2RG
+- id: 6.7.6R
+  chapter: '6'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Any safe custody (i) The safe At the time of the Indefinite
+
+    asset disposed custody asset disposal
+
+    of in accordance that was
+
+    with CASS disposed of;
+
+    6.7.2R (ii) the value of
+
+    the consideration
+
+    received for the
+
+    safe custody
+
+    asset disposed
+
+    of;
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    (iii) the name
+
+    and contact
+
+    details of the
+
+    client to whom
+
+    the safe custody
+
+    asset was
+
+    allocated,
+
+    according to the
+
+    firm’s records at
+
+    the time of
+
+    making the
+
+    record; and
+
+    (iv) efforts
+
+    applied by the
+
+    firm to determine
+
+    the client’s
+
+    correct contact
+
+    details under
+
+    CASS
+
+    6.7.4E(1)(a) or, if
+
+    being relied on,
+
+    for the purposes
+
+    of CASS
+
+    6.2.10R(4).
+
+    Record of Record of Date of the 5 years (from the
+
+    election to election to election date the firm
+
+    comply with the comply with the ceases to use
+
+    client money client money the election)
+
+    chapter chapter,
+
+    including the
+
+    date from which
+
+    the election is to
+
+    be effective'
+  display: CASS 6.7.6RG
+- id: 7.4.19A
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: '[deleted]'
+  display: CASS 7.4.19AG
+- id: 7.6.16R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: '[deleted]'
+  display: CASS 7.6.16RG
 - id: 7.10.1
   chapter: '7'
   type: G
@@ -2642,6 +3882,38 @@
 
     7.10.27 R'
   display: CASS 7.10.1G
+- id: 7.10.7E
+  chapter: '7'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'The election The election At the time of the Five years after
+
+    made under including the election and, if ceasing to use
+
+    CASS 7.10.7AR date from which the firm cancels the election
+
+    the election is to the election, at
+
+    be effective and, the time it is
+
+    if the firm cancelled
+
+    cancels the
+
+    election, the date
+
+    from which the
+
+    election is to
+
+    cease to be
+
+    effective'
+  display: CASS 7.10.7ER
 - id: 7.10.9
   chapter: '7'
   type: G
@@ -2766,7 +4038,7 @@
 
     to it referred to in CASS 7.10.19 R must:
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2832,7 +4104,7 @@
 
     been notified by the affiliated company that the money belongs to a client of
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2900,7 +4172,7 @@
 
     to CASS 1.2.11 R.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -2948,6 +4220,22 @@
 
     Rule'
   display: CASS 7.10.10G
+- id: 7.10.31
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Record of Record of Date of election Not specified
+
+    election in election in (see default
+
+    relation to CASS relation to CASS provision CASS
+
+    7.10.30R 7.10.30R 7.15.5R(3))'
+  display: CASS 7.10.31G
 - id: 7.10.33
   chapter: '7'
   type: G
@@ -2958,6 +4246,72 @@
   applicability_conditions: null
   text: CASS 7.10.40 G Trustee firms
   display: CASS 7.10.33G
+- id: 7.10.35
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Trustee firm''s Relevant When election 5 years after
+
+    election to provisions, date made or decision ceasing to use
+
+    comply, or to of election and of taken to cease to the election
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    cease to comply, any decision to comply
+
+    with specific cease to comply
+
+    CASS 7
+
+    provisions'
+  display: CASS 7.10.35G
+- id: 7.10.38
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Trustee firm''s Relevant When election 5 years after
+
+    election to provisions, date made or decision ceasing to use
+
+    comply, or to of election and of taken to cease to the election
+
+    cease to comply, any decision to comply
+
+    with specific cease to comply
+
+    CASS 7
+
+    provisions
+
+    Written The agreement When From the date
+
+    agreement agreement made the agreement is
+
+    regarding any entered into and
+
+    arrangement until five years
+
+    relating to a after the
+
+    TTCA agreement is
+
+    terminated'
+  display: CASS 7.10.38G
 - id: 7.10.40
   chapter: '7'
   type: G
@@ -2966,7 +4320,7 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: 'www.handbook.fca.org.uk September 2025
+  text: 'September 2025
 
     CASS
 
@@ -2980,7 +4334,7 @@
 
     (ie, it should not ''pre-fund'' the transaction using other clients'' client
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 7.10.40G
@@ -2994,6 +4348,22 @@
   applicability_conditions: null
   text: General purpose
   display: CASS 7.10.41G
+- id: 7.11.9R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client''s Client''s When Five years (from
+
+    communication communication communication date of
+
+    to firm of wish to of wish to made communication)
+
+    terminate TTCA terminate TTCA'
+  display: CASS 7.11.9RG
 - id: 7.11.14
   chapter: '7'
   type: G
@@ -3024,7 +4394,7 @@
 
     monies.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -3095,7 +4465,7 @@
 
     properly due and payable to the firm merely through the firm holding
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -3163,7 +4533,7 @@
 
     him in writing.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -3203,6 +4573,74 @@
 
     to a third party in the course of effecting a transaction under'
   display: CASS 7.11.14G
+- id: 7.11.20
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: '[deleted]'
+  display: CASS 7.11.20G
+- id: 7.11.20R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client''s Client''s written At the time of During the time
+
+    agreement to agreement client''s the firm makes
+
+    firm''s use of agreement use or intends to
+
+    exemption in make use of the
+
+    CASS 7.11.14R exemption in
+
+    CASS 7.11.14R
+
+    in respect of that
+
+    client''s monies'
+  display: CASS 7.11.20RG
+- id: 7.11.24
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: '[deleted]'
+  display: CASS 7.11.24G
+- id: 7.11.24R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client’s Client’s written At the time of During the time
+
+    agreement to agreement client’s the firm makes
+
+    firm’s use of the agreement use, or intends
+
+    delivery versus to make use, of
+
+    payment the exemption in
+
+    exemption in CASS 7.11.21R
+
+    CASS 7.11.21R in respect of that
+
+    client’s monies'
+  display: CASS 7.11.24RG
 - id: 7.11.34
   chapter: '7'
   type: G
@@ -3282,7 +4720,7 @@
 
     the information set out in (b) to the client on at least one further occasion
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -3360,11 +4798,11 @@
 
     to a third party with the instruction of the client for the purposes of CASS
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 7.11.34G
@@ -3382,7 +4820,7 @@
 
     the clearing member remits payment to another firm or to another clearing
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -3475,7 +4913,7 @@
 
     and ledgers (for example, its cash book or other internal accounting records)
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -3503,7 +4941,7 @@
 
     and distribution or transfer) applies to a firm in respect of transfers
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -3515,6 +4953,54 @@
 
     or instruction of that client at the time of the transfer of business (see'
   display: CASS 7.11.41GG
+- id: 7.11.47
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'The firm''s That intention Forming the Not less than
+
+    intention to intention seven days
+
+    transfer client before the
+
+    money under transfer of the
+
+    CASS 7.11.42R client money in
+
+    and/or CASS question
+
+    7.11.44R
+
+    Commencement Notice that the Whenever a Upon reaching
+
+    of approach firm will start to decision to use the decision and
+
+    under CASS use the the approach before the firm
+
+    7.13.21AR(1) approach under under CASS starts to use that
+
+    CASS 7.13.21AR(1) is approach
+
+    7.13.21AR(1) taken
+
+    Cessation or Notice that the Whenever a Upon reaching
+
+    continuation of firm will cease to decision to the decision
+
+    approach under use the cease the
+
+    CASS approach under approach under
+
+    7.13.21AR(1) CASS CASS
+
+    7.13.21AR(1) 7.13.21AR(1) is
+
+    taken'
+  display: CASS 7.11.47G
 - id: 7.11.48G
   chapter: '7'
   type: G
@@ -3547,6 +5033,180 @@
 
     and if it does so the released balance will cease to be client money under'
   display: CASS 7.11.48GG
+- id: 7.11.55
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client money Details of When balance Indefinite
+
+    paid to charity by balances released
+
+    the firm under released,
+
+    CASS relevant
+
+    7.11.50R(4) documentation
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    and the firm''s
+
+    attempts to
+
+    contact the client
+
+    concerned'
+  display: CASS 7.11.55G
+- id: 7.11.57R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client money Records of all When balance Not specified
+
+    paid to charity by balances released (see default
+
+    the firm under released from provision CASS
+
+    this rule client bank 7.15.5R(3))
+
+    accounts,
+
+    including the
+
+    information in
+
+    CASS
+
+    7.11.55R(1)(a)
+
+    and CASS
+
+    7.11.55R(1)(b)
+
+    The firm’s written (i) For each of On the date it Five years after
+
+    policy produced the firm’s creates the the earlier of:
+
+    under CASS business lines, version of the (1) the date on
+
+    7.13.14AR(1)(a) the maximum policy which the
+
+    in respect of the proportion of the version of the
+
+    firm’s use of client money policy was
+
+    client bank held by the firm superseded; and
+
+    accounts under under CASS (2) the date on
+
+    CASS 7.13.3R(1) to (3) which the firm
+
+    7.13.13R(3A)(b), in respect of the ceased to use
+
+    and subsequent business line client bank
+
+    versions of it that the firm accounts under
+
+    considers would CASS
+
+    be appropriate to 7.13.13R(3A)(b).
+
+    hold in such
+
+    accounts;
+
+    (ii) the firm’s
+
+    rationale for
+
+    reaching its
+
+    conclusion(s)
+
+    under (i); and
+
+    (iii) the means by
+
+    which the firm
+
+    will comply with
+
+    CASS
+
+    7.13.14AR(2)(a),
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    having regard to
+
+    CASS
+
+    7.13.14CE.
+
+    Appropriateness Grounds upon Date of the 5 years (from the
+
+    of a firm''s which a firm selection firm ceases to
+
+    selection of a satisfies itself as use the third
+
+    third party to the party to hold
+
+    appropriateness client money)
+
+    of the firm''s
+
+    selection of a
+
+    third party to
+
+    hold client
+
+    money
+
+    Physical receipts Physical receipt When the firm Not specified
+
+    of money receives client (see default
+
+    money in the provision CASS
+
+    form of cash, a 7.15.5R(3))
+
+    cheque or other
+
+    payable order
+
+    Future dated Receipt of When the firm Not specified
+
+    cheque money receives client (see default
+
+    money in the provision CASS
+
+    form of a cheque 7.15.5R(3))
+
+    that is dated with
+
+    a future date'
+  display: CASS 7.11.57RG
 - id: 7.13.3
   chapter: '7'
   type: G
@@ -3608,7 +5268,7 @@
 
     each day to an amount at least equal to the original currency amount
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -3681,7 +5341,7 @@
 
     or other agents is:
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -3773,7 +5433,7 @@
 
     at CASS 7.13.20R to CASS 7.13.25R.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -3847,7 +5507,7 @@
 
     a firm seeking to take that approach should also consider the points at
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -3893,7 +5553,7 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: 'www.handbook.fca.org.uk September 2025
+  text: 'September 2025
 
     CASS
 
@@ -3971,6 +5631,56 @@
   applicability_conditions: null
   text: CASS 7.13.25 R Diversification of client money
   display: CASS 7.13.20G
+- id: 7.13.25R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Firm''s periodic Date of each Date of review Five years (from
+
+    review into review, actions date of review)
+
+    selection and the firm took in
+
+    appointment of reviewing the
+
+    third party under selection and
+
+    CASS 7.13.8 R. appoint of a third
+
+    party under
+
+    CASS 7.13.8 R,
+
+    and the grounds
+
+    upon which the
+
+    firm continues to
+
+    be satisfied of
+
+    appropriateness
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    of its selection of
+
+    that third party to
+
+    hold client
+
+    money'
+  display: CASS 7.13.25RG
 - id: 7.13.26
   chapter: '7'
   type: G
@@ -3981,7 +5691,7 @@
   applicability_conditions: null
   text: 'CASS 7.13.29 G Qualifying money market funds
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4009,6 +5719,32 @@
 
     or other payable order, to discharge its fiduciary duty to its clients (see'
   display: CASS 7.13.32G
+- id: 7.13.36
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Unallocated Fact that the When firm is Pending firm''s
+
+    client money balance treated unable to allocation of the
+
+    as unallocated immediately client money
+
+    client money identify money concerned to an
+
+    as client money individual client
+
+    or its own money
+
+    and it treats the
+
+    balance as client
+
+    money'
+  display: CASS 7.13.36G
 - id: 7.13.39R
   chapter: '7'
   type: G
@@ -4019,7 +5755,7 @@
   applicability_conditions: null
   text: 'CASS 7.13.40G do not apply to a firm following a primary pooling event.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4087,7 +5823,7 @@
 
     would be prudent for the firm to make payments into a client bank account
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4155,7 +5891,7 @@
 
     or withdrawal is made in accordance with that policy; or
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4233,7 +5969,7 @@
 
     firm''s holdings for that client in respect of the particular product or
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4311,7 +6047,7 @@
 
     received by the
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4385,7 +6121,7 @@
 
     unallocated client money (see CASS 7.13.36 R) and unidentified receipts of
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4465,7 +6201,7 @@
 
     within this section, it deducts positive balances held for clients
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4543,7 +6279,7 @@
 
     gross liabilities to clients entitled to protection under the client money rules
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4619,7 +6355,7 @@
 
     of a client, there is a negative individual client balance and a positive
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4633,10 +6369,128 @@
 
     reduce its overall client money requirement.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 7.13.50G
+- id: 7.13.51
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'segregation segregated date the firm ceases
+
+    record under CASS to retain money
+
+    7.13.41 R as client money
+
+    required by under CASS
+
+    these rules 7.13.41 R)'
+  display: CASS 7.13.51G
+- id: 7.13.55R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Firm''s adoption Reasons for Before adopting Five years after
+
+    of the alternative concluding that alternative it ceases to use
+
+    approach the normal approach the alternative
+
+    approach would approach in
+
+    lead to greater connection with
+
+    risk to client that business
+
+    money, adopting line
+
+    the alternative
+
+    approach would
+
+    not result in
+
+    undue risk to
+
+    client money, the
+
+    alternative
+
+    approach is
+
+    appropriate for
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    use by the
+
+    particular
+
+    business line,
+
+    and the firm has
+
+    adequate
+
+    systems and
+
+    controls'
+  display: CASS 7.13.55RG
+- id: 7.13.57
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Firm''s intention Firm''s intention At least three At least three
+
+    to adopt the to adopt the months prior to months prior to
+
+    alternative alternative adopting the adopting the
+
+    approach for a approach for a alternative alternative
+
+    particular particular approach for that approach for that
+
+    business line business line business line business line
+
+    Firm''s intention Firm''s intention Forming the Before using a
+
+    to use a non- to use a non- intention non-standard
+
+    standard method standard method method of
+
+    September 2025
+
+    CASS
+
+    Matter to be Contents of Trigger event Time allowed
+
+    notified notification
+
+    of internal client of internal client internal client
+
+    money money money
+
+    reconciliation reconciliation reconciliation'
+  display: CASS 7.13.57G
 - id: 7.13.62
   chapter: '7'
   type: G
@@ -4659,7 +6513,7 @@
 
     being client money]
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4735,7 +6589,7 @@
 
     not hold money for you in the sub-pool and you will not be a beneficiary of
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4753,7 +6607,37 @@
 
     [insert signatory''s phone number and email address]
 
-    www.handbook.fca.org.uk September 2025'
+    September 2025
+
+    .
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CASS
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
+
+    money distribution and
+
+    transfer
+
+    September 2025
+
+    CASS'
   display: CASS 7.13.62G
 - id: 7.13.65
   chapter: '7'
@@ -4771,7 +6655,7 @@
 
     for a particular business line, as documented under CASS 7.13.55 R,
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4849,7 +6733,7 @@
 
     relating to the previous business day (T-1) that the firm has already
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -4931,7 +6815,7 @@
 
     of its client money requirement;
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -5015,7 +6899,7 @@
 
     the firm''s alternative approach mandatory prudent segregation or
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -5073,6 +6957,34 @@
 
     approach in relation to certain regulated clearing'
   display: CASS 7.13.65G
+- id: 7.13.66
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: Alternative Details of money Maintain up to Five years (after
+  display: CASS 7.13.66G
+- id: 7.13.67
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'approach segregated date the firm ceases
+
+    mandatory under CASS to retain money
+
+    prudent 7.13.65 R as client money
+
+    segregation required by under CASS
+
+    record these rules 7.13.65 R)'
+  display: CASS 7.13.67G
 - id: 7.13.68R
   chapter: '7'
   type: G
@@ -5115,7 +7027,7 @@
 
     approach mandatory prudent segregation required under CASS 7.13.65
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -5185,7 +7097,7 @@
 
     with the requirement in CASS 7.13.6 R to receive client money directly into
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -5265,7 +7177,7 @@
 
     into a client bank account that meets the requirements of CASS 7A.2.7-
 
-    transfer www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -5301,10 +7213,38 @@
 
     primary pooling event apply.
 
-    transfer www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 7.13.72RG
+- id: 7.13.74
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: Clearing Details of money Maintain up to Five years (after
+  display: CASS 7.13.74G
+- id: 7.13.75
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'arrangement segregated date the firm ceases
+
+    mandatory under CASS to retain money
+
+    prudent 7.13.73R (3)(a) as client money
+
+    segregation required by under CASS
+
+    record these rules 7.13.73R (3)(a))'
+  display: CASS 7.13.75G
 - id: 7.13.76R
   chapter: '7'
   type: G
@@ -5317,7 +7257,7 @@
 
     record must continue to satisfy the requirements set out in CASS
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -5401,7 +7341,7 @@
 
     period.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -5467,7 +7407,7 @@
 
     date, the total amount actually segregated by the firm under CASS 7.13.73
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -5493,7 +7433,7 @@
 
     client bank accounts pertaining to the relevant sub-pool.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 7.13.76RG
@@ -5539,6 +7479,38 @@
 
     an authorised central counterparty directly to the client in accordance with'
   display: CASS 7.14.2G
+- id: 7.15.2
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client money All that is Maintain up to Five years (from
+
+    held for each necessary to date records the date the
+
+    client and the enable the firm record was
+
+    firm''s own to distinguish made)
+
+    money client money
+
+    held for one
+
+    client from client
+
+    money held for
+
+    any other client,
+
+    and from the
+
+    firm''s own
+
+    money'
+  display: CASS 7.15.2G
 - id: 7.15.3
   chapter: '7'
   type: G
@@ -5605,7 +7577,7 @@
 
     point for the internal client money reconciliation under CASS
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -5683,7 +7655,7 @@
 
     to its clients under the client money rules on a daily basis;
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -5763,6 +7735,108 @@
   applicability_conditions: null
   text: CASS 7.15.7 R and Reconciliation of client money balances
   display: CASS 7.15.5G
+- id: 7.15.5R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Total amount of Total amount of Maintain up to Not specified
+
+    client money the client money the date (see default
+
+    firm should be firm should be provision CASS
+
+    holding for each holding for each 7.15.5R (3))
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    client client'
+  display: CASS 7.15.5RG
+- id: 7.15.7
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Internal client Date, actions the Immediate Not specified
+
+    money firm took in (see default
+
+    reconciliations carrying out the provision CASS
+
+    and external relevant process, 7.15.5R (3))
+
+    client money and the outcome
+
+    reconciliations of its calculation
+
+    conducted of its client
+
+    carried out by money
+
+    the firm requirement and
+
+    client money
+
+    resource Fact of
+
+    each
+
+    reconciliation
+
+    and review of the
+
+    firm''s
+
+    arrangements for
+
+    complying with
+
+    CASS 7.15.5 R
+
+    to CASS 7.15.7
+
+    R'
+  display: CASS 7.15.7G
+- id: 7.15.9
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Receipts of client Appropriate to Maintain up to Not specified
+
+    money account for all date (see default
+
+    receipts of client provision CASS
+
+    money in the 7.15.5R(3))
+
+    form of cash,
+
+    cheque or other
+
+    payable order
+
+    not yet deposited
+
+    in a client bank
+
+    account'
+  display: CASS 7.15.9G
 - id: 7.15.12
   chapter: '7'
   type: G
@@ -5777,6 +7851,64 @@
 
     money reconciliation'
   display: CASS 7.15.12G
+- id: 7.15.18R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Internal The firm’s Before the firm Not specified
+
+    reconciliation of reasons for uses a non- (see default
+
+    client money concluding that standard method provision CASS
+
+    balances the method of of internal client 7.15.5R(3))
+
+    internal client money
+
+    money reconciliation or
+
+    reconciliation it materially
+
+    proposes to use changes its
+
+    meets the method
+
+    criteria at CASS
+
+    7.15.18R(1)(a)
+
+    Acknowledgment Countersigned From date of 5 years from
+
+    letters acknowledgment receipt closure of last
+
+    letter account to which
+
+    the
+
+    acknowledgment
+
+    letter relates
+
+    Acknowledgment Copy of From date firm 5 years from
+
+    letters acknowledgment sends the letter closure of last
+
+    letter sent to account to which
+
+    authorised the
+
+    central acknowledgment
+
+    counterparty letter relates
+
+    under CASS
+
+    7.8.3R (1)'
+  display: CASS 7.15.18RG
 - id: 7.15.22R
   chapter: '7'
   type: G
@@ -5789,7 +7921,7 @@
 
     to a firm following a primary pooling event.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -5861,7 +7993,7 @@
 
     frequency to ensure that the correct amounts of client money are
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -5935,7 +8067,7 @@
 
     in CASS 7.16.33 R.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -6007,6 +8139,48 @@
 
     firm is no longer able to comply with the requirements in CASS 7.15.2 R,'
   display: CASS 7.15.22RG
+- id: 7.15.24
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Frequency of the Sufficient to Immediate (1) Subject to
+
+    firm''s external show and (2), indefinitely.
+
+    client money explain decision (2) For any
+
+    reconciliations taken under decision which is
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    CASS 7.15.23 R superseded by a
+
+    when subsequent
+
+    determining decision, five
+
+    frequency years from the
+
+    subsequent
+
+    decision (with (1)
+
+    applying to the
+
+    subsequent
+
+    decision).'
+  display: CASS 7.15.24G
 - id: 7.15.26A
   chapter: '7'
   type: R
@@ -6089,7 +8263,7 @@
 
     to a client transaction account except where necessary to comply with sub-
 
-    transfer www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -6173,7 +8347,7 @@
 
     and
 
-    transfer www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -6256,7 +8430,7 @@
 
     that client’s client money in the relevant notional pool to a dormant asset
 
-    transfer www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -6336,12 +8510,38 @@
 
     clients.
 
-    transfer www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
     of doubt, ''relevant clients'' in the case of CASS 7A.2.4R (3)(a) and'
   display: CASS 7.15.26AR
+- id: 7.15.26R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Review of Date of each Not specified Not specified
+
+    frequency of the review and the (see default
+
+    firm''s external actions the firm provision CASS
+
+    client money took in reviewing 7.15.5R (3))
+
+    reconciliations the frequency at
+
+    which it carries
+
+    out the external
+
+    client money
+
+    reconciliations'
+  display: CASS 7.15.26RG
 - id: 7.15.29
   chapter: '7'
   type: G
@@ -6388,10 +8588,42 @@
 
     adequate to enable it to comply with the client money rules.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 7.15.31G
+- id: 7.15.33R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Inability to The fact that the Firm''s records Without delay
+
+    comply with firm is unable to and accounts
+
+    CASS 7.15.2 R, comply and the are materially
+
+    CASS 7.15.3 R reasons for that out of date,
+
+    or CASS inaccurate or
+
+    7.15.5R (1), due invalid internal
+
+    to materially out so that it is
+
+    of date, unable to comply
+
+    inaccurate or
+
+    invalid internal
+
+    records and
+
+    accounts'
+  display: CASS 7.15.33RG
 - id: 7.17.2
   chapter: '7'
   type: G
@@ -6460,7 +8692,7 @@
 
     the election and must keep it for a period of five years after ceasing to
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -6502,7 +8734,7 @@
 
     of a firm when it holds client money in the course of its MiFID
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 7.17.2G
@@ -6526,7 +8758,7 @@
 
     agreed with the firm and do not cause the acknowledgement letter to be
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -6624,7 +8856,7 @@
 
     aware of an error or misspelling in the drafting of the letter.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -6654,7 +8886,7 @@
 
     it in a client bank account with another bank as soon as possible.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 7.18.4G
@@ -6668,7 +8900,7 @@
   applicability_conditions: null
   text: 'and that clearly identifies the client transaction account.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -6706,6 +8938,38 @@
 
     acknowledgment letter under CASS 7.18.2 R (1), CASS 7.18.3 R (1) or'
   display: CASS 7.18.8G
+- id: 7.18.11R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Acknowledgment Any other None specified None specified
+
+    letters documentation (see default
+
+    or evidence the provision CASS
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    firm believes 7.6.4 R)
+
+    necessary to
+
+    demonstrate
+
+    compliance with
+
+    CASS 7.8'
+  display: CASS 7.18.11RG
 - id: 7.18.15R
   chapter: '7'
   type: G
@@ -6724,6 +8988,190 @@
 
     under CASS 7.13.62R or under a regulated clearing arrangement to which'
   display: CASS 7.18.15RG
+- id: 7.19.6
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'For each sub- All the client From the date on Five years
+
+    pool established beneficiaries of which the sub- following the
+
+    by the firm that sub-pool pool is created date on which
+
+    client money
+
+    was last held by
+
+    the firm in
+
+    relation to the
+
+    sub-pool to
+
+    which the record
+
+    applied'
+  display: CASS 7.19.6G
+- id: 7.19.7
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'For each sub- (a) The name of Prior to the date Five years
+
+    pool established the sub-pool on which the firm following the
+
+    by the firm (b) The identity intends to date on which
+
+    of the net receive or hold client money
+
+    margined client money for was last held by
+
+    omnibus account that sub-pool the firm in
+
+    to which the sub- relation to the
+
+    pool relates; sub-pool to
+
+    (c) Each client which the record
+
+    bank account applied
+
+    and each client
+
+    transaction
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    account
+
+    maintained for
+
+    the sub-pool;
+
+    (d) the
+
+    applicable sub-
+
+    pool disclosure
+
+    document for the
+
+    sub-pool.'
+  display: CASS 7.19.7G
+- id: 7.19.8
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'For each sub- A list of all the From the date on Five years
+
+    pool established sub-pools the which the sub- following the
+
+    by the firm firm has created. pool is created date on which
+
+    client money
+
+    was last held by
+
+    the firm in
+
+    relation to the
+
+    sub-pool to
+
+    which the record
+
+    applied'
+  display: CASS 7.19.8G
+- id: 7.19.9
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'For each sub- A sub-pool At the time of Five years
+
+    pool established disclosure establishing the following the
+
+    by the firm document relevant sub- date on which
+
+    pool client money
+
+    was last held by
+
+    the firm in
+
+    relation to the
+
+    sub-pool to
+
+    which the sub-
+
+    pool disclosure
+
+    document
+
+    applied'
+  display: CASS 7.19.9G
+- id: 7.19.13R
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'For each sub- The name of From the date on 5 years following
+
+    pool established each client bank which the client the date on
+
+    by the firm account and bank account which client
+
+    each client and client money was last
+
+    transaction transaction held by the firm
+
+    account account is in relation to the
+
+    maintained for maintained for sub-pool to
+
+    the sub-pool, the sub-pool which the record
+
+    including a applied
+
+    unique
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    identifying
+
+    reference'
+  display: CASS 7.19.13RG
 - id: 7.19.16
   chapter: '7'
   type: G
@@ -6784,7 +9232,7 @@
 
     by the firm.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -6800,7 +9248,7 @@
 
     document applied.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -6872,7 +9320,7 @@
 
     which cannot be terminated before the expiry of the fixed term,
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -6937,7 +9385,7 @@
 
     [insert signatory''s phone number and email address]
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7015,7 +9463,7 @@
 
     that:
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7068,7 +9516,7 @@
 
     [insert signatory''s phone number and email address]
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7138,7 +9586,7 @@
 
     [name of CASS firm]
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7146,7 +9594,7 @@
 
     [insert signatory''s phone number and email address]
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7224,7 +9672,7 @@
 
     letter include the full title and at least one unique identifier, such as a sort
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7297,7 +9745,7 @@
 
     to the following effect:
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7381,7 +9829,7 @@
 
     not, in any client bank account acknowledgement letter or client transaction
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7466,7 +9914,7 @@
 
     that the acknowledgement letter was signed by the TPA on behalf of the
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7539,7 +9987,7 @@
 
     places client money in a money market deposit, it must have a client
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7571,6 +10019,86 @@
 
     operates the alternative approach to client money segregation (see'
   display: CASS 7.19.16G
+- id: 7.19.21
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Material change Fact of proposed Firm determining Not less than
+
+    to sub-pool change, risks that it wishes to two months
+
+    and make material before the date
+
+    consequences to change to a sub- on which the firm
+
+    beneficiaries pool intends the
+
+    change to take
+
+    effect'
+  display: CASS 7.19.21G
+- id: 7.19.22
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Establishment of Firm wishes to Firm determining Not less than
+
+    a sub-pool of establish a sub- that it wishes to two months
+
+    client money to pool of client establish a sub- before the date
+
+    FCA money pool of client on which the firm
+
+    September 2025
+
+    CASS
+
+    Matter to be Contents of Trigger event Time allowed
+
+    notified notification
+
+    money intends to
+
+    receive or hold
+
+    client money for
+
+    that sub-pool'
+  display: CASS 7.19.22G
+- id: 7.19.24
+  chapter: '7'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Non-compliance, The fact that the Non-compliance Without delay
+
+    or inability to firm has not with the
+
+    comply with, with complied with, or applicable
+
+    the requirements is unable to requirement
+
+    in CASS 7.19.11 comply with, the
+
+    R or CASS requirements of
+
+    7.19.18 R CASS 7.19.11 R
+
+    or CASS 7.19.18
+
+    R (as applicable)'
+  display: CASS 7.19.24G
 - id: 7A.2.4R
   chapter: 7A
   type: G
@@ -7645,7 +10173,7 @@
 
     transfer);
 
-    transfer www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7721,7 +10249,7 @@
 
     client:
 
-    transfer www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7789,7 +10317,7 @@
 
     after a primary pooling event
 
-    transfer www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7853,6 +10381,204 @@
 
     7A.2.7-AR(2) and CASS 7A.2.10AR(2). If it does so it must comply with'
   display: CASS 7A.2.4RG
+- id: 7A.2.6F
+  chapter: 7A
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Any balance (i) The amount of Immediately Indefinite
+
+    under CASS the balance of before taking
+
+    7A.2.6AR(1)(b)(i) client money; steps to apply
+
+    or (ii) which has (ii) the name and the balance
+
+    been applied contact details of towards costs or
+
+    towards any any client to a shortfall in
+
+    costs incurred in whom that accordance with
+
+    accordance with balance was CASS
+
+    CASS 7.17.2R allocated 7A.2.6AR(1)(b)
+
+    or towards any according to the or (c)
+
+    shortfall in the firm’s records at respectively
+
+    relevant notional the time of
+
+    pool in making the
+
+    accordance with record; and
+
+    CASS (iii) efforts
+
+    7A.2.6AR(1)(b) applied by the
+
+    or (c) firm to determine
+
+    respectively the client’s
+
+    correct contact
+
+    details under
+
+    CASS
+
+    7A.2.6CE(1)(a)
+
+    or, if being relied
+
+    on, for the
+
+    purposes of
+
+    CASS
+
+    7.11.50R(3).'
+  display: CASS 7A.2.6FR
+- id: 7A.3.8R
+  chapter: 7A
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client money Each client''s Maintain up to Until client is
+
+    shortfall entitlement to date records repaid
+
+    client money
+
+    shortfall at the
+
+    failed bank'
+  display: CASS 7A.3.8RG
+- id: 7A.3.10R
+  chapter: 7A
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client money Each client''s Maintain up to Until client is
+
+    shortfall entitlement to date records repaid
+
+    client money
+
+    shortfall at the
+
+    failed bank'
+  display: CASS 7A.3.10RG
+- id: 7A.3.11R
+  chapter: 7A
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client money Each client''s Maintain up to Until client is
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    shortfall entitlement to date records repaid
+
+    client money
+
+    shortfall at the
+
+    failed bank'
+  display: CASS 7A.3.11RG
+- id: 7A.3.17R
+  chapter: 7A
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client money Each client''s Maintain up to Until client is
+
+    shortfall entitlement to date records repaid
+
+    client money
+
+    shortfall at the
+
+    failed
+
+    intermediate
+
+    broker,
+
+    settlement agent
+
+    or OTC
+
+    counterparty'
+  display: CASS 7A.3.17RG
+- id: 7A.3.19R
+  chapter: 7A
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Failure of a third Intentions Failure of third As soon as
+
+    party with which regarding party with which reasonably
+
+    money is held – making good any client money is practical
+
+    i.e.: bank, shortfall that has held
+
+    intermediate arisen or may
+
+    broker, arise, and of the
+
+    settlement agent amounts
+
+    or OTC involved
+
+    counterparty or
+
+    other entity with
+
+    which it has
+
+    placed or to
+
+    September 2025
+
+    CASS
+
+    Matter to be Contents of Trigger event Time allowed
+
+    notified notification
+
+    which it has
+
+    passed client
+
+    money'
+  display: CASS 7A.3.19RG
 - id: 8.2.1
   chapter: '8'
   type: G
@@ -7881,10 +10607,94 @@
 
     to those instructions.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 8.2.1G
+- id: 8.3.1
+  chapter: '8'
+  type: R
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Adequate Up to date list of Maintain current One year after
+
+    records and firm''s mandates full details the firm ceases
+
+    internal controls and any to have the
+
+    in respect of the conditions mandate or, if
+
+    firm''s use of regarding the the mandate was
+
+    mandates (see use of held in the
+
+    CASS 8.3.2 R to mandates, all course of or in
+
+    CASS 8.3.2C R ) transactions connection with
+
+    entered into, the firm''s MiFID
+
+    details of business, five
+
+    procedures and years after the
+
+    internal controls same date
+
+    for giving and
+
+    receiving of
+
+    instructions
+
+    under mandates,
+
+    and important
+
+    client documents
+
+    held by the firm,
+
+    and, in relation
+
+    to non-written
+
+    mandates, the
+
+    further details
+
+    required by
+
+    CASS 8.3.2C R'
+  display: CASS 8.3.1R
+- id: 10.1.3
+  chapter: '10'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'A firm''s CASS The documents From the date on None is specified
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    resolution pack to which CASS which a firm
+
+    10.2 and CASS becomes subject
+
+    10.3 refer to CASS 10.1.3
+
+    R'
+  display: CASS 10.1.3G
 - id: 10.1.7
   chapter: '10'
   type: G
@@ -7899,7 +10709,7 @@
 
     on request, to such an adviser.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -7939,10 +10749,32 @@
 
     10.1.3 R.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 10.1.7G
+- id: 10.1.16
+  chapter: '10'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'If a firm has not The fact of that Non-compliance Immediately (as
+
+    complied with, or firm''s non- or inability to per CASS
+
+    is unable to compliance or comply with 10.1.16 R)
+
+    comply with, inability to CASS 10.1.3 R
+
+    CASS 10.1.3 R comply with the
+
+    rule in CASS
+
+    10.1.3 R'
+  display: CASS 10.1.16G
 - id: 11.1.1
   chapter: '11'
   type: G
@@ -7963,6 +10795,34 @@
   applicability_conditions: null
   text: CASS 11.2.9 G Firm classification
   display: CASS 11.2.1G
+- id: 11.2.4
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'The highest total The highest total The need to By the fifteenth
+
+    amount of client amount of client comply with day of January
+
+    money held in money held in CASS 11.2.4 R unless contrary
+
+    the previous the previous (1) to CASS provision is
+
+    year or projected year or projected 11.2.4 R (3) made in CASS
+
+    to be held in the to be held in the 11.2.4 R (1) to
+
+    current year, as current year, as CASS 11.2.4 R
+
+    more fully more fully (4)
+
+    described in described in
+
+    CASS 11.2.4 R CASS 11.2.4 R'
+  display: CASS 11.2.4G
 - id: 11.2.7
   chapter: '11'
   type: R
@@ -8019,7 +10879,7 @@
 
     Client Assets Firm Classification".
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 11.2.7R
@@ -8043,10 +10903,42 @@
 
     of five years after it is made.
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 11.3.1G
+- id: 11.3.6
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Allocation of The person to Upon allocation 5 years (from the
+
+    CASS oversight whom (as date the record
+
+    function in CASS applicable) the was made)
+
+    11.3.1 R or CASS oversight
+
+    CASS 11.3.2 R, responsibilities
+
+    or CASS have been
+
+    operational allocated, or to
+
+    oversight whom the CASS
+
+    function in CASS operational
+
+    11.3.4 R oversight
+
+    function has
+
+    been allocated'
+  display: CASS 11.3.6G
 - id: 11.4.1
   chapter: '11'
   type: G
@@ -8128,7 +11020,7 @@
 
     reasonable steps to trace the client concerned and to return the balance
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -8204,13 +11096,13 @@
 
     Assets Act 2022 in addition to meeting its obligations under the debt
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
     money rules and the debt management client money distribution rules.
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 11.4.2R
@@ -8246,6 +11138,38 @@
 
     client money'
   display: CASS 11.7.1G
+- id: 11.7.6
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Appropriateness Grounds upon Date of the 5 years (from the
+
+    of a CASS large which a CASS selection date the firm
+
+    debt large debt ceases to use
+
+    management management the approved
+
+    firm''s selection firm satisfies bank to hold
+
+    of an approved itself as to the client money)
+
+    bank appropriateness
+
+    of the firm''s
+
+    selection of an
+
+    approved bank
+
+    at which to hold
+
+    client money'
+  display: CASS 11.7.6G
 - id: 11.8.1
   chapter: '11'
   type: G
@@ -8314,7 +11238,7 @@
 
     otherwise change the meaning of the acknowledgement letter fixed text;
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -8386,7 +11310,7 @@
 
     draw up a new client bank account acknowledgement letter under CASS
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -8394,10 +11318,66 @@
 
     returned by the relevant approved bank within 20 business days of the firm
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 11.8.4G
+- id: 11.8.8
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client bank Each On receipt of 5 years
+
+    account countersigned each letter (following
+
+    acknowledgeme client bank closure of the
+
+    nt letters sent in account last client bank
+
+    accordance with acknowledgeme account to which
+
+    CASS 11.8.2 R nt letters the letter relates)
+
+    received'
+  display: CASS 11.8.8G
+- id: 11.8.9
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Demonstration Evidence of such On compliance None specified
+
+    that a CASS compliance with the relevant
+
+    debt provision
+
+    management
+
+    firm has
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    complied with
+
+    CASS 11.8.2 R
+
+    to CASS 11.8.7
+
+    R'
+  display: CASS 11.8.9G
 - id: 11.9.1
   chapter: '11'
   type: G
@@ -8410,6 +11390,50 @@
 
     money accounts'
   display: CASS 11.9.1G
+- id: 11.9.5
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Money received Details of money On receipt None specified
+
+    from clients in received
+
+    the form of cash,
+
+    cheques or other
+
+    payable orders'
+  display: CASS 11.9.5G
+- id: 11.9.8
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Unidentified Details of Being unable to Until it performs
+
+    client money unidentified identify money the necessary
+
+    under CASS client money as client money steps to identify
+
+    11.9.8 R (2) held or its own the money under
+
+    money, and CASS 11.9.8 R
+
+    deciding it is (1)
+
+    reasonably
+
+    prudent to so
+
+    record'
+  display: CASS 11.9.8G
 - id: 11.10.1
   chapter: '11'
   type: G
@@ -8420,7 +11444,7 @@
   applicability_conditions: null
   text: 'CASS 11.10.7 G Payments to creditors
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -8434,10 +11458,114 @@
   risk_ids: []
   default_control_ids: []
   applicability_conditions: null
-  text: 'CASS 11.11.12 R , CASS Records, accounts and reconciliations
+  text: 'Client money All that is Maintain up-to- None is specified
 
-    11.11.32 G'
+    held for each necessary to date records
+
+    client and the enable the
+
+    CASS debt CASS debt
+
+    management management
+
+    firm''s own firm to
+
+    money distinguish client
+
+    money held for
+
+    one client from
+
+    client money
+
+    held for any
+
+    other client, and
+
+    from the firm''s
+
+    own money'
   display: CASS 11.11.1G
+- id: 11.11.3
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client money Accurate records Maintain up-to- None is specified
+
+    held for each to ensure the date records
+
+    client correspondence
+
+    between the
+
+    records and
+
+    accounts of the
+
+    entitlement of
+
+    each client for
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    whom the CASS
+
+    debt
+
+    management
+
+    firm holds client
+
+    money with the
+
+    records and
+
+    accounts of the
+
+    client money the
+
+    firm holds in
+
+    client bank
+
+    accounts'
+  display: CASS 11.11.3G
+- id: 11.11.4
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Payments made Details of Maintain up-to- None is specified
+
+    to, for or on payments made date records
+
+    behalf of clients and of the
+
+    by a CASS debt written or oral
+
+    management contact
+
+    firm and written
+
+    and oral contact
+
+    with clients and
+
+    creditors'
+  display: CASS 11.11.4G
 - id: 11.11.17
   chapter: '11'
   type: G
@@ -8468,7 +11596,7 @@
 
     day following the day on which the difference was discovered.
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -8540,7 +11668,7 @@
 
     money the firm was required to segregate in client bank accounts in
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -8574,10 +11702,80 @@
 
     breach of a rule under SUP 15.3.11 R.
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 11.11.17G
+- id: 11.11.30
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Amount of The fact that Awareness of Without delay
+
+    money there is a the difference
+
+    segregated in material
+
+    client bank difference
+
+    accounts is
+
+    materially
+
+    different from
+
+    September 2025
+
+    CASS
+
+    Matter to be Contents of Trigger event Time allowed
+
+    notified notification
+
+    total aggregate
+
+    of client money
+
+    required to be
+
+    segregated'
+  display: CASS 11.11.30G
+- id: 11.11.31
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'A CASS large The inability or Awareness of Without delay
+
+    debt failure to comply the inability or
+
+    management failure
+
+    firm''s inability or
+
+    failure to comply
+
+    with CASS
+
+    11.11.23 R,
+
+    CASS 11.11.28
+
+    R, CASS
+
+    11.11.13 R or
+
+    CASS 11.11.25
+
+    R'
+  display: CASS 11.11.31G
 - id: 11.12.1
   chapter: '11'
   type: G
@@ -8588,6 +11786,52 @@
   applicability_conditions: null
   text: CASS 11.12.7 R CASS 11 resolution pack
   display: CASS 11.12.1G
+- id: 11.12.4
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'A CASS debt The documents From the date on None is specified
+
+    management to which CASS which a CASS
+
+    firm''s CASS 11 11.12.3 R and debt
+
+    resolution pack CASS 11.12.4 R management
+
+    refer. firm becomes
+
+    subject to CASS
+
+    11.12.3 R'
+  display: CASS 11.12.4G
+- id: 11.12.7
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'A CASS large The inability or Awareness of Without delay
+
+    debt failure to comply the inability or
+
+    management failure
+
+    firm''s inability or
+
+    failure to comply
+
+    with CASS
+
+    11.12.2 R or
+
+    CASS 11.12.6 R'
+  display: CASS 11.12.7G
 - id: 11.13.1
   chapter: '11'
   type: G
@@ -8628,10 +11872,494 @@
 
     1998.
 
-    chapter www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 11.13.1G
+- id: 11.13.12
+  chapter: '11'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'A CASS large Details of the On the None is specified
+
+    debt shortfall secondary
+
+    management pooling event
+
+    firm''s record of occurring
+
+    each client''s
+
+    shortfall in the
+
+    event of a
+
+    secondary
+
+    pooling event'
+  display: CASS 11.13.12G
+- id: 12.2.5
+  chapter: '12'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'LME bond Issue of an Upon issue of an Immediately
+
+    arrangements individual letter individual letter
+
+    of credit issued of credit under
+
+    by the firm an LME bond
+
+    arrangement
+
+    The firm’s The inability or Awareness of Without delay
+
+    inability or failure failure to comply the inability or
+
+    to comply with failure
+
+    CASS 13.10.1R
+
+    to 13.10.4R, ,
+
+    CASS 13.10.5R,
+
+    CASS
+
+    13.10.15R,
+
+    CASS
+
+    13.10.17R, or
+
+    CASS
+
+    September 2025
+
+    CASS
+
+    Matter to be Contents of Trigger event Time allowed
+
+    notified notification
+
+    13.10.19R.
+
+    Amount of The fact that Awareness of Without delay
+
+    money there is a the difference
+
+    segregated in material
+
+    client bank difference
+
+    accounts is
+
+    materially
+
+    different from
+
+    total aggregate
+
+    of client money
+
+    required to be
+
+    segregated
+
+    September 2025
+
+    .
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CASS
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
+
+    3 Fees and other required
+
+    payments
+
+    September 2025
+
+    .
+
+    . CASS
+
+    other required . payments
+
+    for fees or . other payments in CASS.
+
+    .
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
+
+    3 Fees and other required
+
+    payments
+
+    September 2025
+
+    .
+
+    CASS
+
+    .
+
+    other required payments
+
+    .
+
+    for fees or other payments in CASS.
+
+    .
+
+    .
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
+
+    Rights of actions for damages
+
+    September 2025
+
+    CASS
+
+    actions for damages
+
+    The table below sets out the rules in CASS
+
+    contravention of which by an authorised
+
+    person may be actionable under Section
+
+    138D of the Act (Actions for damages) by a
+
+    person who suffers loss as a result of the
+
+    contravention
+
+    If a ''Yes'' appears in the column headed ''For
+
+    private person?'', the rule may be actionable
+
+    by a ''private person'' under Section 138D (or,
+
+    in certain circumstances, his fiduciary or
+
+    representative; see article 6(2) and (3)(c) of
+
+    the Financial Services and Markets Act 2000
+
+    (Rights of Action) Regulations 2001 (SI
+
+    2001/2256)). A ''Yes'' in the column headed
+
+    ''Removed'' indicates that the FCA has
+
+    removed the right of action under Section
+
+    138D(3) of the Act. If so, a reference to the
+
+    rule in which it is removed is also given.
+
+    The column headed ''For other person?''
+
+    indicates whether the rule may be actionable
+
+    by a person other than a private person (or
+
+    his fiduciary or representative) under article
+
+    6(2) and (3) of those Regulations. If so, an
+
+    indication of the type of person by whom the
+
+    rule may be actionable is given.
+
+    / Paragraph Right of action under Section 138D
+
+    For private Removed? For other person?
+
+    person?
+
+    with the status letter No No No
+
+    Yes No No
+
+    September 2025
+
+    .
+
+    .
+
+    .
+
+    .
+
+    . CASS
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
+
+    6 Rules that can be waived
+
+    September 2025
+
+    CASS
+
+    can be waived
+
+    138A of the Act (Modification or waiver of rules), the FCA has power to
+
+    other than rules made under section 137O (Threshold condition code),
+
+    scheme rules), section 248 (Scheme particular rules), section 261I
+
+    rules) or section 261J (Contractual scheme particulars rules) of the Act.
+
+    September 2025'
+  display: CASS 12.2.5G
+- id: 13.2.3R
+  chapter: '13'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Allocation of The person to Upon allocation 5 years (from the
+
+    oversight who the date the record
+
+    function in CASS oversight was made)
+
+    13.2.3R function is
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    allocated'
+  display: CASS 13.2.3RG
+- id: 13.5.8R
+  chapter: '13'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client bank Each On receipt of 5 years
+
+    account countersigned each letter (following
+
+    acknowledgeme client bank closure of the
+
+    nt letters sent in account last client bank
+
+    accordance with acknowledgeme account to which
+
+    CASS 13.5.2R nt letter received the letter relates)'
+  display: CASS 13.5.8RG
+- id: 13.5.9R
+  chapter: '13'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Demonstration Evidence of such On compliance None specified
+
+    that the firm has compliance with the relevant
+
+    complied with provision
+
+    the requirements
+
+    of CASS 13.5'
+  display: CASS 13.5.9RG
+- id: 13.6.5R
+  chapter: '13'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Money received Details of money On receipt None specified
+
+    from customers received
+
+    in the form of
+
+    cash, cheques or
+
+    other payable
+
+    orders
+
+    Unidentified Details of Being unable to Until it performs
+
+    client money unidentified identify money the necessary
+
+    under CASS client money as client money steps to identify
+
+    13.6.6R(2) held or its own the money under
+
+    money, and CASS
+
+    deciding it is 13.6.6R(1)
+
+    reasonably
+
+    prudent to so
+
+    record
+
+    Client money All that is Maintain up-to- None specified
+
+    held for each necessary to date records
+
+    customer and enable the firm
+
+    the firm’s own to distinguish
+
+    money client money
+
+    held for one
+
+    customer from
+
+    client money
+
+    held for any
+
+    other customer
+
+    and from the
+
+    firm’s own
+
+    September 2025
+
+    CASS
+
+    Subject of Contents of When record Retention
+
+    record record must be made period
+
+    money'
+  display: CASS 13.6.5RG
+- id: 13.10.3R
+  chapter: '13'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Client money Accurate records Maintain up-to- None is specified
+
+    held for each to ensure the date records
+
+    customer correspondence
+
+    between the
+
+    records and
+
+    accounts of the
+
+    entitlement of
+
+    each customer
+
+    for whom the
+
+    firm holds client
+
+    money with the
+
+    records and
+
+    accounts of the
+
+    client money the
+
+    firm holds in
+
+    client bank
+
+    accounts'
+  display: CASS 13.10.3RG
+- id: 13.10.4R
+  chapter: '13'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'Payments made Details of Maintain up-to- None is specified
+
+    to, for or on payments made date records
+
+    behalf of
+
+    customers by the
+
+    firm'
+  display: CASS 13.10.4RG
 - id: 13.10.13R
   chapter: '13'
   type: G
@@ -8706,7 +12434,7 @@
 
     of the amount of money:
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -8778,7 +12506,7 @@
 
     statement or confirmation and that of the firm.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -8828,10 +12556,64 @@
 
     the segregation requirements in CASS 13.6.
 
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 13.10.13RG
+- id: 13.11.13R
+  chapter: '13'
+  type: G
+  title: null
+  summary: null
+  risk_ids: []
+  default_control_ids: []
+  applicability_conditions: null
+  text: 'A record of each Details of the On the None is specified
+
+    customer’s shortfall secondary
+
+    shortfall in the pooling event
+
+    event of a occurring
+
+    secondary
+
+    pooling event
+
+    September 2025
+
+    .
+
+    .
+
+    .
+
+    .
+
+    . CASS
+
+    .
+
+    .
+
+    .
+
+    .
+
+    CHAPTER
+
+    2 Notification requirements
+
+    September 2025
+
+    CASS
+
+    requirements
+
+    Matter to be Contents of Trigger event Time allowed
+
+    notified notification'
+  display: CASS 13.11.13RG
 - id: 14.1.2R
   chapter: '14'
   type: G
@@ -8899,9 +12681,7 @@
 
     client money or safe custody assets for the client on IP completion
 
-    – client assets
-
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS
 
@@ -8911,9 +12691,7 @@
 
     good time before it safeguards client money or custody assets for the
 
-    – client assets
-
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 14.1.2RG
@@ -8935,9 +12713,7 @@
 
     carried on other than from a UK branch into the UK.
 
-    – client assets
-
-    www.handbook.fca.org.uk September 2025
+    September 2025
 
     CASS'
   display: CASS 14.3.6RG
